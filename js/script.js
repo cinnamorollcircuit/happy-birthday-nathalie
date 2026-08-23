@@ -7,7 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const state = {
         currentSection: 'landing',
         candleBlown: false,
-        bouquetTimerIds: []
+        openingTimerIds: [],
+        bouquetTimerIds: [],
+        cakeTimerIds: [],
+        memoryBoxTimerIds: [],
+        sectionHistory: ['landing']
     };
 
     const bgAudio = document.getElementById('bgAudio');
@@ -23,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
             wish: document.getElementById('wish'),
             finale: document.getElementById('finale')
         },
+        navBackBtn: document.getElementById('navBackBtn'),
         startButton: document.getElementById('startButton'),
         nextToPhotosBtn: document.getElementById('nextToPhotosBtn'),
 
@@ -53,20 +58,47 @@ document.addEventListener('DOMContentLoaded', () => {
         homeButton: document.getElementById('homeButton'),
         toast: document.getElementById('toast'),
         particlesCanvas: document.getElementById('particlesCanvas'),
-        fireworksCanvas: document.getElementById('fireworksCanvas'),
+        sakuraCanvas: document.getElementById('sakuraCanvas'),
+
         confettiCanvas: document.getElementById('confettiCanvas')
     };
 
     // --------------------------------------------------------------------------
     // 2. HTML5 Audio Control (`assets/audio/birthday.mp3`)
     // --------------------------------------------------------------------------
+    let isAudioUnlocked = false;
+
     function startAudioPlayback() {
-        if (bgAudio) {
-            bgAudio.play().catch(err => {
-                console.log('Audio autoplay prevented or error playing birthday.mp3:', err);
+        if (!bgAudio) return;
+        bgAudio.volume = 0.38; // Soft, gentle, comfortable volume
+
+        const playPromise = bgAudio.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                isAudioUnlocked = true;
+            }).catch(err => {
+                // Autoplay blocked by browser policy before user interaction
+                // Unlock on the first user interaction (touch/click/key) anywhere on the window
+                if (!isAudioUnlocked) {
+                    const unlock = () => {
+                        bgAudio.volume = 0.38;
+                        bgAudio.play().then(() => {
+                            isAudioUnlocked = true;
+                        }).catch(() => {});
+                        window.removeEventListener('click', unlock);
+                        window.removeEventListener('touchstart', unlock);
+                        window.removeEventListener('keydown', unlock);
+                    };
+                    window.addEventListener('click', unlock, { once: true });
+                    window.addEventListener('touchstart', unlock, { once: true });
+                    window.addEventListener('keydown', unlock, { once: true });
+                }
             });
         }
     }
+
+    // Try starting audio immediately on load
+    startAudioPlayback();
 
     // --------------------------------------------------------------------------
     // 3. Magical Sparkle Particle Burst Engine (Playful & Randomized)
@@ -124,7 +156,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let isSectionTransitioning = false;
 
-    function switchSection(targetSectionId, callback) {
+    const previousSectionMap = {
+        'opening': 'landing',
+        'letter': 'landing',
+        'photos': 'letter',
+        'bouquet': 'photos',
+        'wish': 'bouquet',
+        'finale': 'wish'
+    };
+
+    function updateNavBackButton() {
+        const btn = DOM.navBackBtn || document.getElementById('navBackBtn');
+        if (!btn) return;
+
+        if (state.currentSection === 'landing' || state.currentSection === 'opening') {
+            btn.style.display = 'none';
+            btn.classList.remove('visible');
+        } else {
+            btn.style.display = 'inline-flex';
+            void btn.offsetWidth;
+            btn.classList.add('visible');
+        }
+    }
+
+    function switchSection(targetSectionId, callback, isBackwards = false) {
         if (isSectionTransitioning) return;
         isSectionTransitioning = true;
 
@@ -133,6 +188,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentId = state.currentSection;
         const currentEl = currentId ? DOM.sections[currentId] : null;
         const targetEl = DOM.sections[targetSectionId];
+
+        // Track navigation history stack
+        if (!isBackwards) {
+            if (targetSectionId !== 'opening') {
+                if (state.sectionHistory[state.sectionHistory.length - 1] !== targetSectionId) {
+                    state.sectionHistory.push(targetSectionId);
+                }
+            }
+        }
 
         // Randomly pick unique exit and entry styles
         const randomExit = exitAnimations[Math.floor(Math.random() * exitAnimations.length)];
@@ -154,6 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 state.currentSection = targetSectionId;
+                updateNavBackButton();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 isSectionTransitioning = false;
                 if (callback) callback();
@@ -173,100 +238,213 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             state.currentSection = targetSectionId;
+            updateNavBackButton();
             window.scrollTo({ top: 0, behavior: 'smooth' });
             isSectionTransitioning = false;
             if (callback) callback();
         }
     }
 
+    function goBack() {
+        if (isSectionTransitioning) return;
+
+        // Close final dialog if open
+        if (DOM.endingDialog && DOM.endingDialog.open) {
+            DOM.endingDialog.close();
+        }
+
+        const current = state.currentSection;
+        let target = 'landing';
+
+        if (state.sectionHistory && state.sectionHistory.length > 1) {
+            state.sectionHistory.pop(); // Remove current
+            target = state.sectionHistory[state.sectionHistory.length - 1];
+        } else if (previousSectionMap[current]) {
+            target = previousSectionMap[current];
+        }
+
+        if (target === 'opening' || !target) {
+            target = 'landing';
+        }
+
+        // Clean up current section timers
+        if (current === 'photos') {
+            clearScrapbookTimers();
+        } else if (current === 'bouquet') {
+            resetBouquetScene();
+        } else if (current === 'wish') {
+            resetCakeScene();
+        } else if (current === 'finale') {
+            confettiActive = false;
+            resetMemoryBoxScene();
+        }
+
+        // Setup destination section when returning
+        const onEnter = () => {
+            if (target === 'photos') {
+                startScrapbookSequentialReveal();
+            } else if (target === 'bouquet') {
+                startBouquetCreationAnimation();
+            } else if (target === 'wish') {
+                state.candleBlown = false;
+                if (DOM.candle) DOM.candle.classList.remove('extinguished');
+                const cake = DOM.cake || document.getElementById('cake');
+                if (cake) cake.classList.remove('extinguished');
+                startCakeAssemblyAnimation();
+            } else if (target === 'letter') {
+                const card = DOM.sections.letter ? DOM.sections.letter.querySelector('.letter-card') : null;
+                if (card) card.focus();
+            } else if (target === 'landing') {
+                state.sectionHistory = ['landing'];
+            }
+        };
+
+        switchSection(target, onEnter, true);
+    }
+
+    // Attach Return / Back button click handler
+    if (DOM.navBackBtn) {
+        DOM.navBackBtn.addEventListener('click', (e) => {
+            const rect = DOM.navBackBtn.getBoundingClientRect();
+            createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+            goBack();
+        });
+    }
+
     // --------------------------------------------------------------------------
     // 5. Flow Sequencing Event Handlers
     // --------------------------------------------------------------------------
 
-    // Flow 1: Landing -> Start Button (Starts Audio + Opens Opening Loader -> Letter)
+    // Flow 1: Landing -> Start Button (Starts Audio + Clean Opening -> Letter)
     DOM.startButton.addEventListener('click', (e) => {
+        if (isSectionTransitioning) return;
+
         const rect = DOM.startButton.getBoundingClientRect();
         createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
 
         startAudioPlayback();
-        switchSection('opening');
 
-        setTimeout(() => {
-            const title = document.getElementById('opening-title');
-            if (title) title.textContent = "Getting everything ready…";
-        }, 1000);
+        // Clear any previous opening timers
+        if (state.openingTimerIds) {
+            state.openingTimerIds.forEach(id => clearTimeout(id));
+            state.openingTimerIds = [];
+        }
 
-        setTimeout(() => {
-            switchSection('letter', () => {
-                const card = DOM.sections.letter.querySelector('.letter-card');
-                if (card) card.focus();
-            });
-        }, 2200);
+        switchSection('opening', () => {
+            const t1 = setTimeout(() => {
+                const title = document.getElementById('opening-title');
+                if (title) title.textContent = "Getting everything ready…";
+            }, 800);
+            state.openingTimerIds.push(t1);
+
+            const t2 = setTimeout(() => {
+                switchSection('letter', () => {
+                    const card = DOM.sections.letter ? DOM.sections.letter.querySelector('.letter-card') : null;
+                    if (card) card.focus();
+                });
+            }, 1800);
+            state.openingTimerIds.push(t2);
+        });
     });
 
-    // Flow 2: Birthday Message -> Photos
+    // Flow 2: Birthday Message -> Photos (Scrapbook Sequence)
     DOM.nextToPhotosBtn.addEventListener('click', (e) => {
         const rect = DOM.nextToPhotosBtn.getBoundingClientRect();
         createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
 
-        showPhotoStep(1);
-        switchSection('photos');
+        switchSection('photos', () => {
+            startScrapbookSequentialReveal();
+        });
     });
 
-    // Flow 3: Single Photo progression (Photo 1 -> Photo 2 -> Photo 3)
-    function showPhotoStep(step) {
-        const cards = [DOM.photoCard1, DOM.photoCard2, DOM.photoCard3];
-        const targetCard = cards[step - 1];
-        const activeCard = cards.find(c => c && c.style.display !== 'none' && c.classList.contains('active-card'));
+    // ── One-by-One Polaroid Reveal Animation (Developing & Placing on Scrapbook) ──
+    let scrapbookStepTimers = [];
 
-        createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.45);
+    function clearScrapbookTimers() {
+        scrapbookStepTimers.forEach(t => clearTimeout(t));
+        scrapbookStepTimers = [];
+    }
 
-        if (activeCard && activeCard !== targetCard) {
-            activeCard.classList.remove('active-card');
-            activeCard.classList.add('photo-card-exiting');
+    function createScrapbookPetalBurst(targetElement) {
+        const container = document.getElementById('scrapbookPetals');
+        if (!container || !targetElement) return;
+
+        const rect = targetElement.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        const originX = rect.left + rect.width / 2 - containerRect.left;
+        const originY = rect.top + rect.height * 0.3 - containerRect.top;
+
+        const emojis = ['🌸', '🌸', '✨', '💕'];
+        for (let i = 0; i < 4; i++) {
+            const petal = document.createElement('span');
+            petal.className = 'scrapbook-floating-petal';
+            petal.textContent = emojis[i % emojis.length];
+            petal.style.left = `${originX + (Math.random() - 0.5) * 60}px`;
+            petal.style.top = `${originY + (Math.random() - 0.5) * 40}px`;
+            petal.style.setProperty('--drift-x', `${(Math.random() - 0.5) * 80}px`);
+            petal.style.animationDelay = `${i * 0.12}s`;
+            container.appendChild(petal);
 
             setTimeout(() => {
-                activeCard.style.display = 'none';
-                activeCard.classList.remove('photo-card-exiting');
-
-                cards.forEach((c, idx) => {
-                    if (idx === step - 1) {
-                        c.style.display = 'flex';
-                        void c.offsetWidth;
-                        c.classList.add('active-card');
-                    } else {
-                        c.style.display = 'none';
-                        c.classList.remove('active-card');
-                    }
-                });
-            }, 280);
-        } else {
-            cards.forEach((c, idx) => {
-                if (idx === step - 1) {
-                    c.style.display = 'flex';
-                    void c.offsetWidth;
-                    c.classList.add('active-card');
-                } else {
-                    c.style.display = 'none';
-                    c.classList.remove('active-card');
-                }
-            });
+                petal.remove();
+            }, 3500);
         }
     }
 
-    DOM.photo1NextBtn.addEventListener('click', (e) => {
-        const rect = DOM.photo1NextBtn.getBoundingClientRect();
-        createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
-        showPhotoStep(2);
-    });
+    function startScrapbookSequentialReveal() {
+        clearScrapbookTimers();
 
-    DOM.photo2NextBtn.addEventListener('click', (e) => {
-        const rect = DOM.photo2NextBtn.getBoundingClientRect();
-        createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
-        showPhotoStep(3);
-    });
+        const cards = [DOM.photoCard1, DOM.photoCard2, DOM.photoCard3];
+        const actions = document.getElementById('scrapbookActions');
 
-    // Flow 4: Photo 3 -> Cinematic Bouquet Animation Scene
+        // Reset all cards to initial hidden state
+        cards.forEach(card => {
+            if (card) {
+                card.classList.remove('card-revealed');
+                card.style.display = 'flex';
+            }
+        });
+        if (actions) {
+            actions.classList.remove('show-action');
+        }
+
+        // Step 1: Photo 1 develops & settles (0.2s)
+        scrapbookStepTimers.push(setTimeout(() => {
+            if (DOM.photoCard1) {
+                DOM.photoCard1.classList.add('card-revealed');
+                createScrapbookPetalBurst(DOM.photoCard1);
+                createSparkleBurst(window.innerWidth * 0.35, window.innerHeight * 0.45);
+            }
+        }, 200));
+
+        // Step 2: Photo 2 develops & settles (1.4s)
+        scrapbookStepTimers.push(setTimeout(() => {
+            if (DOM.photoCard2) {
+                DOM.photoCard2.classList.add('card-revealed');
+                createScrapbookPetalBurst(DOM.photoCard2);
+                createSparkleBurst(window.innerWidth * 0.5, window.innerHeight * 0.42);
+            }
+        }, 1400));
+
+        // Step 3: Photo 3 develops & settles (2.6s)
+        scrapbookStepTimers.push(setTimeout(() => {
+            if (DOM.photoCard3) {
+                DOM.photoCard3.classList.add('card-revealed');
+                createScrapbookPetalBurst(DOM.photoCard3);
+                createSparkleBurst(window.innerWidth * 0.65, window.innerHeight * 0.45);
+            }
+        }, 2600));
+
+        // Step 4: All 3 settled together -> reveal Continue button (3.8s)
+        scrapbookStepTimers.push(setTimeout(() => {
+            if (actions) {
+                actions.classList.add('show-action');
+            }
+            createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.65);
+        }, 3800));
+    }
+
+    // Flow 4: Scrapbook -> Cinematic Bouquet Animation Scene
     DOM.photo3NextBtn.addEventListener('click', (e) => {
         const rect = DOM.photo3NextBtn.getBoundingClientRect();
         createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
@@ -506,14 +684,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(() => {
             switchSection('finale', () => {
-                startFireworks();
                 startConfetti();
-
-                setTimeout(() => {
-                    DOM.endingDialog.showModal();
-                }, 1400);
+                startMemoryBoxAnimation();
             });
-        }, 1600);
+        }, 1400);
     }
 
     function createSmokeParticles() {
@@ -610,67 +784,106 @@ document.addEventListener('DOMContentLoaded', () => {
     initBackgroundParticles();
 
     // --------------------------------------------------------------------------
-    // 8. Fireworks & Confetti Canvas Engines
+    // 7b. Website-Wide Ambient Falling Cherry Blossoms (Sakura Engine)
     // --------------------------------------------------------------------------
-    let fireworksActive = false;
-    function startFireworks() {
-        const canvas = DOM.fireworksCanvas;
+    function initSakuraPetalsEngine() {
+        const canvas = DOM.sakuraCanvas;
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         let width = canvas.width = window.innerWidth;
         let height = canvas.height = window.innerHeight;
-        fireworksActive = true;
 
-        const particles = [];
-        const colors = ['#FF3385', '#FFD166', '#FF85A2', '#FFB6C1', '#E60067', '#FFF0F5'];
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
 
-        function createBurst(x, y) {
-            for (let i = 0; i < 45; i++) {
-                const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 6 + 2;
-                particles.push({
-                    x, y,
-                    vx: Math.cos(angle) * speed,
-                    vy: Math.sin(angle) * speed,
-                    alpha: 1,
-                    color: colors[Math.floor(Math.random() * colors.length)],
-                    size: Math.floor(Math.random() * 3) + 3
-                });
-            }
+        const petalColors = [
+            { c1: '#FFF5F8', c2: '#FFB7C5' },
+            { c1: '#FFF0F5', c2: '#FFCCD5' },
+            { c1: '#FFE5EC', c2: '#FFAFCC' },
+            { c1: '#FFFFFF', c2: '#FF94B9' }
+        ];
+
+        const petalCount = width < 768 ? 16 : 24;
+
+        function createPetal(randomY = false) {
+            const colorPair = petalColors[Math.floor(Math.random() * petalColors.length)];
+            return {
+                x: Math.random() * width,
+                y: randomY ? Math.random() * height : -25 - Math.random() * 20,
+                size: Math.random() * 6 + 9, // 9 to 15 px
+                speedY: Math.random() * 0.7 + 0.65,
+                speedX: (Math.random() - 0.5) * 0.5,
+                windOffset: Math.random() * Math.PI * 2,
+                windSpeed: Math.random() * 0.015 + 0.008,
+                rotation: Math.random() * Math.PI * 2,
+                rotSpeed: (Math.random() - 0.5) * 0.025,
+                flip: Math.random() * Math.PI * 2,
+                flipSpeed: Math.random() * 0.02 + 0.01,
+                alpha: Math.random() * 0.35 + 0.45,
+                color1: colorPair.c1,
+                color2: colorPair.c2
+            };
         }
 
-        let burstTimer = 0;
-        function render() {
-            if (!fireworksActive) return;
-            ctx.fillStyle = 'rgba(42, 14, 35, 0.2)';
-            ctx.fillRect(0, 0, width, height);
+        const petals = Array.from({ length: petalCount }, () => createPetal(true));
 
-            burstTimer++;
-            if (burstTimer % 22 === 0) {
-                createBurst(Math.random() * width, Math.random() * (height * 0.6));
-            }
+        function drawSakura() {
+            ctx.clearRect(0, 0, width, height);
 
-            for (let i = particles.length - 1; i >= 0; i--) {
-                const p = particles[i];
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vy += 0.08;
-                p.alpha -= 0.015;
+            petals.forEach(p => {
+                p.windOffset += p.windSpeed;
+                p.x += p.speedX + Math.sin(p.windOffset) * 0.85;
+                p.y += p.speedY;
+                p.rotation += p.rotSpeed;
+                p.flip += p.flipSpeed;
 
-                if (p.alpha <= 0) {
-                    particles.splice(i, 1);
-                    continue;
+                if (p.y > height + 25 || p.x < -30 || p.x > width + 30) {
+                    Object.assign(p, createPetal(false));
                 }
 
-                ctx.fillStyle = p.color;
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rotation);
+                const scaleX = Math.cos(p.flip);
+                ctx.scale(scaleX, 1);
                 ctx.globalAlpha = p.alpha;
-                ctx.fillRect(Math.floor(p.x), Math.floor(p.y), p.size, p.size);
-            }
+
+                // Organic cherry blossom petal shape with delicate cleft notch
+                ctx.beginPath();
+                ctx.moveTo(0, -p.size);
+                ctx.bezierCurveTo(p.size * 0.75, -p.size * 0.7, p.size * 0.85, p.size * 0.4, 0, p.size);
+                ctx.bezierCurveTo(-p.size * 0.85, p.size * 0.4, -p.size * 0.75, -p.size * 0.7, 0, -p.size);
+
+                const grad = ctx.createLinearGradient(0, -p.size, 0, p.size);
+                grad.addColorStop(0, p.color1);
+                grad.addColorStop(1, p.color2);
+                ctx.fillStyle = grad;
+                ctx.fill();
+
+                // Center subtle delicate vein
+                ctx.beginPath();
+                ctx.moveTo(0, -p.size * 0.65);
+                ctx.lineTo(0, p.size * 0.65);
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+                ctx.lineWidth = 0.75;
+                ctx.stroke();
+
+                ctx.restore();
+            });
+
             ctx.globalAlpha = 1.0;
-            requestAnimationFrame(render);
+            requestAnimationFrame(drawSakura);
         }
-        render();
+        drawSakura();
     }
+    initSakuraPetalsEngine();
+
+    // --------------------------------------------------------------------------
+    // 8. Confetti Canvas Engine
+    // --------------------------------------------------------------------------
+    
 
     let confettiActive = false;
     function startConfetti() {
@@ -721,25 +934,109 @@ document.addEventListener('DOMContentLoaded', () => {
     // --------------------------------------------------------------------------
     // 9. Simplified Dialog Action (ONLY Return to Start)
     // --------------------------------------------------------------------------
-    DOM.homeButton.addEventListener('click', () => {
-        DOM.endingDialog.close();
-        fireworksActive = false;
-        confettiActive = false;
-        DOM.sections.finale.style.display = 'none';
-        state.candleBlown = false;
-        DOM.candle.classList.remove('extinguished');
-        showPhotoStep(1);
-        resetBouquetScene();
-        if (bgAudio) {
-            bgAudio.currentTime = 0;
+    
+    // --------------------------------------------------------------------------
+    // 8b. 🎀 Birthday Memory Box Finale Animation Engine
+    // --------------------------------------------------------------------------
+    function clearMemoryBoxTimers() {
+        if (state.memoryBoxTimerIds) {
+            state.memoryBoxTimerIds.forEach(id => clearTimeout(id));
+            state.memoryBoxTimerIds = [];
         }
-        // Reset the Yay sticker so it's fresh next time
+    }
+
+    function addMemoryBoxStep(delay, callback) {
+        const id = setTimeout(callback, delay);
+        state.memoryBoxTimerIds = state.memoryBoxTimerIds || [];
+        state.memoryBoxTimerIds.push(id);
+    }
+
+    function resetMemoryBoxScene() {
+        clearMemoryBoxTimers();
+        const stage = document.getElementById('memoryBoxStage');
+        if (stage) {
+            stage.className = 'memory-box-stage';
+        }
+    }
+
+    function startMemoryBoxAnimation() {
+        resetMemoryBoxScene();
+        const stage = document.getElementById('memoryBoxStage');
+        if (!stage) return;
+
+        // Step 1: Memory box illustration smoothly appears & warm glow activates (0.1s)
+        addMemoryBoxStep(100, () => {
+            stage.classList.add('box-stage-active');
+            createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.40);
+        });
+
+        // Step 2: Sentimental message smoothly reveals (1.2s)
+        addMemoryBoxStep(1200, () => {
+            stage.classList.add('finale-message-visible');
+        });
+
+        // Step 3: "The End ♡" and Return to Start button appear (2.2s)
+        addMemoryBoxStep(2200, () => {
+            stage.classList.add('finale-end-visible');
+            createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.65);
+        });
+    }
+
+    DOM.homeButton.addEventListener('click', () => {
+        confettiActive = false;
+        resetMemoryBoxScene();
+
+        state.currentSection = 'landing';
+        state.sectionHistory = ['landing'];
+        state.candleBlown = false;
+
+        // Reset candle & cake states
+        if (DOM.candle) {
+            DOM.candle.classList.remove('extinguished');
+        }
+        const cake = DOM.cake || document.getElementById('cake');
+        if (cake) {
+            cake.className = 'cake';
+        }
+        if (state.cakeTimerIds) {
+            state.cakeTimerIds.forEach(id => clearTimeout(id));
+            state.cakeTimerIds = [];
+        }
+        if (DOM.wishHint) {
+            DOM.wishHint.classList.remove('show-hint');
+        }
+
+        // Reset bouquet
+        resetBouquetScene();
+
+        // Reset photos
+        clearScrapbookTimers();
+        const photoCards = [DOM.photoCard1, DOM.photoCard2, DOM.photoCard3];
+        photoCards.forEach(c => {
+            if (c) c.classList.remove('card-revealed');
+        });
+        const scrapbookActions = document.getElementById('scrapbookActions');
+        if (scrapbookActions) {
+            scrapbookActions.classList.remove('show-action');
+        }
+
+        // Reset Cinnamoroll stickers
         const yaySticker = document.getElementById('cinStickerYay');
         if (yaySticker) {
             yaySticker.classList.remove('cin-sticker-visible');
         }
+
+        // Reset audio position
+        if (bgAudio) {
+            bgAudio.currentTime = 0;
+        }
+
+        // Hide back button on landing
+        updateNavBackButton();
+
+        // Smooth transition back to Start/Landing
         switchSection('landing');
-        showToast('Cinnamoroll Circuit is back 💌');
+        showToast('Welcome back to the start! 💌🌸');
     });
 
     function showToast(message) {

@@ -12,7 +12,7 @@
     <!-- Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Dancing+Script:wght@600;700&family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Dancing+Script:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="css/style.css">
@@ -27,7 +27,8 @@
 
     <div id="app" class="app">
 
-        <!-- Floating Ambient Pixel Sparkles -->
+        <!-- Floating Ambient Pixel Sparkles & Falling Sakura Canvas -->
+        <canvas id="sakuraCanvas" class="sakura-canvas" aria-hidden="true"></canvas>
         <div class="ambient-floating-icons" aria-hidden="true">
             <span class="float-icon i1">🌸</span>
             <span class="float-icon i2">🌸</span>
@@ -37,9 +38,13 @@
             <span class="float-icon i6">🎀</span>
         </div>
 
-        <!-- Navigation Header (Music Toggle Removed) -->
+        <!-- Navigation Header with Return / Back Navigation -->
         <header class="site-header">
             <nav class="site-nav" aria-label="Primary Navigation">
+                <button id="navBackBtn" class="nav-back-btn" type="button" aria-label="Return to previous section" style="display: none;">
+                    <span class="nav-back-icon" aria-hidden="true">‹</span>
+                    <span class="nav-back-text">Return</span>
+                </button>
                 <span class="site-logo">Happy Birthday Nathalie 🎀</span>
             </nav>
         </header>
@@ -56,6 +61,10 @@
                 </div>
 
                 <div class="landing-content">
+                    <!-- Subtle Card Corner Sakura Accents -->
+                    <div class="card-corner-sakura cc-tl" aria-hidden="true">🌸</div>
+                    <div class="card-corner-sakura cc-br" aria-hidden="true">🌸</div>
+
                     <!-- Cinnamoroll Hero Companion (Landing Pose) -->
                     <!-- Airplane Cinnamoroll Sticker -->
                     <div class="cin-sticker cin-sticker-airplane" aria-hidden="true">
@@ -63,7 +72,7 @@
                     </div>
 
                     <div class="landing-greeting">Greetings from Cinnamoroll Circuit 🎀</div>
-                    <h1 id="landing-title">Happy Birthday, Natnat!</h1>
+                    <h1 id="landing-title">Happy Birthday, Nathalie! 🌸</h1>
                     <p class="subtitle-text">Whenever you’re ready, click continue. 💗</p>
 
                     <button id="startButton" class="primary-button hero-start-btn" type="button">
@@ -139,23 +148,20 @@
                 <!-- Ambient Floating Letter Sparkles & Hearts -->
                 <div class="letter-ambient-fx" aria-hidden="true">
                     <span class="lfx lfx1">💌</span>
-                    <span class="lfx lfx2">✨</span>
-                    <span class="lfx lfx3">🌸</span>
-                    <span class="lfx lfx4">💕</span>
-                    <span class="lfx lfx5">☁️</span>
-                    <span class="lfx lfx6">✨</span>
-                    <span class="lfx lfx7">🎀</span>
-                    <span class="lfx lfx8">💖</span>
+                    <span class="lfx lfx2">🌸</span>
+                    <span class="lfx lfx3">💕</span>
+                    <span class="lfx lfx4">✨</span>
                 </div>
 
                 <article class="letter-card" tabindex="-1">
                     <div class="card-glow-aura" aria-hidden="true"></div>
+                    <div class="card-corner-sakura cc-tl" aria-hidden="true">🌸</div>
                     <div class="card-ribbon">🎀</div>
                     
-                    <!-- Cute Interactive Postal Stamp Seal -->
+                    <!-- Cute Interactive Postal Stamp Seal with Sakura Detail -->
                     <div class="letter-stamp-seal" id="letterSeal" role="button" tabindex="0" aria-label="Tap for magic sparkles" title="Tap for magic ✨">
                         <span class="stamp-seal-icon">💌</span>
-                        <span class="stamp-seal-text">CIRCUIT</span>
+                        <span class="stamp-seal-text">CIRCUIT 🌸</span>
                         <span class="stamp-seal-sparkle">✨</span>
                     </div>
                     
@@ -167,8 +173,8 @@
                     </div>
 
                     <header class="letter-header">
-                        <span class="letter-badge">From: Cinnamoroll Circuit 💌</span>
-                        <h2 id="letter-title">Happy Birthday Nathalie!</h2>
+                        <span class="letter-badge">From: Cinnamoroll Circuit 💌 🌸</span>
+                        <h2 id="letter-title">Happy Birthday Nathalie! 🌸</h2>
                         <time class="letter-date" datetime="2026-01-01">09-21-2026</time>
                     </header>
 
@@ -215,7 +221,7 @@
             <!-- 4. REPLACED PHOTO EXPERIENCE (3 Single Photos) -->
             <section id="photos" class="section-container" aria-labelledby="photos-title" style="display: none;">
                 <header class="section-header">
-                    <span class="section-tag">Before you make your wish…</span>
+                    <span class="section-tag">Before you make your wish… 🌸</span>
                     <h2 id="photos-title">One more thing…</h2>
                 </header>
 
@@ -230,69 +236,96 @@
                     <span class="pfx pfx7">🎀</span>
                 </div>
 
-                <div class="single-photo-stage">
-                    <!-- Photo 1 -->
-                    <figure id="photoCard1" class="photo-card active-card">
+                <!-- Scrapbook Floating Sakura Petals Layer -->
+                <div id="scrapbookPetals" class="scrapbook-petals-layer" aria-hidden="true"></div>
+
+                <!-- Scrapbook Composition (All 3 Polaroids in One Scene) -->
+                <div class="scrapbook-gallery-stage" id="scrapbookGallery">
+                    <!-- Photo 1 (Left Tilt) -->
+                    <figure id="photoCard1" class="photo-card polaroid-card polaroid-card-1">
                         <div class="washi-tape washi-tape-tl" aria-hidden="true"></div>
-                        <div class="washi-tape washi-tape-tr" aria-hidden="true"></div>
-                        <div class="img-wrapper">
+                        <div class="polaroid-header-bar">
+                            <span class="polaroid-stamp">PHOTO 01 ✿</span>
+                            <span class="polaroid-deco-icon">🌸</span>
+                        </div>
+                        <div class="img-wrapper polaroid-img-wrapper">
                             <div class="photo-flash-sweep" aria-hidden="true"></div>
                             <img src="assets/images/photo1.jpg" loading="eager" alt="You looking pretty">
+                            <!-- Film & atmosphere overlays -->
+                            <div class="photo-vignette" aria-hidden="true"></div>
+                            <div class="photo-light-leak photo-light-leak-tl" aria-hidden="true"></div>
                             <div class="img-overlay-heart">💖</div>
                         </div>
-                        <figcaption class="photo-caption sticker-caption sticker-pos-1">
-                            <span class="sticker-accent">🎀</span>
-                            <span class="sticker-text">“Lorem ipsum dolor sit amet”</span>
-                            <span class="sticker-sparkle">💖</span>
+                        <!-- Polaroid bottom strip caption -->
+                        <figcaption class="polaroid-caption-strip">
+                            <span class="polaroid-caption-sakura" aria-hidden="true">🌸</span>
+                            <span class="polaroid-caption-main">귀여워요 ♡</span>
+                            <span class="polaroid-caption-date">09.21.2026</span>
                         </figcaption>
-                        <button id="photo1NextBtn" class="primary-button photo-step-btn" type="button">
-                            Next 💖
-                        </button>
                     </figure>
 
-                    <!-- Photo 2 -->
-                    <figure id="photoCard2" class="photo-card" style="display: none;">
-                        <div class="washi-tape washi-tape-tl" aria-hidden="true"></div>
+                    <!-- Photo 2 (Center Elevated / Upright) -->
+                    <figure id="photoCard2" class="photo-card polaroid-card polaroid-card-2">
                         <div class="washi-tape washi-tape-tr" aria-hidden="true"></div>
-                        <div class="img-wrapper">
+                        <div class="polaroid-header-bar">
+                            <span class="polaroid-stamp">PHOTO 02 ✿</span>
+                            <span class="polaroid-deco-icon">✨</span>
+                        </div>
+                        <div class="img-wrapper polaroid-img-wrapper">
                             <div class="photo-flash-sweep" aria-hidden="true"></div>
-                            <img src="assets/images/photo2.jpg" loading="lazy" alt="Your beautiful smile">
+                            <img src="assets/images/photo2.jpg" loading="eager" alt="Your beautiful smile">
+                            <!-- Film & atmosphere overlays -->
+                            <div class="photo-vignette" aria-hidden="true"></div>
+                            <div class="photo-light-leak photo-light-leak-br" aria-hidden="true"></div>
                             <div class="img-overlay-heart">💗</div>
                         </div>
-                        <figcaption class="photo-caption sticker-caption sticker-pos-2">
-                            <span class="sticker-accent">🌸</span>
-                            <span class="sticker-text">“Lorem ipsum dolor sit amet”</span>
-                            <span class="sticker-sparkle">✨</span>
+                        <!-- Polaroid bottom strip caption -->
+                        <figcaption class="polaroid-caption-strip">
+                            <span class="polaroid-caption-sakura" aria-hidden="true">🌸</span>
+                            <span class="polaroid-caption-main">매력이 넘쳐요 ♡</span>
+                            <span class="polaroid-caption-date">09.21.2026</span>
                         </figcaption>
-                        <button id="photo2NextBtn" class="primary-button photo-step-btn" type="button">
-                            Next 💖
-                        </button>
                     </figure>
 
-                    <!-- Photo 3 -->
-                    <figure id="photoCard3" class="photo-card" style="display: none;">
+                    <!-- Photo 3 (Right Tilt) -->
+                    <figure id="photoCard3" class="photo-card polaroid-card polaroid-card-3">
                         <div class="washi-tape washi-tape-tl" aria-hidden="true"></div>
-                        <div class="washi-tape washi-tape-tr" aria-hidden="true"></div>
-                        <div class="img-wrapper">
+                        <div class="polaroid-header-bar">
+                            <span class="polaroid-stamp">PHOTO 03 ✿</span>
+                            <span class="polaroid-deco-icon">🎀</span>
+                        </div>
+                        <div class="img-wrapper polaroid-img-wrapper">
                             <div class="photo-flash-sweep" aria-hidden="true"></div>
-                            <img src="assets/images/photo3.jpg" loading="lazy" alt="Really pretty moment">
+                            <img src="assets/images/photo3.jpg" loading="eager" alt="Really pretty moment">
+                            <!-- Film & atmosphere overlays -->
+                            <div class="photo-vignette" aria-hidden="true"></div>
+                            <div class="photo-light-leak photo-light-leak-tl" aria-hidden="true"></div>
                             <div class="img-overlay-heart">✨</div>
                         </div>
-                        <figcaption class="photo-caption sticker-caption sticker-pos-3">
-                            <span class="sticker-accent">⭐</span>
-                            <span class="sticker-text">“Lorem ipsum dolor sit amet”</span>
-                            <span class="sticker-sparkle">💕</span>
+                        <!-- Polaroid bottom strip caption -->
+                        <figcaption class="polaroid-caption-strip">
+                            <span class="polaroid-caption-sakura" aria-hidden="true">🌸</span>
+                            <span class="polaroid-caption-main">예뻐요 ♡</span>
+                            <span class="polaroid-caption-date">09.21.2026</span>
                         </figcaption>
-                        <button id="photo3NextBtn" class="primary-button photo-step-btn" type="button">
-                            See what's next... 💐
-                        </button>
                     </figure>
 
                     <!-- Cinnamoroll Photo Companion -->
-                    <!-- Star Magic Wand Cinnamoroll Sticker -->
                     <div class="cin-sticker cin-sticker-wand" aria-hidden="true">
                         <img src="assets/images/cin_wand.png" alt="Cinnamoroll with Star Magic Wand" draggable="false">
                     </div>
+                </div>
+
+                <!-- Dedicated Scrapbook Date Stamp with Clear Spacing -->
+                <div class="scrapbook-date-badge" aria-label="Date of memory">
+                    <span class="sdb-text">click the button below to see what's next</span>
+                </div>
+
+                <!-- Scrapbook Action to proceed to Bouquet -->
+                <div class="scrapbook-actions" id="scrapbookActions">
+                    <button id="photo3NextBtn" class="primary-button photo-continue-btn" type="button">
+                        See what's next... 💐
+                    </button>
                 </div>
             </section>
 
@@ -308,11 +341,11 @@
 
                     <!-- Floating Compliments Layer -->
                     <div id="floatingCompliments" class="compliments-container">
-                        <span class="compliment-pill c1">so pretty ✨</span>
-                        <span class="compliment-pill c2">beautiful smile 💗</span>
+                        <span class="compliment-pill c1">there's something captivating about your presence 🌸</span>
+                        <span class="compliment-pill c2">you’re genuinely wonderful 🌸</span>
                         <span class="compliment-pill c3">effortlessly lovely 🌸</span>
-                        <span class="compliment-pill c4">you look amazing</span>
-                        <span class="compliment-pill c5">simply beautiful ✨</span>
+                        <span class="compliment-pill c4">you’re extraordinary 🌸</span>
+                        <span class="compliment-pill c5">you’re one of a kind 🌸</span>
                     </div>
 
                     <!-- Spacious Hand-Tied SVG Bouquet: Exact Copy Animated Retro Pixel-Art Bouquet -->
@@ -443,6 +476,23 @@
         <circle cx="300" cy="270" r="2.2" fill="#FFF0F5" class="star-dust sd7" />
     </g>
 
+    <!-- Sakura Blossom Bloom Additions -->
+    <g class="flower F-sakura F-sakura-1" style="transform-origin: 165px 145px;">
+        <path d="M165,135 C160,122 170,122 165,135 Z M175,140 C188,135 188,145 175,140 Z M172,152 C180,162 170,166 172,152 Z M158,152 C150,166 140,162 158,152 Z M155,140 C142,145 142,135 155,140 Z" fill="#FFB7C5" stroke="#FF85A2" stroke-width="1.2" />
+        <circle cx="165" cy="145" r="3" fill="#FFE5EC" />
+        <circle cx="165" cy="145" r="1.2" fill="#FF3385" />
+    </g>
+    <g class="flower F-sakura F-sakura-2" style="transform-origin: 295px 175px;">
+        <path d="M295,165 C290,152 300,152 295,165 Z M305,170 C318,165 318,175 305,170 Z M302,182 C310,192 300,196 302,182 Z M288,182 C280,196 270,192 288,182 Z M285,170 C272,175 272,165 285,170 Z" fill="#FFCCD5" stroke="#FF85A2" stroke-width="1.2" />
+        <circle cx="295" cy="175" r="3" fill="#FFF0F5" />
+        <circle cx="295" cy="175" r="1.2" fill="#FF3385" />
+    </g>
+    <g class="flower F-sakura F-sakura-3" style="transform-origin: 235px 95px;">
+        <path d="M235,85 C230,72 240,72 235,85 Z M245,90 C258,85 258,95 245,90 Z M242,102 C250,112 240,116 242,102 Z M228,102 C220,116 210,112 228,102 Z M225,90 C212,95 212,85 225,90 Z" fill="#FFB7C5" stroke="#FF85A2" stroke-width="1.2" />
+        <circle cx="235" cy="95" r="3" fill="#FFE5EC" />
+        <circle cx="235" cy="95" r="1.2" fill="#FF3385" />
+    </g>
+
     <!-- 4. Bow & Ribbon Layer (Appears on anim-ribbon) -->
     <g class="b-ribbon" style="transform-origin: 192.7px 403.2px;">
         <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAdUAAAIBCAYAAAAf/iVTAABbUElEQVR4nO3dCZBlWXoX9v85d3lLZlbW3j3ds2hGM5IAyyAkIYsABTJIClBgVtuAR4awwhg7ABuMWQzGNhFoM4sJDNLYSGjzsBgkIRAgyUJYBuFBC0LLSDPSzHSPuqenu2vJqsx8793lnOP4f+fe3Kq6M7s6K6sq5//reVOVmS/fe3lf1v3uOec73weIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiI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" x="10" y="10" width="420" height="460" style="image-rendering: pixelated; image-rendering: crisp-edges;" />
@@ -469,7 +519,7 @@
                     <!-- Final Compliment & Birthday Text Banner -->
                     <div id="bouquetBanner" class="bouquet-banner">
                         <p class="banner-line1">You’re really pretty. 💐</p>
-                        <p class="banner-line2">Happy Birthday Natnat! 💗</p>
+                        <p class="banner-line2">Happy Birthday Nathalie! 💗</p>
                         
                         <button id="bouquetToWishBtn" class="primary-button bouquet-next-btn" type="button">
                             Wish for Something 💗
@@ -483,7 +533,7 @@
             <section id="wish" class="section-container" aria-labelledby="wish-title" style="display: none;">
                 <header class="section-header">
                     <span class="section-tag">Wish for something beautiful.</span>
-                    <h2 id="wish-title">To Another Beautiful Year 🌷</h2>
+                    <h2 id="wish-title">to another beautiful year 🌸</h2>
                     <p>May you find beauty along the way.</p>
                 </header>
 
@@ -563,6 +613,7 @@
                             <div class="cake-bow-center">🎀</div>
                             <div class="sprinkles-decor">
                                 <span class="sp s1">✨</span>
+                                <span class="sp s-sakura">🌸</span>
                                 <span class="sp s2">💕</span>
                                 <span class="sp s3">✨</span>
                             </div>
@@ -631,21 +682,49 @@
 
             <!-- 7. FINALE SECTION -->
             <section id="finale" class="section-container" aria-labelledby="finale-title" style="display: none;">
-                <header class="section-header">
-                    <h2 id="finale-title">Happy Birthday Nathalie! 🎉</h2>
-                </header>
 
-                <div id="fireworks" class="effects-canvas">
-                    <canvas id="fireworksCanvas"></canvas>
-                </div>
-                <div id="confetti" class="effects-canvas">
-                    <canvas id="confettiCanvas"></canvas>
+                <!-- Ambient Floating Finale Particles -->
+                <div class="finale-ambient-layer" aria-hidden="true">
+                    <span class="ffx ffx1">🌸</span>
+                    <span class="ffx ffx2">✨</span>
+                    <span class="ffx ffx3">💕</span>
+                    <span class="ffx ffx4">🌸</span>
+                    <span class="ffx ffx5">💖</span>
+                    <span class="ffx ffx6">✨</span>
                 </div>
 
-                <!-- Cinnamoroll Finale Companion (Celebrating Nathalie's birthday) -->
-                <!-- Cinnamoroll Xie Xie Sticker (thank you, floats in on finale) -->
-                <div class="cin-sticker cin-sticker-xiexie" aria-hidden="true">
-                    <img src="assets/images/cin_xie_xie.png" alt="Cinnamoroll saying thank you" draggable="false">
+                <!-- Floating Petals Layer -->
+                <div id="memoryBoxPetals" class="memory-box-petals-layer" aria-hidden="true"></div>
+
+                <div class="memory-box-stage" id="memoryBoxStage">
+
+                    <!-- Warm ambient glow -->
+                    <div class="box-glow-aura" aria-hidden="true"></div>
+
+                    <!-- ✨ Memory Box Illustration (Image-based, zero layout bugs) -->
+                    <div class="memory-box-illustration" id="memoryBox">
+                        <img
+                            src="assets/images/memory_box.jpg"
+                            alt="A beautiful Korean birthday memory box filled with Polaroid photos, a love letter, and cherry blossoms, with Cinnamoroll peeking out"
+                            class="memory-box-img"
+                            draggable="false"
+                        >
+                    </div>
+
+                    <!-- Sentimental Final Message -->
+                    <div class="finale-message-container" id="finaleMessageContainer">
+                        <p class="finale-msg-line1">from cinnamoroll:</p>
+                        <h2 class="finale-msg-title" id="finale-title">Happy Birthday, Nathalie. ♡</h2>
+                        <p class="finale-the-end" id="finaleTheEnd">The End ♡</p>
+                    </div>
+
+                    <!-- Return to Start Button -->
+                    <div class="finale-action-container" id="finaleActionContainer">
+                        <button id="homeButton" class="primary-button finale-home-btn" type="button">
+                            Return to Start ✨
+                        </button>
+                    </div>
+
                 </div>
             </section>
 
@@ -655,29 +734,6 @@
         <footer class="site-footer">
             <p>by <strong>Cinnamoroll Circuit</strong> ☁️✨</p>
         </footer>
-
-        <!-- Final Dialog / Modal (Simplified to ONLY Return to Start + Cinnamoroll Goodbye) -->
-        <dialog id="endingDialog" class="dialog-modal">
-            <article class="dialog-content">
-                <div class="dialog-header-icon">👑💖🎉</div>
-                <h2>Happy Nathalie Day!</h2>
-                <p>
-                    May Your Wish Find Its Way
-                </p>
-
-                <menu class="dialog-menu">
-                    <!-- Single Button ONLY -->
-                    <div class="dialog-home-btn-wrap">
-                        <button id="homeButton" class="menu-btn primary" type="button">Return to Start ✨</button>
-                        <!-- Cinnamoroll Waving Goodbye at the Final Button -->
-                        <!-- Cinnamoroll Matane Sticker (waving bye in dialog) -->
-                        <div class="cin-sticker cin-sticker-matane" aria-hidden="true">
-                            <img src="assets/images/cin_matane.png" alt="Cinnamoroll waving goodbye" draggable="false">
-                        </div>
-                    </div>
-                </menu>
-            </article>
-        </dialog>
 
         <!-- Toast notification container -->
         <div id="toast" class="toast" role="status" aria-live="polite"></div>
