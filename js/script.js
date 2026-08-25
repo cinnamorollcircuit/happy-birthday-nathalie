@@ -7,7 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const state = {
         currentSection: 'landing',
         candleBlown: false,
+        selectedDessert: null,
+        musicPlaying: true,
+        musicMuted: false,
         openingTimerIds: [],
+        dessertTimerIds: [],
         bouquetTimerIds: [],
         cakeTimerIds: [],
         memoryBoxTimerIds: [],
@@ -23,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
             opening: document.getElementById('opening'),
             letter: document.getElementById('letter'),
             photos: document.getElementById('photos'),
+            dessert: document.getElementById('dessert'),
             bouquet: document.getElementById('bouquet'),
             wish: document.getElementById('wish'),
             finale: document.getElementById('finale')
@@ -35,9 +40,17 @@ document.addEventListener('DOMContentLoaded', () => {
         photoCard1: document.getElementById('photoCard1'),
         photoCard2: document.getElementById('photoCard2'),
         photoCard3: document.getElementById('photoCard3'),
-        photo1NextBtn: document.getElementById('photo1NextBtn'),
-        photo2NextBtn: document.getElementById('photo2NextBtn'),
         photo3NextBtn: document.getElementById('photo3NextBtn'),
+
+        // Dessert Shop Elements
+        dessertItemBtns: document.querySelectorAll('.dessert-item-btn'),
+        dessertMessageCard: document.getElementById('dessertMessageCard'),
+        dessertMsgPlaceholder: document.getElementById('dessertMsgPlaceholder'),
+        dessertMsgContent: document.getElementById('dessertMsgContent'),
+        dessertMsgIcon: document.getElementById('dessertMsgIcon'),
+        dessertMsgTitle: document.getElementById('dessertMsgTitle'),
+        dessertMsgText: document.getElementById('dessertMsgText'),
+        dessertToBouquetBtn: document.getElementById('dessertToBouquetBtn'),
 
         // Bouquet Stage Elements
         bouquetWrapper: document.querySelector('.bouquet-wrapper'),
@@ -53,20 +66,55 @@ document.addEventListener('DOMContentLoaded', () => {
         smokeParticles: document.getElementById('smokeParticles'),
         wishHint: document.getElementById('wishHint'),
 
+        // Music Controller Elements
+        musicController: document.getElementById('musicController'),
+        musicPlayPauseBtn: document.getElementById('musicPlayPauseBtn'),
+        musicPlayIcon: document.getElementById('musicPlayIcon'),
+        musicMuteBtn: document.getElementById('musicMuteBtn'),
+        musicMuteIcon: document.getElementById('musicMuteIcon'),
+
         // Dialog & Canvas
-        endingDialog: document.getElementById('endingDialog'),
         homeButton: document.getElementById('homeButton'),
         toast: document.getElementById('toast'),
         particlesCanvas: document.getElementById('particlesCanvas'),
         sakuraCanvas: document.getElementById('sakuraCanvas'),
-
         confettiCanvas: document.getElementById('confettiCanvas')
     };
 
     // --------------------------------------------------------------------------
-    // 2. HTML5 Audio Control (`assets/audio/birthday.mp3`)
+    // 2. HTML5 Audio Control (`assets/audio/birthday.mp3`) & Floating Controller
     // --------------------------------------------------------------------------
     let isAudioUnlocked = false;
+
+    function updateMusicUI() {
+        if (!bgAudio) return;
+        const isPaused = bgAudio.paused;
+        const isMuted = bgAudio.muted;
+
+        if (DOM.musicController) {
+            if (!isPaused) {
+                DOM.musicController.classList.add('is-playing');
+            } else {
+                DOM.musicController.classList.remove('is-playing');
+            }
+        }
+
+        if (DOM.musicPlayIcon) {
+            DOM.musicPlayIcon.textContent = isPaused ? '▶' : '❚❚';
+        }
+        if (DOM.musicPlayPauseBtn) {
+            DOM.musicPlayPauseBtn.setAttribute('aria-label', isPaused ? 'Play background music' : 'Pause background music');
+            DOM.musicPlayPauseBtn.title = isPaused ? 'Play' : 'Pause';
+        }
+
+        if (DOM.musicMuteIcon) {
+            DOM.musicMuteIcon.textContent = isMuted ? '🔇' : '🔊';
+        }
+        if (DOM.musicMuteBtn) {
+            DOM.musicMuteBtn.setAttribute('aria-label', isMuted ? 'Unmute background music' : 'Mute background music');
+            DOM.musicMuteBtn.title = isMuted ? 'Unmute' : 'Mute';
+        }
+    }
 
     function startAudioPlayback() {
         if (!bgAudio) return;
@@ -76,7 +124,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (playPromise !== undefined) {
             playPromise.then(() => {
                 isAudioUnlocked = true;
-            }).catch(err => {
+                state.musicPlaying = true;
+                updateMusicUI();
+            }).catch(() => {
                 // Autoplay blocked by browser policy before user interaction
                 // Unlock on the first user interaction (touch/click/key) anywhere on the window
                 if (!isAudioUnlocked) {
@@ -84,6 +134,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         bgAudio.volume = 0.38;
                         bgAudio.play().then(() => {
                             isAudioUnlocked = true;
+                            state.musicPlaying = true;
+                            updateMusicUI();
                         }).catch(() => {});
                         window.removeEventListener('click', unlock);
                         window.removeEventListener('touchstart', unlock);
@@ -99,6 +151,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Try starting audio immediately on load
     startAudioPlayback();
+
+    // Floating music controller button handlers
+    if (DOM.musicPlayPauseBtn) {
+        DOM.musicPlayPauseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!bgAudio) return;
+            if (bgAudio.paused) {
+                bgAudio.play().then(() => {
+                    state.musicPlaying = true;
+                    updateMusicUI();
+                }).catch(() => {});
+            } else {
+                bgAudio.pause();
+                state.musicPlaying = false;
+                updateMusicUI();
+            }
+        });
+    }
+
+    if (DOM.musicMuteBtn) {
+        DOM.musicMuteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!bgAudio) return;
+            bgAudio.muted = !bgAudio.muted;
+            state.musicMuted = bgAudio.muted;
+            updateMusicUI();
+        });
+    }
+
+    if (bgAudio) {
+        bgAudio.addEventListener('play', updateMusicUI);
+        bgAudio.addEventListener('pause', updateMusicUI);
+        bgAudio.addEventListener('volumechange', updateMusicUI);
+    }
 
     // --------------------------------------------------------------------------
     // 3. Magical Sparkle Particle Burst Engine (Playful & Randomized)
@@ -160,7 +246,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'opening': 'landing',
         'letter': 'landing',
         'photos': 'letter',
-        'bouquet': 'photos',
+        'dessert': 'photos',
+        'bouquet': 'dessert',
         'wish': 'bouquet',
         'finale': 'wish'
     };
@@ -226,6 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             Object.keys(DOM.sections).forEach(id => {
                 const el = DOM.sections[id];
+                if (!el) return;
                 el.classList.remove(...exitAnimations, ...enterAnimations);
                 if (id === targetSectionId) {
                     el.style.display = 'flex';
@@ -270,6 +358,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Clean up current section timers
         if (current === 'photos') {
             clearScrapbookTimers();
+        } else if (current === 'dessert') {
+            resetDessertScene();
         } else if (current === 'bouquet') {
             resetBouquetScene();
         } else if (current === 'wish') {
@@ -283,6 +373,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const onEnter = () => {
             if (target === 'photos') {
                 startScrapbookSequentialReveal();
+            } else if (target === 'dessert') {
+                resetDessertScene();
             } else if (target === 'bouquet') {
                 startBouquetCreationAnimation();
             } else if (target === 'wish') {
@@ -304,7 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Attach Return / Back button click handler
     if (DOM.navBackBtn) {
-        DOM.navBackBtn.addEventListener('click', (e) => {
+        DOM.navBackBtn.addEventListener('click', () => {
             const rect = DOM.navBackBtn.getBoundingClientRect();
             createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
             goBack();
@@ -316,48 +408,52 @@ document.addEventListener('DOMContentLoaded', () => {
     // --------------------------------------------------------------------------
 
     // Flow 1: Landing -> Start Button (Starts Audio + Clean Opening -> Letter)
-    DOM.startButton.addEventListener('click', (e) => {
-        if (isSectionTransitioning) return;
+    if (DOM.startButton) {
+        DOM.startButton.addEventListener('click', () => {
+            if (isSectionTransitioning) return;
 
-        const rect = DOM.startButton.getBoundingClientRect();
-        createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+            const rect = DOM.startButton.getBoundingClientRect();
+            createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
 
-        startAudioPlayback();
+            startAudioPlayback();
 
-        // Clear any previous opening timers
-        if (state.openingTimerIds) {
-            state.openingTimerIds.forEach(id => clearTimeout(id));
-            state.openingTimerIds = [];
-        }
+            // Clear any previous opening timers
+            if (state.openingTimerIds) {
+                state.openingTimerIds.forEach(id => clearTimeout(id));
+                state.openingTimerIds = [];
+            }
 
-        switchSection('opening', () => {
-            const t1 = setTimeout(() => {
-                const title = document.getElementById('opening-title');
-                if (title) title.textContent = "Getting everything ready…";
-            }, 800);
-            state.openingTimerIds.push(t1);
+            switchSection('opening', () => {
+                const t1 = setTimeout(() => {
+                    const title = document.getElementById('opening-title');
+                    if (title) title.textContent = "Getting everything ready…";
+                }, 800);
+                state.openingTimerIds.push(t1);
 
-            const t2 = setTimeout(() => {
-                switchSection('letter', () => {
-                    const card = DOM.sections.letter ? DOM.sections.letter.querySelector('.letter-card') : null;
-                    if (card) card.focus();
-                });
-            }, 1800);
-            state.openingTimerIds.push(t2);
+                const t2 = setTimeout(() => {
+                    switchSection('letter', () => {
+                        const card = DOM.sections.letter ? DOM.sections.letter.querySelector('.letter-card') : null;
+                        if (card) card.focus();
+                    });
+                }, 1800);
+                state.openingTimerIds.push(t2);
+            });
         });
-    });
+    }
 
     // Flow 2: Birthday Message -> Photos (Scrapbook Sequence)
-    DOM.nextToPhotosBtn.addEventListener('click', (e) => {
-        const rect = DOM.nextToPhotosBtn.getBoundingClientRect();
-        createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+    if (DOM.nextToPhotosBtn) {
+        DOM.nextToPhotosBtn.addEventListener('click', () => {
+            const rect = DOM.nextToPhotosBtn.getBoundingClientRect();
+            createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
 
-        switchSection('photos', () => {
-            startScrapbookSequentialReveal();
+            switchSection('photos', () => {
+                startScrapbookSequentialReveal();
+            });
         });
-    });
+    }
 
-    // ── One-by-One Polaroid Reveal Animation (Developing & Placing on Scrapbook) ──
+    // ── One-by-One Polaroid Reveal Animation (Slow, Dramatic & Realistic) ──
     let scrapbookStepTimers = [];
 
     function clearScrapbookTimers() {
@@ -408,53 +504,163 @@ document.addEventListener('DOMContentLoaded', () => {
             actions.classList.remove('show-action');
         }
 
-        // Step 1: Photo 1 develops & settles (0.2s)
+        // Step 1: Photo 1 begins reveal (0.8s) -> settles & develops (~2.8s)
         scrapbookStepTimers.push(setTimeout(() => {
             if (DOM.photoCard1) {
                 DOM.photoCard1.classList.add('card-revealed');
                 createScrapbookPetalBurst(DOM.photoCard1);
                 createSparkleBurst(window.innerWidth * 0.35, window.innerHeight * 0.45);
             }
-        }, 200));
+        }, 800));
 
-        // Step 2: Photo 2 develops & settles (1.4s)
+        // Step 2: Photo 2 begins reveal (3.8s) -> settles & develops (~5.8s)
         scrapbookStepTimers.push(setTimeout(() => {
             if (DOM.photoCard2) {
                 DOM.photoCard2.classList.add('card-revealed');
                 createScrapbookPetalBurst(DOM.photoCard2);
                 createSparkleBurst(window.innerWidth * 0.5, window.innerHeight * 0.42);
             }
-        }, 1400));
+        }, 3800));
 
-        // Step 3: Photo 3 develops & settles (2.6s)
+        // Step 3: Photo 3 begins reveal (6.8s) -> settles & develops (~8.8s)
         scrapbookStepTimers.push(setTimeout(() => {
             if (DOM.photoCard3) {
                 DOM.photoCard3.classList.add('card-revealed');
                 createScrapbookPetalBurst(DOM.photoCard3);
                 createSparkleBurst(window.innerWidth * 0.65, window.innerHeight * 0.45);
             }
-        }, 2600));
+        }, 6800));
 
-        // Step 4: All 3 settled together -> reveal Continue button (3.8s)
+        // Step 4: All 3 Polaroids settled -> reveal Continue button with breathing room (10.2s)
         scrapbookStepTimers.push(setTimeout(() => {
             if (actions) {
                 actions.classList.add('show-action');
             }
             createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.65);
-        }, 3800));
+        }, 10200));
     }
 
-    // Flow 4: Scrapbook -> Cinematic Bouquet Animation Scene
-    DOM.photo3NextBtn.addEventListener('click', (e) => {
-        const rect = DOM.photo3NextBtn.getBoundingClientRect();
-        createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
-        switchSection('bouquet', () => {
-            startBouquetCreationAnimation();
+    // Flow 3: Photos -> Dessert Shop
+    if (DOM.photo3NextBtn) {
+        DOM.photo3NextBtn.addEventListener('click', () => {
+            const rect = DOM.photo3NextBtn.getBoundingClientRect();
+            createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+            switchSection('dessert', () => {
+                resetDessertScene();
+            });
         });
-    });
+    }
 
     // --------------------------------------------------------------------------
-    // 5. Cinematic Bouquet Creation & Compliments Sequencing
+    // 5b. 🍩 Korean Dessert Shop Section Engine
+    // --------------------------------------------------------------------------
+    const dessertMessages = {
+        milk: {
+            title: 'Vanilla Milk 🥛',
+            icon: '🥛',
+            msg: 'Sweet and gentle, just like the calm and comfort you bring to the people around you. 🥛✨'
+        },
+        cake: {
+            title: 'Strawberry Shortcake 🍰',
+            icon: '🍰',
+            msg: 'A little sweetness for someone who deserves a truly happy and special day. 🍰🍓'
+        },
+        cookie: {
+            title: 'Chocolate Chip Cookie 🍪',
+            icon: '🍪',
+            msg: 'A small treat to remind you that you deserve many simple and happy moments. 🍪💕'
+        },
+        donut: {
+            title: 'Sakura Glazed Donut 🍩',
+            icon: '🍩',
+            msg: 'A little reminder to slow down, enjoy the sweet moments, and appreciate what you have. 🍩🌸'
+        },
+        cocoa: {
+            title: 'Cozy Hot Chocolate ☕',
+            icon: '☕',
+            msg: 'Something warm for the days when you need a little comfort and time to rest. ☕☁️'
+        }
+    };
+
+    function resetDessertScene() {
+        if (state.dessertTimerIds) {
+            state.dessertTimerIds.forEach(id => clearTimeout(id));
+            state.dessertTimerIds = [];
+        }
+        state.selectedDessert = null;
+
+        if (DOM.dessertItemBtns) {
+            DOM.dessertItemBtns.forEach(btn => {
+                btn.classList.remove('active-dessert');
+                btn.setAttribute('aria-checked', 'false');
+            });
+        }
+
+        if (DOM.dessertMsgPlaceholder) {
+            DOM.dessertMsgPlaceholder.style.display = 'block';
+        }
+        if (DOM.dessertMsgContent) {
+            DOM.dessertMsgContent.style.display = 'none';
+        }
+    }
+
+    if (DOM.dessertItemBtns) {
+        DOM.dessertItemBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const dessertKey = btn.getAttribute('data-dessert');
+                const data = dessertMessages[dessertKey];
+                if (!data) return;
+
+                state.selectedDessert = dessertKey;
+
+                // Highlight selected item
+                DOM.dessertItemBtns.forEach(b => {
+                    b.classList.remove('active-dessert');
+                    b.setAttribute('aria-checked', 'false');
+                });
+                btn.classList.add('active-dessert');
+                btn.setAttribute('aria-checked', 'true');
+
+                // Sparkle burst at button
+                const rect = btn.getBoundingClientRect();
+                createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+
+                // Update and animate message
+                if (DOM.dessertMsgPlaceholder) {
+                    DOM.dessertMsgPlaceholder.style.display = 'none';
+                }
+                if (DOM.dessertMsgContent) {
+                    DOM.dessertMsgContent.style.display = 'flex';
+                    DOM.dessertMsgContent.classList.remove('dessert-msg-animate');
+                    void DOM.dessertMsgContent.offsetWidth;
+                    DOM.dessertMsgContent.classList.add('dessert-msg-animate');
+                }
+                if (DOM.dessertMsgIcon) {
+                    DOM.dessertMsgIcon.textContent = data.icon;
+                }
+                if (DOM.dessertMsgTitle) {
+                    DOM.dessertMsgTitle.textContent = data.title;
+                }
+                if (DOM.dessertMsgText) {
+                    DOM.dessertMsgText.textContent = data.msg;
+                }
+            });
+        });
+    }
+
+    // Flow 4: Dessert Shop -> Cinematic Bouquet Animation Scene
+    if (DOM.dessertToBouquetBtn) {
+        DOM.dessertToBouquetBtn.addEventListener('click', () => {
+            const rect = DOM.dessertToBouquetBtn.getBoundingClientRect();
+            createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+            switchSection('bouquet', () => {
+                startBouquetCreationAnimation();
+            });
+        });
+    }
+
+    // --------------------------------------------------------------------------
+    // 5c. Cinematic Bouquet Creation & Compliments Sequencing
     // --------------------------------------------------------------------------
     function createFloatingPetals() {
         if (!DOM.floatingPetals) return;
@@ -470,8 +676,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function resetBouquetScene() {
-        state.bouquetTimerIds.forEach(id => clearTimeout(id));
-        state.bouquetTimerIds = [];
+        if (state.bouquetTimerIds) {
+            state.bouquetTimerIds.forEach(id => clearTimeout(id));
+            state.bouquetTimerIds = [];
+        }
 
         if (DOM.bouquetWrapper) {
             DOM.bouquetWrapper.className = 'bouquet-wrapper';
@@ -483,9 +691,11 @@ document.addEventListener('DOMContentLoaded', () => {
             DOM.bouquetBanner.classList.remove('show');
         }
 
-        DOM.floatingCompliments.forEach(pill => {
-            pill.classList.remove('show');
-        });
+        if (DOM.floatingCompliments) {
+            DOM.floatingCompliments.forEach(pill => {
+                pill.classList.remove('show');
+            });
+        }
     }
 
     function addBouquetStep(delay, callback) {
@@ -494,6 +704,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function triggerCompliment(index) {
+        if (!DOM.floatingCompliments) return;
         const pill = DOM.floatingCompliments[index];
         if (pill) {
             pill.classList.remove('show');
@@ -508,74 +719,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Step 1: Stems grow upward (0.3s)
         addBouquetStep(300, () => {
-            DOM.bouquetWrapper.classList.add('anim-stems');
+            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('anim-stems');
         });
 
         // Step 2: Leaves unfold (0.9s)
         addBouquetStep(900, () => {
-            DOM.bouquetWrapper.classList.add('anim-leaves');
+            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('anim-leaves');
         });
 
         // Step 3: First flower blooms (1.6s) + Compliment 1
         addBouquetStep(1600, () => {
-            DOM.bouquetWrapper.classList.add('anim-f1');
-            triggerCompliment(0); // "so pretty ✨"
+            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('anim-f1');
+            triggerCompliment(0);
         });
 
         // Step 4: Second flower blooms (2.2s) + Compliment 2
         addBouquetStep(2200, () => {
-            DOM.bouquetWrapper.classList.add('anim-f2');
-            triggerCompliment(1); // "beautiful smile 💗"
+            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('anim-f2');
+            triggerCompliment(1);
         });
 
         // Step 5: Third flower blooms (2.8s) + Compliment 3
         addBouquetStep(2800, () => {
-            DOM.bouquetWrapper.classList.add('anim-f3');
-            triggerCompliment(2); // "effortlessly lovely 🌸"
+            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('anim-f3');
+            triggerCompliment(2);
         });
 
         // Step 6: Lotus flowers unfold gracefully (3.5s) + Compliment 4
         addBouquetStep(3500, () => {
-            DOM.bouquetWrapper.classList.add('anim-lotus');
-            triggerCompliment(3); // "you look amazing"
+            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('anim-lotus');
+            triggerCompliment(3);
         });
 
         // Step 7: Supporting blossoms & baby's breath (4.2s) + Compliment 5
         addBouquetStep(4200, () => {
-            DOM.bouquetWrapper.classList.add('anim-f4');
-            triggerCompliment(4); // "simply beautiful ✨"
+            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('anim-f4');
+            triggerCompliment(4);
         });
 
         // Step 8: Satin Ribbon wraps around stems (4.9s)
         addBouquetStep(4900, () => {
-            DOM.bouquetWrapper.classList.add('anim-ribbon');
+            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('anim-ribbon');
         });
 
         // Step 9: Orbiting sparkles appear (5.5s)
         addBouquetStep(5500, () => {
-            DOM.bouquetWrapper.classList.add('anim-sparkles');
+            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('anim-sparkles');
         });
 
         // Step 10: Cinnamoroll companion enters presenting flowers (6.1s)
         addBouquetStep(6100, () => {
-            DOM.cinnamorollContainer.classList.add('show');
+            if (DOM.cinnamorollContainer) DOM.cinnamorollContainer.classList.add('show');
         });
 
         // Step 11: Final settling breathe sway & reveal Wish button (6.9s)
         addBouquetStep(6900, () => {
-            DOM.bouquetWrapper.classList.add('completed');
-            DOM.bouquetBanner.classList.add('show');
+            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('completed');
+            if (DOM.bouquetBanner) DOM.bouquetBanner.classList.add('show');
         });
     }
 
     // Flow 5: Bouquet -> Wish / Cake Section
-    DOM.bouquetToWishBtn.addEventListener('click', (e) => {
-        const rect = DOM.bouquetToWishBtn.getBoundingClientRect();
-        createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
-        switchSection('wish', () => {
-            startCakeAssemblyAnimation();
+    if (DOM.bouquetToWishBtn) {
+        DOM.bouquetToWishBtn.addEventListener('click', () => {
+            const rect = DOM.bouquetToWishBtn.getBoundingClientRect();
+            createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+            switchSection('wish', () => {
+                startCakeAssemblyAnimation();
+            });
         });
-    });
+    }
 
     // --------------------------------------------------------------------------
     // 6. Cinematic Cake Assembly & Wish Engine
@@ -666,7 +879,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (state.candleBlown) return;
         state.candleBlown = true;
 
-        DOM.candle.classList.add('extinguished');
+        if (DOM.candle) DOM.candle.classList.add('extinguished');
         const cake = DOM.cake || document.getElementById('cake');
         if (cake) {
             cake.classList.add('extinguished');
@@ -674,7 +887,7 @@ document.addEventListener('DOMContentLoaded', () => {
         createSmokeParticles();
         createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.38);
 
-        // Pop in the Yay! Cinnamoroll sticker 🎉
+        // Pop in the Yay! Cinnamoroll sticker
         const yaySticker = document.getElementById('cinStickerYay');
         if (yaySticker) {
             setTimeout(() => {
@@ -691,6 +904,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function createSmokeParticles() {
+        if (!DOM.smokeParticles) return;
         DOM.smokeParticles.innerHTML = '';
         // Wispy smoke circles
         for (let i = 0; i < 15; i++) {
@@ -713,13 +927,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    DOM.candle.addEventListener('click', extinguishCandle);
-    DOM.flame.addEventListener('click', extinguishCandle);
+    if (DOM.candle) DOM.candle.addEventListener('click', extinguishCandle);
+    if (DOM.flame) DOM.flame.addEventListener('click', extinguishCandle);
 
     // Interactive Letter Seal Tap
     const letterSeal = document.getElementById('letterSeal');
     if (letterSeal) {
-        letterSeal.addEventListener('click', (e) => {
+        letterSeal.addEventListener('click', () => {
             const rect = letterSeal.getBoundingClientRect();
             createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
         });
@@ -729,7 +943,6 @@ document.addEventListener('DOMContentLoaded', () => {
     [DOM.photoCard1, DOM.photoCard2, DOM.photoCard3].forEach(card => {
         if (card) {
             card.addEventListener('click', (e) => {
-                // If not clicking the next button directly, create sparkle burst at click point
                 if (e.target.tagName !== 'BUTTON') {
                     createSparkleBurst(e.clientX, e.clientY);
                 }
@@ -812,7 +1025,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return {
                 x: Math.random() * width,
                 y: randomY ? Math.random() * height : -25 - Math.random() * 20,
-                size: Math.random() * 6 + 9, // 9 to 15 px
+                size: Math.random() * 6 + 9,
                 speedY: Math.random() * 0.7 + 0.65,
                 speedX: (Math.random() - 0.5) * 0.5,
                 windOffset: Math.random() * Math.PI * 2,
@@ -883,9 +1096,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --------------------------------------------------------------------------
     // 8. Confetti Canvas Engine
     // --------------------------------------------------------------------------
-    
-
     let confettiActive = false;
+
     function startConfetti() {
         const canvas = DOM.confettiCanvas;
         if (!canvas) return;
@@ -932,11 +1144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --------------------------------------------------------------------------
-    // 9. Simplified Dialog Action (ONLY Return to Start)
-    // --------------------------------------------------------------------------
-    
-    // --------------------------------------------------------------------------
-    // 8b. 🎀 Birthday Memory Box Finale Animation Engine
+    // 8b. Finale Animation Engine (Greetings from Cinnamoroll)
     // --------------------------------------------------------------------------
     function clearMemoryBoxTimers() {
         if (state.memoryBoxTimerIds) {
@@ -964,7 +1172,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const stage = document.getElementById('memoryBoxStage');
         if (!stage) return;
 
-        // Step 1: Memory box illustration smoothly appears & warm glow activates (0.1s)
+        // Step 1: Illustration smoothly appears & warm glow activates (0.1s)
         addMemoryBoxStep(100, () => {
             stage.classList.add('box-stage-active');
             createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.40);
@@ -982,62 +1190,63 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    DOM.homeButton.addEventListener('click', () => {
-        confettiActive = false;
-        resetMemoryBoxScene();
+    // Return to Start Button Handler
+    if (DOM.homeButton) {
+        DOM.homeButton.addEventListener('click', () => {
+            confettiActive = false;
+            resetMemoryBoxScene();
 
-        state.currentSection = 'landing';
-        state.sectionHistory = ['landing'];
-        state.candleBlown = false;
+            state.currentSection = 'landing';
+            state.sectionHistory = ['landing'];
+            state.candleBlown = false;
 
-        // Reset candle & cake states
-        if (DOM.candle) {
-            DOM.candle.classList.remove('extinguished');
-        }
-        const cake = DOM.cake || document.getElementById('cake');
-        if (cake) {
-            cake.className = 'cake';
-        }
-        if (state.cakeTimerIds) {
-            state.cakeTimerIds.forEach(id => clearTimeout(id));
-            state.cakeTimerIds = [];
-        }
-        if (DOM.wishHint) {
-            DOM.wishHint.classList.remove('show-hint');
-        }
+            // Reset candle & cake states
+            if (DOM.candle) {
+                DOM.candle.classList.remove('extinguished');
+            }
+            const cake = DOM.cake || document.getElementById('cake');
+            if (cake) {
+                cake.className = 'cake';
+            }
+            if (state.cakeTimerIds) {
+                state.cakeTimerIds.forEach(id => clearTimeout(id));
+                state.cakeTimerIds = [];
+            }
+            if (DOM.wishHint) {
+                DOM.wishHint.classList.remove('show-hint');
+            }
 
-        // Reset bouquet
-        resetBouquetScene();
+            // Reset bouquet
+            resetBouquetScene();
 
-        // Reset photos
-        clearScrapbookTimers();
-        const photoCards = [DOM.photoCard1, DOM.photoCard2, DOM.photoCard3];
-        photoCards.forEach(c => {
-            if (c) c.classList.remove('card-revealed');
+            // Reset dessert
+            resetDessertScene();
+
+            // Reset photos
+            clearScrapbookTimers();
+            const photoCards = [DOM.photoCard1, DOM.photoCard2, DOM.photoCard3];
+            photoCards.forEach(c => {
+                if (c) c.classList.remove('card-revealed');
+            });
+            const scrapbookActions = document.getElementById('scrapbookActions');
+            if (scrapbookActions) {
+                scrapbookActions.classList.remove('show-action');
+            }
+
+            // Reset Cinnamoroll stickers
+            const yaySticker = document.getElementById('cinStickerYay');
+            if (yaySticker) {
+                yaySticker.classList.remove('cin-sticker-visible');
+            }
+
+            // Hide back button on landing
+            updateNavBackButton();
+
+            // Smooth transition back to Start/Landing
+            switchSection('landing');
+            showToast('Welcome back to the start! 💌🌸');
         });
-        const scrapbookActions = document.getElementById('scrapbookActions');
-        if (scrapbookActions) {
-            scrapbookActions.classList.remove('show-action');
-        }
-
-        // Reset Cinnamoroll stickers
-        const yaySticker = document.getElementById('cinStickerYay');
-        if (yaySticker) {
-            yaySticker.classList.remove('cin-sticker-visible');
-        }
-
-        // Reset audio position
-        if (bgAudio) {
-            bgAudio.currentTime = 0;
-        }
-
-        // Hide back button on landing
-        updateNavBackButton();
-
-        // Smooth transition back to Start/Landing
-        switchSection('landing');
-        showToast('Welcome back to the start! 💌🌸');
-    });
+    }
 
     function showToast(message) {
         if (!DOM.toast) return;
