@@ -764,42 +764,44 @@
                 </div>
             </section>
 
-            <!-- 7. FINALE SECTION -->
+            <!-- 7. FINALE SECTION: Greetings from Cinnamoroll -->
             <section id="finale" class="section-container" aria-labelledby="finale-title" style="display: none;">
 
-                <!-- Ambient Floating Finale Particles -->
+                <!-- Ambient Night Sky Floating Stars & Sparkles -->
                 <div class="finale-ambient-layer" aria-hidden="true">
-                    <span class="ffx ffx1">🌸</span>
+                    <span class="ffx ffx1">⭐</span>
                     <span class="ffx ffx2">✨</span>
-                    <span class="ffx ffx3">💕</span>
-                    <span class="ffx ffx4">🌸</span>
-                    <span class="ffx ffx5">💖</span>
+                    <span class="ffx ffx3">🌙</span>
+                    <span class="ffx ffx4">⭐</span>
+                    <span class="ffx ffx5">💫</span>
                     <span class="ffx ffx6">✨</span>
                 </div>
 
-                <!-- Floating Petals Layer -->
+                <!-- Floating Petals / Stardust Layer -->
                 <div id="memoryBoxPetals" class="memory-box-petals-layer" aria-hidden="true"></div>
 
-                <div class="memory-box-stage" id="memoryBoxStage">
+                <div class="finale-cin-stage" id="memoryBoxStage">
 
-                    <!-- Warm ambient glow -->
-                    <div class="box-glow-aura" aria-hidden="true"></div>
+                    <!-- Soft glowing night sky aura -->
+                    <div class="box-glow-aura finale-night-aura" aria-hidden="true"></div>
 
-                    <!-- ✨ Memory Box Illustration (Image-based, zero layout bugs) -->
-                    <div class="memory-box-illustration" id="memoryBox">
+                    <!-- Cinnamoroll Star Wand Centerpiece -->
+                    <div class="finale-character-wrap" id="memoryBox">
                         <img
-                            src="assets/images/memory_box.jpg"
-                            alt="A beautiful Korean birthday memory box filled with Polaroid photos, a love letter, and cherry blossoms, with Cinnamoroll peeking out"
-                            class="memory-box-img"
+                            src="assets/images/cin_wand.png"
+                            alt="Cinnamoroll with star magic wand"
+                            class="finale-cin-img"
                             draggable="false"
+                            onerror="this.onerror=null; this.src='assets/images/cin_dancing.png';"
                         >
                     </div>
 
-                    <!-- Sentimental Final Message -->
+                    <!-- Sentimental Final Birthday Message -->
                     <div class="finale-message-container" id="finaleMessageContainer">
-                        <p class="finale-msg-line1">from cinnamoroll:</p>
-                        <h2 class="finale-msg-title" id="finale-title">Happy Birthday, Nathalie. ♡</h2>
-                        <p class="finale-the-end" id="finaleTheEnd">The End ♡</p>
+                        <span class="finale-badge">Greetings from Cinnamoroll Circuit 🌙✨</span>
+                        <h2 class="finale-msg-title" id="finale-title">Happy Birthday, Nathalie! 🌸</h2>
+                        <p class="finale-msg-body">May this year be filled with gentle days, beautiful moments, and everything you’ve been hoping for.</p>
+                        <p class="finale-the-end" id="finaleTheEnd">Until next time ♡</p>
                     </div>
 
                     <!-- Return to Start Button -->

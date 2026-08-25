@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     'use strict';
 
+    // Initialize day-to-night timeline atmosphere
+    document.body.className = 'time-landing';
+
     // --------------------------------------------------------------------------
     // 1. App State & DOM Selectors
     // --------------------------------------------------------------------------
@@ -305,6 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 state.currentSection = targetSectionId;
+                document.body.className = `time-${targetSectionId}`;
                 updateNavBackButton();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 isSectionTransitioning = false;
@@ -326,6 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             state.currentSection = targetSectionId;
+            document.body.className = `time-${targetSectionId}`;
             updateNavBackButton();
             window.scrollTo({ top: 0, behavior: 'smooth' });
             isSectionTransitioning = false;
@@ -558,27 +563,27 @@ document.addEventListener('DOMContentLoaded', () => {
         milk: {
             title: 'Vanilla Milk 🥛',
             icon: '🥛',
-            msg: 'Sweet and gentle, just like the calm and comfort you bring to the people around you. 🥛✨'
+            msg: 'Take things one day at a time, and remember to always be gentle with yourself. 🥛✨'
         },
         cake: {
-            title: 'Strawberry Shortcake 🍰',
+            title: 'Strawberry Cake 🍰',
             icon: '🍰',
-            msg: 'A little sweetness for someone who deserves a truly happy and special day. 🍰🍓'
+            msg: 'Celebrate your small wins along the way, not just the big milestones. 🍰🍓'
         },
         cookie: {
             title: 'Chocolate Chip Cookie 🍪',
             icon: '🍪',
-            msg: 'A small treat to remind you that you deserve many simple and happy moments. 🍪💕'
+            msg: 'The best things in life take time to make, so trust your own pace and journey. 🍪💕'
         },
         donut: {
             title: 'Sakura Glazed Donut 🍩',
             icon: '🍩',
-            msg: 'A little reminder to slow down, enjoy the sweet moments, and appreciate what you have. 🍩🌸'
+            msg: 'A little reminder to enjoy the small things and appreciate the good moments in life. 🍩🌸'
         },
         cocoa: {
-            title: 'Cozy Hot Chocolate ☕',
+            title: 'Hot Chocolate ☕',
             icon: '☕',
-            msg: 'Something warm for the days when you need a little comfort and time to rest. ☕☁️'
+            msg: 'Whenever things feel overwhelming, take a moment to pause, breathe, and rest. ☕☁️'
         }
     };
 
