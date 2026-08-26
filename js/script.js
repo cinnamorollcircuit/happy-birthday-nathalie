@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         musicPlaying: true,
         musicMuted: false,
         openingTimerIds: [],
+        collageTimerIds: [],
         dessertTimerIds: [],
         bouquetTimerIds: [],
         cakeTimerIds: [],
@@ -30,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             opening: document.getElementById('opening'),
             letter: document.getElementById('letter'),
             photos: document.getElementById('photos'),
+            collage: document.getElementById('collage'),
             dessert: document.getElementById('dessert'),
             bouquet: document.getElementById('bouquet'),
             wish: document.getElementById('wish'),
@@ -44,6 +46,15 @@ document.addEventListener('DOMContentLoaded', () => {
         photoCard2: document.getElementById('photoCard2'),
         photoCard3: document.getElementById('photoCard3'),
         photo3NextBtn: document.getElementById('photo3NextBtn'),
+
+        // Handmade Pink Scrapbook Collage Elements
+        scrapbookPageCanvas: document.getElementById('scrapbookPageCanvas'),
+        scrapbookBlueHeart: document.getElementById('scrapbookBlueHeart'),
+        scrapbookPhotoWrap: document.getElementById('scrapbookPhotoWrap'),
+        scrapbookWordsScatter: document.getElementById('scrapbookWordsScatter'),
+        scrapbookFlowerDoodles: document.getElementById('scrapbookFlowerDoodles'),
+        collageActions: document.getElementById('collageActions'),
+        collageToDessertBtn: document.getElementById('collageToDessertBtn'),
 
         // Dessert Shop Elements
         dessertItemBtns: document.querySelectorAll('.dessert-item-btn'),
@@ -249,7 +260,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'opening': 'landing',
         'letter': 'landing',
         'photos': 'letter',
-        'dessert': 'photos',
+        'collage': 'photos',
+        'dessert': 'collage',
         'bouquet': 'dessert',
         'wish': 'bouquet',
         'finale': 'wish'
@@ -363,6 +375,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Clean up current section timers
         if (current === 'photos') {
             clearScrapbookTimers();
+        } else if (current === 'collage') {
+            resetCollageScene();
         } else if (current === 'dessert') {
             resetDessertScene();
         } else if (current === 'bouquet') {
@@ -378,6 +392,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const onEnter = () => {
             if (target === 'photos') {
                 startScrapbookSequentialReveal();
+            } else if (target === 'collage') {
+                startCollageAnimation();
             } else if (target === 'dessert') {
                 resetDessertScene();
             } else if (target === 'bouquet') {
@@ -545,10 +561,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 10200));
     }
 
-    // Flow 3: Photos -> Dessert Shop
+    // Flow 3: Photos -> Handmade Scrapbook Collage
     if (DOM.photo3NextBtn) {
         DOM.photo3NextBtn.addEventListener('click', () => {
             const rect = DOM.photo3NextBtn.getBoundingClientRect();
+            createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+            switchSection('collage', () => {
+                startCollageAnimation();
+            });
+        });
+    }
+
+    // Flow 3b: Scrapbook Collage -> Dessert Shop
+    if (DOM.collageToDessertBtn) {
+        DOM.collageToDessertBtn.addEventListener('click', () => {
+            const rect = DOM.collageToDessertBtn.getBoundingClientRect();
             createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
             switchSection('dessert', () => {
                 resetDessertScene();
@@ -557,7 +584,99 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --------------------------------------------------------------------------
-    // 5b. 🍩 Korean Dessert Shop Section Engine
+    // 5b. 🎀 Handmade Pink Scrapbook Collage Animation Engine
+    // --------------------------------------------------------------------------
+    function clearCollageTimers() {
+        if (state.collageTimerIds) {
+            state.collageTimerIds.forEach(id => clearTimeout(id));
+            state.collageTimerIds = [];
+        }
+    }
+
+    function addCollageStep(delay, callback) {
+        const id = setTimeout(callback, delay);
+        state.collageTimerIds = state.collageTimerIds || [];
+        state.collageTimerIds.push(id);
+    }
+
+    function resetCollageScene() {
+        clearCollageTimers();
+        if (DOM.scrapbookPageCanvas) {
+            DOM.scrapbookPageCanvas.classList.remove('page-visible');
+        }
+        if (DOM.scrapbookBlueHeart) {
+            DOM.scrapbookBlueHeart.classList.remove('heart-visible');
+        }
+        if (DOM.scrapbookPhotoWrap) {
+            DOM.scrapbookPhotoWrap.classList.remove('photo-visible');
+        }
+        if (DOM.scrapbookWordsScatter) {
+            const words = DOM.scrapbookWordsScatter.querySelectorAll('.scrapbook-word-scrap');
+            words.forEach(w => w.classList.remove('word-visible'));
+        }
+        if (DOM.scrapbookFlowerDoodles) {
+            DOM.scrapbookFlowerDoodles.classList.remove('doodles-visible');
+        }
+        if (DOM.collageActions) {
+            DOM.collageActions.classList.remove('show-action');
+        }
+    }
+
+    function startCollageAnimation() {
+        resetCollageScene();
+
+        // Step 1: Pink Paper Canvas fades in gently (300ms)
+        addCollageStep(300, () => {
+            if (DOM.scrapbookPageCanvas) {
+                DOM.scrapbookPageCanvas.classList.add('page-visible');
+                createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.45);
+            }
+        });
+
+        // Step 2: Blue Paper Heart reveals with paper shadow (1000ms)
+        addCollageStep(1000, () => {
+            if (DOM.scrapbookBlueHeart) {
+                DOM.scrapbookBlueHeart.classList.add('heart-visible');
+                createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.42);
+            }
+        });
+
+        // Step 3: Photo cutout develops/fades into the heart (2000ms)
+        addCollageStep(2000, () => {
+            if (DOM.scrapbookPhotoWrap) {
+                DOM.scrapbookPhotoWrap.classList.add('photo-visible');
+                createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.42);
+            }
+        });
+
+        // Step 4: Handwritten paper words pop in sequentially one by one (3000ms - 5200ms)
+        const wordScraps = DOM.scrapbookWordsScatter ? DOM.scrapbookWordsScatter.querySelectorAll('.scrapbook-word-scrap') : [];
+        wordScraps.forEach((word, idx) => {
+            addCollageStep(3000 + idx * 240, () => {
+                word.classList.add('word-visible');
+            });
+        });
+
+        // Step 5: Flower doodles bloom around the borders (5600ms)
+        addCollageStep(5600, () => {
+            if (DOM.scrapbookFlowerDoodles) {
+                DOM.scrapbookFlowerDoodles.classList.add('doodles-visible');
+                createSparkleBurst(window.innerWidth * 0.35, window.innerHeight * 0.35);
+                createSparkleBurst(window.innerWidth * 0.65, window.innerHeight * 0.55);
+            }
+        });
+
+        // Step 6: Reveal Continue button with comfortable breathing room (6600ms)
+        addCollageStep(6600, () => {
+            if (DOM.collageActions) {
+                DOM.collageActions.classList.add('show-action');
+                createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.70);
+            }
+        });
+    }
+
+    // --------------------------------------------------------------------------
+    // 5c. 🍩 Korean Dessert Shop Section Engine
     // --------------------------------------------------------------------------
     const dessertMessages = {
         milk: {
@@ -1168,7 +1287,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearMemoryBoxTimers();
         const stage = document.getElementById('memoryBoxStage');
         if (stage) {
-            stage.className = 'memory-box-stage';
+            stage.className = 'scrapbook-canvas memory-box-stage';
         }
     }
 
@@ -1177,21 +1296,44 @@ document.addEventListener('DOMContentLoaded', () => {
         const stage = document.getElementById('memoryBoxStage');
         if (!stage) return;
 
-        // Step 1: Illustration smoothly appears & warm glow activates (0.1s)
-        addMemoryBoxStep(100, () => {
+        // Step 1: Base Canvas & Torn Book Pages settle in (0.2s)
+        addMemoryBoxStep(200, () => {
             stage.classList.add('box-stage-active');
-            createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.40);
+            createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.35);
         });
 
-        // Step 2: Sentimental message smoothly reveals (1.2s)
-        addMemoryBoxStep(1200, () => {
+        // Step 2: Vintage Botanical & Floral papers layer in (0.9s)
+        addMemoryBoxStep(900, () => {
+            stage.classList.add('finale-step-floral');
+        });
+
+        // Step 3: Postage stamps, ticket stubs, washi tape attach (1.7s)
+        addMemoryBoxStep(1700, () => {
+            stage.classList.add('finale-step-ephemera');
+            createSparkleBurst(window.innerWidth * 0.35, window.innerHeight * 0.45);
+        });
+
+        // Step 4: Photo cards & handwritten notes pin down (2.5s)
+        addMemoryBoxStep(2500, () => {
+            stage.classList.add('finale-step-photos');
+        });
+
+        // Step 5: Cinnamoroll stickers, ribbons & charms place (3.3s)
+        addMemoryBoxStep(3300, () => {
+            stage.classList.add('finale-step-cin');
+            createSparkleBurst(window.innerWidth * 0.65, window.innerHeight * 0.35);
+        });
+
+        // Step 6: Main Greetings from Cinnamoroll label settles in the center (4.2s)
+        addMemoryBoxStep(4200, () => {
             stage.classList.add('finale-message-visible');
+            createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.50);
         });
 
-        // Step 3: "The End ♡" and Return to Start button appear (2.2s)
-        addMemoryBoxStep(2200, () => {
+        // Step 7: Finishing details & Return to Start button appear (5.2s)
+        addMemoryBoxStep(5200, () => {
             stage.classList.add('finale-end-visible');
-            createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.65);
+            createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.70);
         });
     }
 
@@ -1226,6 +1368,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Reset dessert
             resetDessertScene();
+
+            // Reset collage
+            resetCollageScene();
 
             // Reset photos
             clearScrapbookTimers();

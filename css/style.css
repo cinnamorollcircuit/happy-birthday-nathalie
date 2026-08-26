@@ -128,6 +128,12 @@ body.time-photos {
   --sky-overlay: linear-gradient(180deg, rgba(255, 232, 242, 0.38) 0%, rgba(255, 200, 225, 0.32) 55%, rgba(52, 18, 42, 0.62) 100%);
 }
 
+/* 4b. Collage — 🎀 Pink Scrapbook Page: Warm romantic rosy glow */
+body.time-collage {
+  background-color: #35132B;
+  --sky-overlay: linear-gradient(180deg, rgba(255, 225, 240, 0.42) 0%, rgba(255, 190, 220, 0.35) 55%, rgba(53, 19, 43, 0.64) 100%);
+}
+
 /* 5. Dessert — 🍰 Warm golden afternoon café light */
 body.time-dessert {
   background-color: #361427;
@@ -1788,6 +1794,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  transform: translateY(-8%);
   z-index: 5;
   filter: drop-shadow(0 14px 28px rgba(112, 14, 59, 0.16));
 }
@@ -2150,9 +2157,10 @@ main {
   }
 
   .cin-sticker-bday-cake {
-    width: 120px;
-    bottom: 5px;
-    left: -20px;
+    width: 110px;
+    bottom: -4px;
+    left: -25px;
+    z-index: 6;
   }
 
   .wish-hint {
@@ -2163,272 +2171,783 @@ main {
 }
 
 /* --------------------------------------------------------------------------
-   12. 🌙 Finale: Greetings from Cinnamoroll (Night Sky & Starlight Centerpiece)
+   12. 📜 Finale: Dense Vintage Scrapbook / Junk-Journal Collage
    -------------------------------------------------------------------------- */
 #finale.section-container {
-  padding: 3.8rem 1.2rem 1.2rem;
+  padding: 3rem 1rem 2rem;
   justify-content: center;
+  align-items: center;
   min-height: 100vh;
+  position: relative;
+  overflow: hidden;
 }
 
-.finale-cin-stage,
+/* Scrapbook Junk Journal Main Canvas */
+.scrapbook-canvas,
 .memory-box-stage {
   position: relative;
   width: 100%;
-  max-width: 480px;
+  max-width: 620px;
+  min-height: 720px;
   margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 
+    0 12px 35px rgba(45, 20, 30, 0.45),
+    0 4px 12px rgba(0, 0, 0, 0.2),
+    inset 0 0 40px rgba(180, 140, 110, 0.25);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: visible;
   z-index: 10;
+  transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Ambient Night Sky Layer & Floating Stars */
-.finale-ambient-layer,
-.memory-box-petals-layer {
+/* Layer 0: Background aged paper textures */
+.sc-bg-paper {
   position: absolute;
-  inset: -20px;
+  inset: 0;
+  border-radius: 12px;
+  background: 
+    linear-gradient(135deg, #FBF4E9 0%, #F5E8D3 35%, #EEDBC2 70%, #F2E3CD 100%);
+  z-index: 1;
+  box-shadow: inset 0 0 30px rgba(160, 115, 80, 0.3);
+}
+
+.sc-bg-grain {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  opacity: 0.35;
+  background-image: radial-gradient(#8B5A2B 0.75px, transparent 0.75px);
+  background-size: 8px 8px;
   pointer-events: none;
-  overflow: hidden;
   z-index: 2;
 }
 
-.ffx {
+.sc-bg-stain {
   position: absolute;
-  font-size: 1.3rem;
-  opacity: 0.75;
-  filter: drop-shadow(0 0 8px rgba(255, 209, 102, 0.7));
-  animation: finaleStarFloat 5.5s ease-in-out infinite alternate;
-}
-
-.ffx1 { top: 6%;  left: 6%;  animation-delay: 0s; }
-.ffx2 { top: 15%; right: 8%; animation-delay: 1.2s; font-size: 1.5rem; }
-.ffx3 { top: 35%; left: 4%;  animation-delay: 2.2s; font-size: 1.6rem; }
-.ffx4 { top: 62%; right: 6%; animation-delay: 0.8s; }
-.ffx5 { top: 76%; left: 8%;  animation-delay: 2.8s; }
-.ffx6 { top: 46%; right: 4%; animation-delay: 1.8s; }
-
-@keyframes finaleStarFloat {
-  0%   { transform: translateY(0) scale(0.9) rotate(-6deg); opacity: 0.55; }
-  50%  { transform: translateY(-10px) scale(1.1) rotate(6deg); opacity: 0.95; }
-  100% { transform: translateY(-16px) scale(0.95) rotate(10deg); opacity: 0.7; }
-}
-
-/* Soft Glowing Celestial Aura behind Cinnamoroll */
-.finale-night-aura,
-.box-glow-aura {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 280px;
-  height: 280px;
-  background: radial-gradient(circle at 50% 50%, rgba(255, 183, 197, 0.45) 0%, rgba(181, 23, 158, 0.2) 45%, rgba(255, 209, 102, 0.12) 60%, transparent 75%);
   border-radius: 50%;
   pointer-events: none;
-  z-index: 1;
+  filter: blur(12px);
+  z-index: 3;
+}
+.sc-stain-tl {
+  top: -20px;
+  left: -20px;
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, rgba(184, 134, 90, 0.22) 0%, transparent 70%);
+}
+.sc-stain-br {
+  bottom: -20px;
+  right: -20px;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(200, 120, 140, 0.18) 0%, transparent 70%);
+}
+
+/* Base Scrapbook Piece and Assembly Animation State */
+.sc-piece {
+  position: absolute;
   opacity: 0;
-  transition: opacity 1.2s ease;
-  animation: finaleAuraBreathe 4s ease-in-out infinite alternate;
+  transform: translateY(20px) scale(0.92);
+  transition: opacity 0.8s cubic-bezier(0.34, 1.4, 0.64, 1),
+              transform 0.8s cubic-bezier(0.34, 1.4, 0.64, 1);
+  will-change: transform, opacity;
 }
 
-@keyframes finaleAuraBreathe {
-  0%   { transform: translateX(-50%) scale(0.95); opacity: 0.7; }
-  100% { transform: translateX(-50%) scale(1.08); opacity: 0.95; filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.35)); }
-}
-
-.box-stage-active .finale-night-aura,
-.box-stage-active .box-glow-aura {
-  opacity: 1;
-}
-
-/* ── Cinnamoroll Star Wand Centerpiece ── */
-.finale-character-wrap,
-.finale-character-card,
-.memory-box-illustration {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transform: translateY(18px) scale(0.94);
-  transition: opacity 0.85s cubic-bezier(0.34, 1.45, 0.64, 1),
-              transform 0.85s cubic-bezier(0.34, 1.45, 0.64, 1);
-  z-index: 6;
-  margin-bottom: 0.3rem;
-}
-
-.box-stage-active .finale-character-wrap,
-.box-stage-active .finale-character-card,
-.box-stage-active .memory-box-illustration {
+/* Reveal stages activated via JS classes */
+.box-stage-active .sc-layer-1 .sc-piece {
   opacity: 1;
   transform: translateY(0) scale(1);
 }
-
-.finale-cin-img,
-.memory-box-img {
-  width: 145px;
-  max-width: 45vw;
-  height: auto;
-  display: block;
-  object-fit: contain;
-  filter: drop-shadow(0 8px 20px rgba(255, 51, 133, 0.3)) drop-shadow(0 0 12px rgba(255, 209, 102, 0.4));
-  animation: cinFloatHero 3.5s ease-in-out infinite alternate;
-  user-select: none;
-  -webkit-user-drag: none;
+.finale-step-floral .sc-layer-2 .sc-piece,
+.finale-step-floral .sc-layer-6 .sc-piece {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.finale-step-ephemera .sc-layer-3 .sc-piece,
+.finale-step-ephemera .sc-layer-washi .sc-washi {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.finale-step-photos .sc-layer-5 .sc-piece,
+.finale-step-photos .sc-layer-8 .sc-piece {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.finale-step-cin .sc-layer-7 .sc-piece {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.finale-message-visible .sc-greeting-label {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(-1deg) scale(1);
+}
+.finale-end-visible .sc-layer-10,
+.finale-end-visible .sc-return-container {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* ── Sentimental Final Message ── */
-.finale-message-container {
-  margin-top: 0.4rem;
+/* LAYER 1: Torn Book Pages & Newspaper fragments */
+.sc-layer-1 { z-index: 4; }
+
+.sp-book1 {
+  top: 25px;
+  left: 20px;
+  width: 140px;
+  height: 190px;
+  background: #F4E7CE;
+  transform: rotate(-7deg);
+  box-shadow: 2px 3px 8px rgba(90, 60, 40, 0.15);
+  border: 1px dashed rgba(160, 120, 80, 0.4);
+  padding: 12px;
+}
+.sp-book1::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: radial-gradient(circle, transparent 4px, #F4E7CE 5px);
+  background-size: 10px 10px;
+}
+
+.sp-book-lines span {
+  display: block;
+  height: 4px;
+  background: rgba(140, 100, 70, 0.18);
+  margin-bottom: 9px;
+  border-radius: 2px;
+}
+.sp-book-lines span:nth-child(even) { width: 85%; }
+.sp-book-lines span:last-child { width: 50%; }
+
+.sp-book2 {
+  bottom: 40px;
+  right: 25px;
+  width: 150px;
+  height: 180px;
+  background: #F7EAD7;
+  transform: rotate(6deg);
+  box-shadow: -2px 3px 10px rgba(90, 60, 40, 0.15);
+  border-left: 2px solid rgba(190, 140, 90, 0.4);
+  padding: 10px;
+}
+
+.sp-news1 {
+  top: 40px;
+  right: 35px;
+  width: 135px;
+  background: #EFE2CB;
+  border: 1px solid #D8C4A5;
+  padding: 8px;
+  transform: rotate(5deg);
+  box-shadow: 2px 4px 10px rgba(80, 50, 30, 0.15);
+}
+.sp-news-text {
+  font-family: 'Times New Roman', serif;
+  font-size: 0.65rem;
+  line-height: 1.3;
+  color: #6B4E38;
   text-align: center;
-  max-width: 460px;
+}
+
+/* LAYER 2 & 6: Botanical & Floral elements */
+.sc-layer-2, .sc-layer-6 { z-index: 5; }
+
+.sp-floral1 {
+  top: 15px;
+  right: 150px;
+  width: 80px;
+  height: 95px;
+  transform: rotate(12deg);
+  filter: drop-shadow(2px 4px 6px rgba(120, 60, 80, 0.2));
+}
+
+.sp-floral2 {
+  bottom: 85px;
+  left: 30px;
+  width: 75px;
+  height: 75px;
+  transform: rotate(-10deg);
+  filter: drop-shadow(2px 3px 5px rgba(100, 70, 50, 0.2));
+}
+
+.sp-floral3 {
+  top: 140px;
+  left: 10px;
+  width: 90px;
+  height: 80px;
+  transform: rotate(-25deg);
+  filter: drop-shadow(2px 4px 6px rgba(80, 100, 70, 0.25));
+}
+
+.sc-botanical-svg {
   width: 100%;
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.75s ease, transform 0.75s cubic-bezier(0.34, 1.45, 0.64, 1);
-  z-index: 8;
+  height: 100%;
+}
+
+.sf-1 { top: 70px; left: 165px; transform: rotate(15deg); }
+.sf-2 { top: 210px; right: 25px; transform: rotate(-20deg); }
+.sf-3 { bottom: 25px; left: 180px; transform: rotate(8deg); }
+.sf-4 { bottom: 130px; right: 180px; transform: rotate(45deg); }
+.sf-5 { top: 290px; left: 20px; transform: rotate(-12deg); }
+
+/* LAYER 3: Stamps & Tickets */
+.sc-layer-3 { z-index: 6; }
+
+.sc-stamp {
+  background: #FFFDF9;
+  padding: 4px;
+  border-radius: 2px;
+  box-shadow: 1px 2px 6px rgba(80, 50, 40, 0.2);
+  border: 2px dashed #C8A888;
+}
+.stamp-inner {
+  background: #FCE8EE;
+  border: 1px solid #E5A8B8;
+  padding: 5px 6px;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.3rem;
+  justify-content: center;
 }
-
-.finale-message-visible .finale-message-container {
-  opacity: 1;
-  transform: translateY(0);
+.stamp-inner-rose {
+  background: #F7E5E8;
+  border-color: #DDA8B4;
 }
-
-.finale-badge {
-  display: inline-block;
-  font-family: var(--font-ui);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  color: var(--color-purple);
-  background: rgba(255, 240, 248, 0.95);
-  border: 1.5px solid var(--border-pixel);
-  padding: 0.26rem 0.95rem;
-  border-radius: var(--radius-full);
-  box-shadow: 0 2px 8px rgba(255, 105, 180, 0.14);
+.stamp-inner-gold {
+  background: #FAF0D8;
+  border-color: #E2CA88;
 }
-
-.finale-msg-title {
-  font-family: var(--font-display);
-  font-size: clamp(1.55rem, 3.8vw, 2.1rem);
+.stamp-img-area {
+  font-size: 1rem;
+  line-height: 1;
+}
+.stamp-value {
+  font-family: 'Caveat', cursive, sans-serif;
+  font-size: 0.75rem;
   font-weight: 700;
-  color: var(--color-primary);
-  text-shadow: 1px 1px 0px #FFF, 0 0 18px rgba(255, 105, 180, 0.35);
+  color: #A84060;
+  margin-top: 2px;
+}
+.stamp-country {
+  font-family: 'Georgia', serif;
+  font-size: 0.48rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #7A5844;
+}
+
+.sp-stamp1 { top: 220px; left: 25px; transform: rotate(-8deg); }
+.sp-stamp2 { top: 120px; right: 20px; transform: rotate(14deg); }
+.sp-stamp3 { bottom: 60px; right: 185px; transform: rotate(-5deg); }
+
+.sp-ticket1 {
+  bottom: 175px;
+  left: 20px;
+  display: flex;
+  background: #F2DEC4;
+  border: 1px dashed #B88A60;
+  border-radius: 4px;
+  transform: rotate(-14deg);
+  box-shadow: 2px 3px 8px rgba(80, 50, 30, 0.2);
+  overflow: hidden;
+}
+.ticket-left {
+  padding: 6px 8px;
+  border-right: 1px dashed #A67850;
+}
+.ticket-event {
+  font-family: 'Courier New', monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #6E4424;
+}
+.ticket-date {
+  font-family: 'Caveat', cursive;
+  font-size: 0.72rem;
+  color: #9C526A;
+}
+.ticket-stub {
+  padding: 4px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.5rem;
+  font-weight: bold;
+  color: #8C5535;
+  background: #E8D0B2;
+}
+
+.sp-postmark1 {
+  top: 170px;
+  left: 65px;
+  width: 75px;
+  height: 75px;
+  transform: rotate(-18deg);
+  pointer-events: none;
+}
+
+/* LAYER 4: Washi Tape */
+.sc-layer-washi { z-index: 7; }
+
+.sc-washi {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+.washi-h1 {
+  top: 20px;
+  left: 55px;
+  width: 75px;
+  height: 18px;
+  background: rgba(228, 170, 185, 0.65);
+  transform: rotate(-5deg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border-left: 2px solid rgba(255,255,255,0.4);
+  border-right: 2px solid rgba(255,255,255,0.4);
+}
+.washi-v1 {
+  top: 25px;
+  right: 140px;
+  width: 22px;
+  height: 52px;
+  background: rgba(235, 205, 160, 0.6);
+  transform: rotate(-12deg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.washi-h2 {
+  bottom: 35px;
+  right: 50px;
+  width: 80px;
+  height: 20px;
+  background: rgba(180, 210, 225, 0.65);
+  transform: rotate(3deg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.washi-d1 {
+  bottom: 160px;
+  left: 60px;
+  width: 60px;
+  height: 16px;
+  background: rgba(215, 185, 200, 0.6);
+  transform: rotate(-35deg);
+}
+
+/* LAYER 5: Memory Cards */
+.sc-layer-5 { z-index: 8; }
+
+.sc-photo-card {
+  background: #FFFDF8;
+  padding: 6px 6px 14px 6px;
+  box-shadow: 2px 4px 12px rgba(70, 40, 40, 0.22);
+  border-radius: 2px;
+  text-align: center;
+}
+.photo-card-img {
+  background: #F7E6EE;
+  padding: 10px 8px;
+  font-size: 1.25rem;
+  letter-spacing: 2px;
+}
+.photo-card-caption {
+  font-family: 'Caveat', cursive;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #8C405B;
+  margin-top: 6px;
+}
+.sp-photo1 {
+  top: 75px;
+  left: 45px;
+  transform: rotate(-8deg);
+}
+.sp-photo2 {
+  bottom: 120px;
+  right: 30px;
+  transform: rotate(9deg);
+}
+
+/* LAYER 7: Cinnamoroll Accents */
+.sc-layer-7 { z-index: 9; }
+
+.sp-cin1 {
+  top: 15px;
+  right: 25px;
+  transform: rotate(10deg);
+}
+.sp-cin1 img {
+  width: 95px;
+  height: auto;
+  filter: drop-shadow(2px 5px 8px rgba(180, 100, 140, 0.35));
+}
+
+.sp-cin2 {
+  bottom: 220px;
+  right: 35px;
+  background: #E8F2FA;
+  border: 2px dashed #90B8DE;
+  border-radius: 4px;
+  padding: 5px 8px;
+  transform: rotate(-6deg);
+}
+.cin-stamp-inner {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.cin-stamp-icon { font-size: 1.1rem; }
+.cin-stamp-text {
+  font-family: 'Caveat', cursive;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #3C6690;
+  line-height: 1.1;
+}
+
+.sp-cin3 {
+  bottom: 25px;
+  left: 25px;
+  transform: rotate(-4deg);
+}
+
+.sp-cin4 {
+  top: 50px;
+  left: 175px;
+}
+
+.sp-ribbon1 {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* LAYER 8: Tags & Notes */
+.sc-layer-8 { z-index: 10; }
+
+.sc-paper-tag {
+  bottom: 50px;
+  left: 95px;
+  background: #F7EBDC;
+  border: 1px solid #D8BC9E;
+  padding: 10px 14px 8px;
+  border-radius: 4px;
+  transform: rotate(4deg);
+  box-shadow: 2px 4px 10px rgba(80, 50, 30, 0.18);
+  text-align: center;
+}
+.tag-hole {
+  width: 8px;
+  height: 8px;
+  background: #503020;
+  border-radius: 50%;
+  margin: 0 auto 5px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+}
+.tag-text {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #A03855;
+  margin: 0;
+}
+.tag-subtext {
+  font-family: 'Caveat', cursive;
+  font-size: 0.8rem;
+  color: #7B5040;
+  margin: 0;
+}
+
+.sc-handwritten-note {
+  top: 250px;
+  right: 25px;
+  background: #FFFDF4;
+  border: 1px solid #EAE0C4;
+  padding: 8px 12px;
+  transform: rotate(7deg);
+  box-shadow: 2px 3px 8px rgba(80, 50, 40, 0.15);
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem;
+  color: #553322;
   line-height: 1.2;
 }
-
-.finale-msg-body {
-  font-family: var(--font-ui);
-  font-size: 0.92rem;
-  line-height: 1.5;
-  color: var(--color-text-main);
-  background: rgba(255, 245, 250, 0.88);
-  backdrop-filter: blur(10px);
-  border: 1.5px solid rgba(255, 183, 197, 0.5);
-  border-radius: 16px;
-  padding: 0.55rem 1.15rem;
-  margin: 0.1rem auto;
-  box-shadow: 0 4px 14px rgba(112, 14, 59, 0.08);
-}
-
-.finale-the-end {
-  font-family: var(--font-script);
-  font-size: 1.55rem;
+.note-sig {
+  text-align: right;
+  margin-top: 4px;
+  color: #A64468;
   font-weight: 700;
-  color: var(--color-primary);
+}
+
+.sc-label {
+  top: 15px;
+  left: 120px;
+  background: #E8CCD5;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-family: 'Caveat', cursive;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #702840;
+  transform: rotate(-3deg);
+}
+
+/* LAYER 9: Main Greeting Label (Central Focal Point with Photo) */
+.sc-greeting-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-0.5deg) scale(0.9);
+  width: 90%;
+  max-width: 430px;
+  background: #FCF6EC;
+  border: 2px solid #D5B895;
+  box-shadow: 
+    0 14px 36px rgba(60, 25, 35, 0.32),
+    0 4px 10px rgba(0,0,0,0.12),
+    inset 0 0 20px rgba(220, 185, 150, 0.25);
+  border-radius: 12px;
+  padding: 16px 18px 14px;
+  z-index: 25;
+  text-align: center;
   opacity: 0;
-  transform: scale(0.92);
-  transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
-  margin-top: 0.05rem;
+  transition: opacity 1s cubic-bezier(0.34, 1.4, 0.64, 1),
+              transform 1s cubic-bezier(0.34, 1.4, 0.64, 1);
 }
 
-.finale-end-visible .finale-the-end {
-  opacity: 1;
-  transform: scale(1);
+.greeting-label-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Return to Start Action Container */
-.finale-action-container {
-  margin-top: 0.45rem;
+/* User-Provided Memory Photo Frame inside Finale Popup */
+.sc-greeting-photo-wrap {
+  position: relative;
+  width: 145px;
+  margin: 0 auto 8px;
+  background: #FFFDF9;
+  border: 1px solid #E5D5C2;
+  padding: 5px 5px 12px 5px;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(80, 40, 50, 0.2);
+  transform: rotate(-1.5deg);
+  transition: transform 0.3s ease;
+}
+
+.sc-greeting-photo-wrap:hover {
+  transform: rotate(0deg) scale(1.03);
+}
+
+.sc-greeting-photo {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  object-position: center 20%;
+  border-radius: 2px;
+  display: block;
+}
+
+.sc-photo-tape-top {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(2deg);
+  width: 42px;
+  height: 14px;
+  background: rgba(235, 180, 195, 0.7);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border-left: 1.5px solid rgba(255,255,255,0.4);
+  border-right: 1.5px solid rgba(255,255,255,0.4);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.greeting-corner {
+  position: absolute;
+  font-size: 0.85rem;
+  color: #C08A60;
+  line-height: 1;
+}
+.gc-tl { top: -12px; left: -10px; }
+.gc-tr { top: -12px; right: -10px; }
+.gc-bl { bottom: -8px; left: -10px; }
+.gc-br { bottom: -8px; right: -10px; }
+
+.greeting-from {
+  font-size: 0.75rem;
+  color: #B57D58;
+  letter-spacing: 4px;
+  margin: 0 0 2px 0;
+}
+
+.greeting-title {
+  font-family: 'Caveat', cursive, var(--font-display);
+  font-size: clamp(1.6rem, 4.5vw, 2.05rem);
+  font-weight: 700;
+  color: #8C2D4A;
+  line-height: 1.15;
+  margin: 0 0 6px 0;
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
+}
+
+.greeting-body {
+  font-family: 'Shantell Sans', 'Caveat', cursive, var(--font-ui);
+  font-size: clamp(0.85rem, 2.2vw, 0.95rem);
+  line-height: 1.45;
+  color: #4A2E20;
+  margin: 0 0 6px 0;
+}
+
+.greeting-sign {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #B24667;
+  margin: 0;
+}
+
+/* LAYER 10: Finishing Touches & Button */
+.sc-layer-10 {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 25;
   opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
-  z-index: 10;
+  transition: opacity 0.8s ease;
 }
 
-.finale-end-visible .finale-action-container {
-  opacity: 1;
-  transform: translateY(0);
+.sc-tiny-detail {
+  position: absolute;
+  color: #B07080;
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+.std-1 { top: 110px; left: 140px; }
+.std-2 { top: 220px; right: 140px; font-size: 1.1rem; }
+.std-3 { bottom: 150px; left: 160px; font-size: 1.5rem; }
+.std-4 { top: 80px; right: 180px; font-size: 1.4rem; }
+.std-5 { bottom: 80px; right: 120px; }
+.std-6 { top: 320px; left: 90px; font-size: 1.6rem; }
+.std-7 { bottom: 210px; left: 50px; }
+.std-8 { top: 160px; right: 90px; font-size: 1.3rem; }
+
+.std-env1 {
+  bottom: 25px;
+  right: 90px;
+  transform: rotate(-10deg);
+}
+.std-env1 svg { width: 40px; height: 30px; }
+
+.sc-corner-fold {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+.cf-tl {
+  top: 0;
+  left: 0;
+  border-width: 22px 22px 0 0;
+  border-color: #E2CEB0 transparent transparent transparent;
+}
+.cf-br {
+  bottom: 0;
+  right: 0;
+  border-width: 0 0 22px 22px;
+  border-color: transparent transparent #D9C3A0 transparent;
+}
+
+/* Return to Start Button container in Scrapbook */
+.sc-return-container {
+  position: relative;
+  margin-top: auto;
+  margin-bottom: 25px;
+  z-index: 30;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.34, 1.5, 0.64, 1);
 }
 
 .finale-home-btn {
-  font-size: 0.98rem;
-  padding: 0.7rem 1.9rem;
-  box-shadow: 0 5px 0px #C71585, 0 10px 24px rgba(199, 21, 133, 0.35);
+  font-family: 'Caveat', cursive, var(--font-ui);
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 0.65rem 2.2rem;
+  background: linear-gradient(135deg, #E67A95 0%, #C44E70 100%);
+  color: #FFFDF9;
+  border: 2px solid #FDF0E6;
+  border-radius: 30px;
+  box-shadow: 
+    0 4px 0px #8C2846,
+    0 8px 20px rgba(140, 40, 70, 0.35);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.finale-home-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 0px #8C2846,
+    0 10px 24px rgba(140, 40, 70, 0.45);
+}
+.finale-home-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0px #8C2846;
 }
 
-@media (max-width: 480px) {
+/* Mobile Responsiveness for Scrapbook Finale */
+@media (max-width: 580px) {
   #finale.section-container {
-    padding: 3.5rem 0.8rem 1rem;
+    padding: 2.2rem 0.6rem 1.5rem;
   }
-
-  .finale-cin-stage,
+  
+  .scrapbook-canvas,
   .memory-box-stage {
-    margin: 0 auto;
+    min-height: 640px;
+    max-width: 100%;
   }
 
-  .finale-cin-img,
-  .memory-box-img {
+  .sp-book1 { width: 100px; height: 140px; top: 15px; left: 10px; }
+  .sp-book2 { width: 110px; height: 130px; bottom: 30px; right: 10px; }
+  .sp-news1 { width: 105px; top: 25px; right: 15px; }
+  .sp-photo1 { top: 60px; left: 15px; }
+  .sp-photo2 { bottom: 80px; right: 15px; }
+  .sp-cin1 img { width: 75px; }
+  .sp-cin1 { top: 10px; right: 10px; }
+  
+  .sc-greeting-label {
+    padding: 14px 12px 12px;
+    width: 92%;
+  }
+  .sc-greeting-photo-wrap {
     width: 120px;
+    margin-bottom: 6px;
   }
-
-  .finale-msg-title {
-    font-size: 1.7rem;
+  .sc-greeting-photo {
+    height: 90px;
   }
-
-  .finale-msg-body {
-    font-size: 0.86rem;
-    padding: 0.45rem 0.95rem;
-  }
-
-  .finale-the-end {
-    font-size: 1.35rem;
-  }
-
-  .finale-home-btn {
-    padding: 0.65rem 1.6rem;
-    font-size: 0.92rem;
-  }
-}
-
-@media (max-height: 750px) {
-  #finale.section-container {
-    padding: 3.2rem 1rem 0.8rem;
-  }
-  .finale-cin-img,
-  .memory-box-img {
-    width: 110px;
-  }
-  .finale-msg-title {
+  .greeting-title {
     font-size: 1.55rem;
   }
-  .finale-msg-body {
-    font-size: 0.84rem;
-    padding: 0.45rem 0.9rem;
+  .greeting-body {
+    font-size: 0.82rem;
+    line-height: 1.4;
   }
-  .finale-the-end {
-    font-size: 1.3rem;
+  .greeting-sign {
+    font-size: 1rem;
   }
   .finale-home-btn {
-    padding: 0.6rem 1.5rem;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
+    padding: 0.6rem 1.8rem;
   }
 }
 
@@ -2542,9 +3061,11 @@ main {
 
 /* 5. Birthday Cake Cinnamoroll — Wish/Cake section, bottom-left */
 .cin-sticker-bday-cake {
-  width: 140px;
-  bottom: 0px;
-  left: -32px;
+  width: 130px;
+  bottom: -10px;
+  left: -45px;
+  z-index: 6;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.18));
   animation: bdayCakeFloat 3.8s ease-in-out infinite alternate;
 }
 
@@ -2742,7 +3263,7 @@ main {
   .cin-sticker-dessert  { width: 100px; bottom: -15px; right: -15px; }
   .cin-sticker-dancing  { width: 95px; bottom: -12px; right: -8px; }
   .cin-sticker-wand     { width: 105px; bottom: 0; right: -10px; }
-  .cin-sticker-bday-cake{ width: 120px; bottom: 5px; left: -20px; }
+  .cin-sticker-bday-cake{ width: 110px; bottom: -4px; left: -25px; z-index: 6; }
   .cin-sticker-yay      { width: 110px; bottom: 8px; right: 0; }
   .cin-sticker-xiexie   { width: 115px; bottom: 25px; }
   .cin-sticker-matane   { width: 95px; }
@@ -3615,13 +4136,13 @@ main {
 
 @keyframes cakeCompletedFloat {
   0% {
-    transform: translateY(0);
+    transform: translateY(-8%);
   }
   50% {
-    transform: translateY(-4px);
+    transform: translateY(calc(-8% - 4px));
   }
   100% {
-    transform: translateY(0);
+    transform: translateY(-8%);
   }
 }
 
@@ -3636,6 +4157,374 @@ main {
   transform: translateY(0);
 }
 
+
+/* --------------------------------------------------------------------------
+   9a. 🎀 Handmade Pink Scrapbook Collage Section
+   -------------------------------------------------------------------------- */
+#collage.section-container {
+  padding: 4rem 1rem 2.5rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ambient Floating Charms */
+.collage-ambient-layer {
+  position: absolute;
+  inset: -20px;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.cfx {
+  position: absolute;
+  font-size: 1.3rem;
+  opacity: 0.65;
+  filter: drop-shadow(0 2px 6px rgba(255, 105, 180, 0.3));
+  animation: collageFloat 5s ease-in-out infinite alternate;
+}
+
+.cfx1 { top: 10%; left: 8%;  animation-delay: 0s; }
+.cfx2 { top: 18%; right: 10%; animation-delay: 1.2s; font-size: 1.5rem; }
+.cfx3 { top: 72%; left: 6%;  animation-delay: 2.2s; }
+.cfx4 { top: 80%; right: 8%;  animation-delay: 0.8s; }
+.cfx5 { top: 46%; right: 4%; animation-delay: 1.8s; }
+
+@keyframes collageFloat {
+  0%   { transform: translateY(0) rotate(-4deg); opacity: 0.45; }
+  100% { transform: translateY(-12px) rotate(6deg); opacity: 0.85; }
+}
+
+/* ── Physical Handmade Pink Paper Canvas ── */
+.scrapbook-page-canvas {
+  position: relative;
+  width: 100%;
+  max-width: 660px;
+  min-height: 520px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 120, 175, 0.35) 0%, transparent 65%),
+    linear-gradient(135deg, #FF3D86 0%, #FF4D92 40%, #FF337E 100%);
+  border: 3px solid #FFF5F8;
+  border-radius: 26px;
+  box-shadow:
+    0 22px 55px rgba(130, 10, 65, 0.32),
+    0 6px 18px rgba(0, 0, 0, 0.15),
+    0 0 0 3px rgba(255, 170, 195, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.2rem 1.6rem;
+  overflow: visible;
+  opacity: 0;
+  transform: translateY(22px) scale(0.96);
+  transition: opacity 0.85s cubic-bezier(0.34, 1.45, 0.64, 1),
+              transform 0.85s cubic-bezier(0.34, 1.45, 0.64, 1);
+  z-index: 10;
+  user-select: none;
+}
+
+.scrapbook-page-canvas.page-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Authentic Paper Grain & Subtle Crumpled Creases */
+.paper-texture-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 2px, transparent 2px, transparent 4px),
+    radial-gradient(circle at 25% 25%, rgba(255,255,255,0.18) 0%, transparent 45%),
+    radial-gradient(circle at 75% 75%, rgba(0,0,0,0.08) 0%, transparent 50%);
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  z-index: 1;
+}
+
+.paper-crease-lines {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  background:
+    linear-gradient(115deg, transparent 38%, rgba(255,255,255,0.18) 42%, rgba(0,0,0,0.1) 45%, transparent 49%),
+    linear-gradient(28deg, transparent 52%, rgba(255,255,255,0.2) 56%, rgba(0,0,0,0.08) 59%, transparent 63%),
+    linear-gradient(-65deg, transparent 32%, rgba(255,255,255,0.16) 35%, rgba(0,0,0,0.08) 37%, transparent 41%);
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  z-index: 2;
+}
+
+/* ── Torn-Paper Blue Heart Hole Centerpiece ── */
+.scrapbook-blue-heart {
+  position: relative;
+  width: clamp(280px, 50vw, 360px);
+  height: clamp(260px, 46vw, 330px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  opacity: 0;
+  transform: scale(0.85) rotate(-1.5deg);
+  transition: opacity 0.8s cubic-bezier(0.34, 1.45, 0.64, 1),
+              transform 0.8s cubic-bezier(0.34, 1.45, 0.64, 1);
+  filter: drop-shadow(0 12px 28px rgba(100, 10, 45, 0.35));
+}
+
+.scrapbook-blue-heart.heart-visible {
+  opacity: 1;
+  transform: scale(1) rotate(-1.5deg);
+}
+
+/* Torn White Paper Fringe along the Ripped Boundary */
+.torn-paper-white-fringe {
+  position: absolute;
+  inset: -6px;
+  background: #FFFFFF;
+  clip-path: url(#scrapbookHeartClip);
+  -webkit-clip-path: url(#scrapbookHeartClip);
+  transform: scale(1.03);
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.2));
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Ripped Pink Creased Rim overlapping the Torn Edge */
+.torn-paper-crease-rim {
+  position: absolute;
+  inset: -12px;
+  background: linear-gradient(145deg, #FF6EA6 0%, #FF3D86 70%, #D4145A 100%);
+  clip-path: url(#scrapbookHeartClip);
+  -webkit-clip-path: url(#scrapbookHeartClip);
+  transform: scale(1.06);
+  opacity: 0.85;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Sky-Blue Heart Base Container encapsulating the clipped photo */
+.blue-heart-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  clip-path: url(#scrapbookHeartClip);
+  -webkit-clip-path: url(#scrapbookHeartClip);
+  background: linear-gradient(160deg, #A8E1FB 0%, #8FD3F7 50%, #76C4EE 100%);
+  z-index: 3;
+  overflow: hidden;
+}
+
+.blue-heart-core {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #A8E1FB 0%, #8FD3F7 50%, #76C4EE 100%);
+  z-index: 1;
+  box-shadow: inset 0 6px 16px rgba(0, 50, 90, 0.22);
+}
+
+/* ── Portrait Photo Cutout Inside the Heart (Clean SVG-masked & perfectly centered) ── */
+.scrapbook-photo-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(12px) scale(0.94);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.34, 1.45, 0.64, 1);
+}
+
+.scrapbook-photo-wrap.photo-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.scrapbook-cutout-img {
+  width: auto;
+  max-width: 84%;
+  height: 90%;
+  object-fit: contain;
+  object-position: center bottom;
+  display: block;
+  transform: translateX(-0.2%) translateY(10%) scale(1.268);
+  filter: drop-shadow(0 6px 14px rgba(20, 40, 80, 0.28));
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* ── Handwritten Paper Word Scraps (Organic Bubble Cutouts) ── */
+.scrapbook-words-scatter {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 12;
+}
+
+.scrapbook-word-scrap {
+  position: absolute;
+  background: #FFFDF9;
+  border: 1.8px solid #1C0D17;
+  border-radius: 20px 24px 22px 26px / 24px 22px 26px 20px;
+  padding: 0.16rem 0.75rem 0.12rem;
+  box-shadow:
+    2px 4px 10px rgba(0, 0, 0, 0.26),
+    0 1px 3px rgba(0, 0, 0, 0.15),
+    inset 0 0 4px rgba(255, 235, 205, 0.4);
+  font-family: 'Caveat', 'Dancing Script', cursive;
+  font-size: clamp(1.35rem, 3.2vw, 1.8rem);
+  font-weight: 700;
+  color: #1C0D17;
+  letter-spacing: 0.8px;
+  line-height: 1.15;
+  user-select: none;
+  opacity: 0;
+  transform: scale(0.6) rotate(var(--rot, 0deg));
+  transition: opacity 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.scrapbook-word-scrap.word-visible {
+  opacity: 1;
+  transform: scale(1) rotate(var(--rot, 0deg));
+}
+
+/* Specific Balanced Arc Positions Around Center Frame */
+.sw-well   { top: 10%; left: 6%;   --rot: -8deg; border-radius: 24px 18px 22px 26px; }
+.sw-I1     { top: 26%; left: 9%;   --rot: 4deg;  padding: 0.14rem 0.55rem; border-radius: 18px 24px 20px 22px; }
+.sw-think  { top: 42%; left: 4%;   --rot: -6deg; border-radius: 22px 26px 20px 24px; }
+.sw-I2     { top: 58%; left: 10%;  --rot: 3deg;  padding: 0.14rem 0.55rem; border-radius: 20px 18px 24px 22px; }
+.sw-might  { top: 74%; left: 6%;   --rot: -5deg; border-radius: 26px 20px 24px 18px; }
+
+.sw-just   { top: 12%; right: 7%;  --rot: 6deg;  border-radius: 22px 24px 18px 26px; }
+.sw-have   { top: 30%; right: 5%;  --rot: -5deg; border-radius: 24px 18px 26px 20px; }
+.sw-to     { top: 48%; right: 8%;  --rot: 8deg;  border-radius: 50% 48% 52% 46%; padding: 0.14rem 0.55rem; }
+.sw-stay   { top: 66%; right: 6%;  --rot: -5deg; border-radius: 20px 26px 22px 24px; }
+.sw-friends { top: 84%; right: 4%; --rot: 4deg; font-size: clamp(1.05rem, 2.6vw, 1.4rem); }
+
+/* ── Yarn & String Looped Flower Doodles ── */
+.flower-doodles-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 11;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.flower-doodles-layer.doodles-visible {
+  opacity: 1;
+}
+
+.flower-doodle {
+  position: absolute;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.18));
+  animation: doodleGentleSway 4s ease-in-out infinite alternate;
+}
+
+.doodle-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.fd-top-left    { top: 6px;   left: 8px;   width: 54px; height: 54px; transform: rotate(-10deg); }
+.fd-top-right   { top: 8px;   right: 10px; width: 56px; height: 56px; transform: rotate(14deg); }
+.fd-mid-left-1  { top: 32%;   left: -6px;  width: 44px; height: 44px; transform: rotate(-15deg); }
+.fd-mid-left-2  { top: 54%;   left: -8px;  width: 42px; height: 42px; transform: rotate(12deg); }
+.fd-bot-left    { bottom: 8px; left: 8px;   width: 58px; height: 58px; transform: rotate(-6deg); }
+.fd-bot-right-1 { bottom: 10px; right: 10px; width: 52px; height: 52px; transform: rotate(16deg); }
+.fd-mid-right   { top: 40%;   right: -8px; width: 46px; height: 46px; transform: rotate(-12deg); }
+
+@keyframes doodleGentleSway {
+  0%   { transform: rotate(var(--d-rot, 0deg)) scale(0.96); }
+  100% { transform: rotate(calc(var(--d-rot, 0deg) + 5deg)) scale(1.04); }
+}
+
+/* Cinnamoroll Scrapbook Companion */
+.cin-sticker-scrapbook {
+  position: absolute;
+  bottom: -15px;
+  left: 8px;
+  width: 95px;
+  z-index: 15;
+  pointer-events: none;
+  animation: cinFloatHero 3.5s infinite alternate ease-in-out;
+}
+
+.cin-sticker-scrapbook img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 4px 12px rgba(255, 105, 180, 0.35));
+}
+
+/* Action Button */
+.collage-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.8s ease, transform 0.8s var(--transition-bounce);
+  z-index: 15;
+}
+
+.collage-actions.show-action {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.collage-continue-btn {
+  font-size: 1rem;
+  padding: 0.85rem 2rem;
+  box-shadow: 0 5px 0px #C71585, 0 10px 24px rgba(199, 21, 133, 0.35);
+}
+
+@media (max-width: 640px) {
+  #collage.section-container {
+    padding: 3.6rem 0.6rem 2rem;
+  }
+
+  .scrapbook-page-canvas {
+    padding: 1.6rem 0.8rem;
+    min-height: 440px;
+    border-radius: 20px;
+  }
+
+  .scrapbook-blue-heart {
+    width: clamp(230px, 66vw, 300px);
+    height: clamp(210px, 62vw, 280px);
+  }
+
+  .scrapbook-word-scrap {
+    font-size: clamp(1.15rem, 3.8vw, 1.45rem);
+    padding: 0.12rem 0.55rem;
+  }
+
+  .sw-well   { top: 8%;  left: 3%; }
+  .sw-I1     { top: 24%; left: 5%; }
+  .sw-think  { top: 40%; left: 2%; }
+  .sw-I2     { top: 56%; left: 6%; }
+  .sw-might  { top: 72%; left: 3%; }
+
+  .sw-just   { top: 10%; right: 4%; }
+  .sw-have   { top: 28%; right: 3%; }
+  .sw-to     { top: 46%; right: 5%; }
+  .sw-stay   { top: 64%; right: 4%; }
+
+  .cin-sticker-scrapbook {
+    width: 80px;
+    bottom: -16px;
+    left: -8px;
+  }
+}
 
 /* --------------------------------------------------------------------------
    9b. 🍩 Dessert Shop Section (Korean Café Style)
