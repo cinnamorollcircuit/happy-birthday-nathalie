@@ -4162,12 +4162,13 @@ main {
    9a. 🎀 Handmade Pink Scrapbook Collage Section
    -------------------------------------------------------------------------- */
 #collage.section-container {
-  padding: 4rem 1rem 2.5rem;
+  padding: 3.5rem 1rem 2rem;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 /* Ambient Floating Charms */
@@ -4202,21 +4203,27 @@ main {
 .scrapbook-page-canvas {
   position: relative;
   width: 100%;
-  max-width: 660px;
-  min-height: 520px;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(255, 120, 175, 0.35) 0%, transparent 65%),
-    linear-gradient(135deg, #FF3D86 0%, #FF4D92 40%, #FF337E 100%);
-  border: 3px solid #FFF5F8;
+  max-width: 680px;
+  min-height: 550px;
+  background-color: #FF1A82;
+  background-image:
+    url('../assets/images/crumpled_hot_pink_paper.jpg'),
+    radial-gradient(circle at 50% 50%, rgba(255, 120, 175, 0.25) 0%, transparent 65%),
+    linear-gradient(135deg, #FF1A82 0%, #FF2E8E 40%, #E60064 100%);
+  background-size: cover;
+  background-position: center;
+  border: 3.5px solid #FFF8FA;
   border-radius: 26px;
   box-shadow:
-    0 22px 55px rgba(130, 10, 65, 0.32),
-    0 6px 18px rgba(0, 0, 0, 0.15),
-    0 0 0 3px rgba(255, 170, 195, 0.8);
+    0 24px 60px rgba(120, 0, 60, 0.42),
+    0 8px 24px rgba(0, 0, 0, 0.2),
+    0 0 0 3px rgba(255, 180, 205, 0.85),
+    inset 0 0 30px rgba(100, 0, 45, 0.25);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2.2rem 1.6rem;
+  padding: 1.8rem 1.4rem 2rem;
   overflow: visible;
   opacity: 0;
   transform: translateY(22px) scale(0.96);
@@ -4231,15 +4238,85 @@ main {
   transform: translateY(0) scale(1);
 }
 
-/* Authentic Paper Grain & Subtle Crumpled Creases */
+/* Top Scrapbook Header Group inside Canvas */
+.scrapbook-header-group {
+  position: absolute;
+  top: 14px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.scrapbook-sticker-pill {
+  background: #FFFDF8;
+  border: 1.5px solid rgba(255, 105, 180, 0.6);
+  border-radius: 20px;
+  padding: 0.22rem 0.9rem;
+  box-shadow: 0 3px 8px rgba(130, 10, 65, 0.2), inset 0 0 4px rgba(255, 235, 240, 0.5);
+  transform: rotate(-0.8deg);
+  margin-bottom: 0.15rem;
+}
+
+.sticker-text {
+  font-family: var(--font-ui, 'Inter', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: #B5179E;
+  text-transform: uppercase;
+}
+
+.scrapbook-main-heading {
+  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  font-size: clamp(1.6rem, 4vw, 2.25rem);
+  font-weight: 700;
+  font-style: italic;
+  color: #FFFFFF;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6), 0 2px 8px rgba(130, 10, 65, 0.2);
+  letter-spacing: 0.5px;
+  margin: 0;
+  line-height: 1.1;
+  text-align: center;
+}
+
+/* White Gel Pen Doodles */
+.scrapbook-gel-doodles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 13;
+}
+
+.gd {
+  position: absolute;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  filter: drop-shadow(0 1px 3px rgba(160, 0, 80, 0.4));
+  user-select: none;
+}
+
+.gd-tl { top: 22%; left: 16%; font-size: 1.2rem; transform: rotate(12deg); }
+.gd-ml { top: 62%; left: 14%; font-size: 1.0rem; transform: rotate(-8deg); }
+.gd-bl { bottom: 12%; left: 18%; font-size: 1.1rem; }
+.gd-tr { top: 20%; right: 16%; font-size: 1.2rem; transform: rotate(-10deg); }
+.gd-mr { top: 60%; right: 14%; font-size: 1.0rem; transform: rotate(6deg); }
+.gd-br { bottom: 14%; right: 20%; font-size: 1.1rem; }
+
+/* Authentic Paper Grain & Multi-Directional Crumpled Creases */
 .paper-texture-layer {
   position: absolute;
   inset: 0;
-  border-radius: 24px;
+  border-radius: 23px;
   background-image:
-    repeating-linear-gradient(45deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 2px, transparent 2px, transparent 4px),
-    radial-gradient(circle at 25% 25%, rgba(255,255,255,0.18) 0%, transparent 45%),
-    radial-gradient(circle at 75% 75%, rgba(0,0,0,0.08) 0%, transparent 50%);
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.06) 0px, rgba(255,255,255,0.06) 2px, transparent 2px, transparent 4px),
+    repeating-linear-gradient(-45deg, rgba(0,0,0,0.04) 0px, rgba(0,0,0,0.04) 1px, transparent 1px, transparent 3px),
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.22) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(100,0,50,0.16) 0%, transparent 45%);
   pointer-events: none;
   mix-blend-mode: overlay;
   z-index: 1;
@@ -4248,64 +4325,67 @@ main {
 .paper-crease-lines {
   position: absolute;
   inset: 0;
-  border-radius: 24px;
+  border-radius: 23px;
   background:
-    linear-gradient(115deg, transparent 38%, rgba(255,255,255,0.18) 42%, rgba(0,0,0,0.1) 45%, transparent 49%),
-    linear-gradient(28deg, transparent 52%, rgba(255,255,255,0.2) 56%, rgba(0,0,0,0.08) 59%, transparent 63%),
-    linear-gradient(-65deg, transparent 32%, rgba(255,255,255,0.16) 35%, rgba(0,0,0,0.08) 37%, transparent 41%);
+    linear-gradient(124deg, transparent 32%, rgba(255,255,255,0.28) 35%, rgba(60,0,30,0.22) 37%, transparent 42%),
+    linear-gradient(34deg, transparent 48%, rgba(255,255,255,0.26) 51%, rgba(60,0,30,0.2) 53%, transparent 57%),
+    linear-gradient(-58deg, transparent 26%, rgba(255,255,255,0.24) 28%, rgba(60,0,30,0.18) 30%, transparent 34%),
+    linear-gradient(82deg, transparent 65%, rgba(255,255,255,0.22) 67%, rgba(60,0,30,0.16) 69%, transparent 72%),
+    radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(80,0,40,0.18) 100%);
   pointer-events: none;
   mix-blend-mode: overlay;
   z-index: 2;
 }
 
-/* ── Torn-Paper Blue Heart Hole Centerpiece ── */
+/* ── Imperfect Hand-Cut Light-Blue Paper Heart Centerpiece ── */
 .scrapbook-blue-heart {
   position: relative;
-  width: clamp(280px, 50vw, 360px);
-  height: clamp(260px, 46vw, 330px);
+  width: clamp(285px, 52vw, 365px);
+  height: clamp(265px, 48vw, 335px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 5;
   opacity: 0;
-  transform: scale(0.85) rotate(-1.5deg);
-  transition: opacity 0.8s cubic-bezier(0.34, 1.45, 0.64, 1),
-              transform 0.8s cubic-bezier(0.34, 1.45, 0.64, 1);
-  filter: drop-shadow(0 12px 28px rgba(100, 10, 45, 0.35));
+  transform: scale(0.85) rotate(-2.2deg);
+  transition: opacity 0.85s cubic-bezier(0.34, 1.45, 0.64, 1),
+              transform 0.85s cubic-bezier(0.34, 1.45, 0.64, 1);
+  filter: drop-shadow(0 15px 30px rgba(90, 0, 45, 0.38)) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.16));
+  margin-top: 2.8rem;
 }
 
 .scrapbook-blue-heart.heart-visible {
   opacity: 1;
-  transform: scale(1) rotate(-1.5deg);
+  transform: scale(1) rotate(-2.2deg);
 }
 
-/* Torn White Paper Fringe along the Ripped Boundary */
+/* Hand-Cut White Paper Fringe along the Scissor Border */
 .torn-paper-white-fringe {
   position: absolute;
   inset: -6px;
-  background: #FFFFFF;
+  background: #FFFDF8;
   clip-path: url(#scrapbookHeartClip);
   -webkit-clip-path: url(#scrapbookHeartClip);
-  transform: scale(1.03);
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.2));
+  transform: scale(1.038) rotate(0.4deg);
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.18));
   z-index: 2;
   pointer-events: none;
 }
 
-/* Ripped Pink Creased Rim overlapping the Torn Edge */
+/* Soft Paper Bevel & Rim underneath the cut edge */
 .torn-paper-crease-rim {
   position: absolute;
   inset: -12px;
-  background: linear-gradient(145deg, #FF6EA6 0%, #FF3D86 70%, #D4145A 100%);
+  background: linear-gradient(145deg, #FF6EA6 0%, #FF2B88 70%, #C40055 100%);
   clip-path: url(#scrapbookHeartClip);
   -webkit-clip-path: url(#scrapbookHeartClip);
-  transform: scale(1.06);
+  transform: scale(1.065) rotate(-0.3deg);
   opacity: 0.85;
   z-index: 1;
   pointer-events: none;
 }
 
-/* Sky-Blue Heart Base Container encapsulating the clipped photo */
+/* Sky-Blue Hand-Cut Heart Container */
 .blue-heart-container {
   position: absolute;
   inset: 0;
@@ -4313,20 +4393,30 @@ main {
   height: 100%;
   clip-path: url(#scrapbookHeartClip);
   -webkit-clip-path: url(#scrapbookHeartClip);
-  background: linear-gradient(160deg, #A8E1FB 0%, #8FD3F7 50%, #76C4EE 100%);
+  background-color: #85CEF2;
+  background-image:
+    url('../assets/images/blue_paper_texture.jpg'),
+    linear-gradient(160deg, #96D7F8 0%, #7EC8F2 50%, #68BAEC 100%);
+  background-size: cover;
+  background-position: center;
   z-index: 3;
   overflow: hidden;
+  box-shadow: inset 0 3px 12px rgba(0, 50, 90, 0.22);
 }
 
 .blue-heart-core {
   position: absolute;
   inset: 0;
-  background: linear-gradient(160deg, #A8E1FB 0%, #8FD3F7 50%, #76C4EE 100%);
+  background-image:
+    url('../assets/images/blue_paper_texture.jpg'),
+    linear-gradient(160deg, #96D7F8 0%, #7EC8F2 50%, #68BAEC 100%);
+  background-size: cover;
+  background-position: center;
   z-index: 1;
-  box-shadow: inset 0 6px 16px rgba(0, 50, 90, 0.22);
+  box-shadow: inset 0 4px 14px rgba(0, 45, 85, 0.2);
 }
 
-/* ── Portrait Photo Cutout Inside the Heart (Clean SVG-masked & perfectly centered) ── */
+/* ── Portrait Photo Cutout Inside the Heart ── */
 .scrapbook-photo-wrap {
   position: absolute;
   inset: 0;
@@ -4337,7 +4427,7 @@ main {
   justify-content: center;
   z-index: 2;
   opacity: 0;
-  transform: translateY(12px) scale(0.94);
+  transform: translateY(12px) scale(0.95);
   transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.34, 1.45, 0.64, 1);
 }
 
@@ -4348,18 +4438,18 @@ main {
 
 .scrapbook-cutout-img {
   width: auto;
-  max-width: 84%;
-  height: 90%;
+  max-width: 86%;
+  height: 92%;
   object-fit: contain;
   object-position: center bottom;
   display: block;
-  transform: translateX(-0.2%) translateY(10%) scale(1.268);
-  filter: drop-shadow(0 6px 14px rgba(20, 40, 80, 0.28));
+  transform: translateX(-0.2%) translateY(10%) scale(1.428);
+  filter: drop-shadow(0 6px 16px rgba(15, 35, 75, 0.32)) sepia(0.04) brightness(1.02) contrast(1.02);
   user-select: none;
   -webkit-user-drag: none;
 }
 
-/* ── Handwritten Paper Word Scraps (Organic Bubble Cutouts) ── */
+/* ── Handwritten Paper Word Scraps (Organic Scissor Cutouts) ── */
 .scrapbook-words-scatter {
   position: absolute;
   inset: 0;
@@ -4369,19 +4459,19 @@ main {
 
 .scrapbook-word-scrap {
   position: absolute;
-  background: #FFFDF9;
-  border: 1.8px solid #1C0D17;
-  border-radius: 20px 24px 22px 26px / 24px 22px 26px 20px;
-  padding: 0.16rem 0.75rem 0.12rem;
+  background: #FFFDF8;
+  border: 1.6px solid #1C0D17;
+  border-radius: 18px 22px 20px 24px / 22px 18px 24px 20px;
+  padding: 0.18rem 0.75rem 0.14rem;
   box-shadow:
-    2px 4px 10px rgba(0, 0, 0, 0.26),
-    0 1px 3px rgba(0, 0, 0, 0.15),
-    inset 0 0 4px rgba(255, 235, 205, 0.4);
-  font-family: 'Caveat', 'Dancing Script', cursive;
-  font-size: clamp(1.35rem, 3.2vw, 1.8rem);
+    2px 5px 12px rgba(25, 5, 15, 0.28),
+    0 1px 3px rgba(0, 0, 0, 0.16),
+    inset 0 0 4px rgba(255, 235, 205, 0.45);
+  font-family: 'Caveat', cursive, sans-serif;
+  font-size: clamp(1.38rem, 3.2vw, 1.85rem);
   font-weight: 700;
   color: #1C0D17;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.6px;
   line-height: 1.15;
   user-select: none;
   opacity: 0;
@@ -4395,27 +4485,31 @@ main {
   transform: scale(1) rotate(var(--rot, 0deg));
 }
 
-/* Specific Balanced Arc Positions Around Center Frame */
-.sw-well   { top: 10%; left: 6%;   --rot: -8deg; border-radius: 24px 18px 22px 26px; }
-.sw-I1     { top: 26%; left: 9%;   --rot: 4deg;  padding: 0.14rem 0.55rem; border-radius: 18px 24px 20px 22px; }
-.sw-think  { top: 42%; left: 4%;   --rot: -6deg; border-radius: 22px 26px 20px 24px; }
-.sw-I2     { top: 58%; left: 10%;  --rot: 3deg;  padding: 0.14rem 0.55rem; border-radius: 20px 18px 24px 22px; }
-.sw-might  { top: 74%; left: 6%;   --rot: -5deg; border-radius: 26px 20px 24px 18px; }
+/* Individual organic asymmetric scissor cut per piece */
+.sw-word-1 { top: 12%; left: 5%;   --rot: -6deg; border-radius: 24px 18px 22px 20px / 20px 24px 22px 18px; padding: 0.14rem 0.75rem; }
+.sw-word-2 { top: 29%; left: 8%;   --rot: 3deg;  padding: 0.14rem 0.65rem; border-radius: 18px 22px 16px 20px; }
+.sw-word-3 { top: 48%; left: 3%;   --rot: -5deg; border-radius: 22px 26px 18px 24px / 24px 18px 22px 24px; padding: 0.14rem 0.85rem; }
+.sw-word-4 { top: 68%; left: 7%;   --rot: 2deg;  padding: 0.14rem 0.68rem; border-radius: 20px 16px 22px 18px; }
 
-.sw-just   { top: 12%; right: 7%;  --rot: 6deg;  border-radius: 22px 24px 18px 26px; }
-.sw-have   { top: 30%; right: 5%;  --rot: -5deg; border-radius: 24px 18px 26px 20px; }
-.sw-to     { top: 48%; right: 8%;  --rot: 8deg;  border-radius: 50% 48% 52% 46%; padding: 0.14rem 0.55rem; }
-.sw-stay   { top: 66%; right: 6%;  --rot: -5deg; border-radius: 20px 26px 22px 24px; }
-.sw-friends { top: 84%; right: 4%; --rot: 4deg; font-size: clamp(1.05rem, 2.6vw, 1.4rem); }
+.sw-word-5 { top: 14%; right: 6%;  --rot: 5deg;  border-radius: 22px 24px 18px 22px / 20px 18px 24px 20px; padding: 0.14rem 0.7rem; }
+.sw-word-6 { top: 32%; right: 4%;  --rot: -4deg; border-radius: 24px 18px 22px 20px; padding: 0.14rem 0.85rem; }
+.sw-word-7 { top: 51%; right: 7%;  --rot: 6deg;  border-radius: 50% 48% 52% 46%; padding: 0.14rem 0.62rem; }
+.sw-word-8 { top: 70%; right: 5%;  --rot: -5deg; border-radius: 20px 24px 18px 22px; padding: 0.14rem 0.85rem; }
+.sw-word-9 { top: 78%; right: 15%;  --rot: -5deg; border-radius: 20px 24px 18px 22px; padding: 0.14rem 0.85rem; }
+.sw-word-10 { bottom: 5%; left: 50%; --rot: -3deg; font-size: clamp(1.08rem, 2.6vw, 1.42rem); border-radius: 22px 18px 24px 20px; transform: translateX(-50%) scale(0.6) rotate(var(--rot, 0deg)); }
 
-/* ── Yarn & String Looped Flower Doodles ── */
+.sw-word-10.word-visible {
+  transform: translateX(-50%) scale(1) rotate(var(--rot, 0deg));
+}
+
+/* ── Hand-Drawn Flower Doodles Layer ── */
 .flower-doodles-layer {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 11;
+  z-index: 14;
   opacity: 0;
-  transition: opacity 0.8s ease;
+  transition: opacity 0.85s ease;
 }
 
 .flower-doodles-layer.doodles-visible {
@@ -4424,7 +4518,7 @@ main {
 
 .flower-doodle {
   position: absolute;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.18));
+  filter: drop-shadow(0 2px 5px rgba(50, 0, 25, 0.2));
   animation: doodleGentleSway 4s ease-in-out infinite alternate;
 }
 
@@ -4434,40 +4528,62 @@ main {
   display: block;
 }
 
-.fd-top-left    { top: 6px;   left: 8px;   width: 54px; height: 54px; transform: rotate(-10deg); }
-.fd-top-right   { top: 8px;   right: 10px; width: 56px; height: 56px; transform: rotate(14deg); }
-.fd-mid-left-1  { top: 32%;   left: -6px;  width: 44px; height: 44px; transform: rotate(-15deg); }
-.fd-mid-left-2  { top: 54%;   left: -8px;  width: 42px; height: 42px; transform: rotate(12deg); }
-.fd-bot-left    { bottom: 8px; left: 8px;   width: 58px; height: 58px; transform: rotate(-6deg); }
-.fd-bot-right-1 { bottom: 10px; right: 10px; width: 52px; height: 52px; transform: rotate(16deg); }
-.fd-mid-right   { top: 40%;   right: -8px; width: 46px; height: 46px; transform: rotate(-12deg); }
+.fd-top-left    { top: 8px;   left: 10px;  width: 56px; height: 56px; --d-rot: -10deg; transform: rotate(-10deg); }
+.fd-top-right   { top: 10px;  right: 12px; width: 58px; height: 58px; --d-rot: 14deg;  transform: rotate(14deg); }
+.fd-mid-left-1  { top: 32%;   left: -6px;  width: 44px; height: 44px; --d-rot: -15deg; transform: rotate(-15deg); }
+.fd-mid-left-2  { top: 54%;   left: -8px;  width: 42px; height: 42px; --d-rot: 12deg;  transform: rotate(12deg); }
+.fd-bot-left    { bottom: 10px; left: 10px;  width: 60px; height: 60px; --d-rot: -6deg;  transform: rotate(-6deg); }
+.fd-bot-right-1 { bottom: 12px; right: 12px; width: 54px; height: 54px; --d-rot: 16deg;  transform: rotate(16deg); }
+.fd-bot-right-2 { bottom: 6%;  right: 6px;   width: 44px; height: 44px; --d-rot: -10deg; transform: rotate(-10deg); }
+.fd-mid-right   { top: 40%;   right: -8px; width: 46px; height: 46px; --d-rot: -12deg; transform: rotate(-12deg); }
 
 @keyframes doodleGentleSway {
   0%   { transform: rotate(var(--d-rot, 0deg)) scale(0.96); }
   100% { transform: rotate(calc(var(--d-rot, 0deg) + 5deg)) scale(1.04); }
 }
 
-/* Cinnamoroll Scrapbook Companion */
-.cin-sticker-scrapbook {
+/* ── Cinnamoroll Lower-Right Scrapbook Companion ── */
+.cin-sticker-scrapbook-corner {
   position: absolute;
-  bottom: -15px;
-  left: 8px;
-  width: 95px;
-  z-index: 15;
+  bottom: 4px;
+  right: 30px;
+  width: 120px;
+  z-index: 18;
   pointer-events: none;
-  animation: cinFloatHero 3.5s infinite alternate ease-in-out;
+  animation: cinFloatCorner 3.8s infinite alternate ease-in-out;
 }
 
-.cin-sticker-scrapbook img {
+.cin-sticker-scrapbook-corner img {
   width: 100%;
   height: auto;
   display: block;
-  filter: drop-shadow(0 4px 12px rgba(255, 105, 180, 0.35));
+  filter: drop-shadow(0 6px 16px rgba(255, 105, 180, 0.38));
 }
 
-/* Action Button */
+.cin-corner-heart {
+  position: absolute;
+  font-size: 1.1rem;
+  user-select: none;
+  animation: cinHeartFloat 2.6s infinite alternate ease-in-out;
+}
+
+.ch1 { top: -14px; left: 15px; animation-delay: 0s; }
+.ch2 { top: -22px; right: 20px; font-size: 1.3rem; animation-delay: 0.8s; }
+.ch3 { top: 10px; left: -10px; font-size: 0.9rem; animation-delay: 1.4s; }
+
+@keyframes cinFloatCorner {
+  0%   { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-8px) rotate(-3deg); }
+}
+
+@keyframes cinHeartFloat {
+  0%   { transform: translateY(0) scale(0.9); opacity: 0.7; }
+  100% { transform: translateY(-10px) scale(1.15); opacity: 1; }
+}
+
+/* ── Scrapbook Bottom Action / Sweetness Caption Pill ── */
 .collage-actions {
-  margin-top: 1.5rem;
+  margin-top: 1.4rem;
   display: flex;
   justify-content: center;
   opacity: 0;
@@ -4481,48 +4597,70 @@ main {
   transform: translateY(0);
 }
 
-.collage-continue-btn {
-  font-size: 1rem;
-  padding: 0.85rem 2rem;
-  box-shadow: 0 5px 0px #C71585, 0 10px 24px rgba(199, 21, 133, 0.35);
+.scrapbook-caption-pill-btn {
+  background: linear-gradient(135deg, #FF4D94 0%, #FF1A82 50%, #D40066 100%);
+  color: #FFFFFF;
+  border: 2px solid #FFFFFF;
+  border-radius: 9999px;
+  padding: 0.65rem 2.2rem;
+  font-family: var(--font-ui, 'Inter', sans-serif);
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  box-shadow: 0 6px 20px rgba(180, 0, 90, 0.35), 0 2px 6px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+  user-select: none;
+}
+
+.scrapbook-caption-pill-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 28px rgba(180, 0, 90, 0.45);
+  filter: brightness(1.06);
+}
+
+.scrapbook-caption-pill-btn:active {
+  transform: translateY(1px) scale(0.98);
 }
 
 @media (max-width: 640px) {
   #collage.section-container {
-    padding: 3.6rem 0.6rem 2rem;
+    padding: 3.2rem 0.6rem 2rem;
   }
 
   .scrapbook-page-canvas {
-    padding: 1.6rem 0.8rem;
-    min-height: 440px;
+    padding: 1.4rem 0.6rem 1.8rem;
+    min-height: 480px;
     border-radius: 20px;
   }
 
   .scrapbook-blue-heart {
-    width: clamp(230px, 66vw, 300px);
-    height: clamp(210px, 62vw, 280px);
+    width: clamp(235px, 68vw, 305px);
+    height: clamp(215px, 64vw, 285px);
+    margin-top: 2.4rem;
   }
 
   .scrapbook-word-scrap {
-    font-size: clamp(1.15rem, 3.8vw, 1.45rem);
-    padding: 0.12rem 0.55rem;
+    font-size: clamp(1.18rem, 3.8vw, 1.48rem);
+    padding: 0.12rem 0.52rem;
   }
 
-  .sw-well   { top: 8%;  left: 3%; }
-  .sw-I1     { top: 24%; left: 5%; }
-  .sw-think  { top: 40%; left: 2%; }
-  .sw-I2     { top: 56%; left: 6%; }
-  .sw-might  { top: 72%; left: 3%; }
+  .sw-word-1 { top: 12%; left: 3%; }
+  .sw-word-2 { top: 29%; left: 5%; }
+  .sw-word-3 { top: 48%; left: 2%; }
+  .sw-word-4 { top: 68%; left: 4%; }
 
-  .sw-just   { top: 10%; right: 4%; }
-  .sw-have   { top: 28%; right: 3%; }
-  .sw-to     { top: 46%; right: 5%; }
-  .sw-stay   { top: 64%; right: 4%; }
+  .sw-word-5 { top: 14%; right: 4%; }
+  .sw-word-6 { top: 32%; right: 3%; }
+  .sw-word-7 { top: 51%; right: 5%; }
+  .sw-word-8 { top: 52%; right: 4%; }
+  .sw-word-9 { top: 80%; right: 14%; }
+  .sw-word-10 { bottom: 4%; }
 
-  .cin-sticker-scrapbook {
-    width: 80px;
-    bottom: -16px;
-    left: -8px;
+  .cin-sticker-scrapbook-corner {
+    width: 90px;
+    bottom: -15px;
+    right: -8px;
   }
 }
 

@@ -200,9 +200,8 @@ document.addEventListener('DOMContentLoaded', () => {
         bgAudio.addEventListener('volumechange', updateMusicUI);
     }
 
-    // --------------------------------------------------------------------------
     // 3. Magical Sparkle Particle Burst Engine (Playful & Randomized)
-    // --------------------------------------------------------------------------
+    
     const burstEmojis = ['✨', '💖', '🌸', '⭐', '💕', '🎀', '💫', '🧁', '🍪', '🍓', '🐾', '🍭', '🧸'];
 
     function createSparkleBurst(x, y) {
@@ -625,40 +624,40 @@ document.addEventListener('DOMContentLoaded', () => {
     function startCollageAnimation() {
         resetCollageScene();
 
-        // Step 1: Pink Paper Canvas fades in gently (300ms)
-        addCollageStep(300, () => {
+        // Phase 1: 0.00s — Pink Crumpled Paper Canvas gently fades in
+        addCollageStep(50, () => {
             if (DOM.scrapbookPageCanvas) {
                 DOM.scrapbookPageCanvas.classList.add('page-visible');
                 createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.45);
             }
         });
 
-        // Step 2: Blue Paper Heart reveals with paper shadow (1000ms)
-        addCollageStep(1000, () => {
+        // Phase 2: 0.50s — Blue Paper Heart gently appears & settles
+        addCollageStep(500, () => {
             if (DOM.scrapbookBlueHeart) {
                 DOM.scrapbookBlueHeart.classList.add('heart-visible');
                 createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.42);
             }
         });
 
-        // Step 3: Photo cutout develops/fades into the heart (2000ms)
-        addCollageStep(2000, () => {
+        // Phase 3: 1.20s — Photo cutout slowly develops/fades into place
+        addCollageStep(1200, () => {
             if (DOM.scrapbookPhotoWrap) {
                 DOM.scrapbookPhotoWrap.classList.add('photo-visible');
                 createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.42);
             }
         });
 
-        // Step 4: Handwritten paper words pop in sequentially one by one (3000ms - 5200ms)
+        // Phase 4: 1.80s onward — Handwritten paper words reveal one by one
         const wordScraps = DOM.scrapbookWordsScatter ? DOM.scrapbookWordsScatter.querySelectorAll('.scrapbook-word-scrap') : [];
         wordScraps.forEach((word, idx) => {
-            addCollageStep(3000 + idx * 240, () => {
+            addCollageStep(1800 + idx * 220, () => {
                 word.classList.add('word-visible');
             });
         });
 
-        // Step 5: Flower doodles bloom around the borders (5600ms)
-        addCollageStep(5600, () => {
+        // Phase 5: 4.20s — Flower doodles appear as the final decorative touches
+        addCollageStep(4200, () => {
             if (DOM.scrapbookFlowerDoodles) {
                 DOM.scrapbookFlowerDoodles.classList.add('doodles-visible');
                 createSparkleBurst(window.innerWidth * 0.35, window.innerHeight * 0.35);
@@ -666,8 +665,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Step 6: Reveal Continue button with comfortable breathing room (6600ms)
-        addCollageStep(6600, () => {
+        // Phase 6: 5.00s — Reveal Continue button with comfortable breathing room
+        addCollageStep(5000, () => {
             if (DOM.collageActions) {
                 DOM.collageActions.classList.add('show-action');
                 createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.70);
@@ -1394,7 +1393,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Smooth transition back to Start/Landing
             switchSection('landing');
-            showToast('Welcome back to the start! 💌🌸');
+            showToast('Welcome back Nathalie! 💌🌸');
         });
     }
 
