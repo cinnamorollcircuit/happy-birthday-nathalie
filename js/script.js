@@ -681,27 +681,27 @@ document.addEventListener('DOMContentLoaded', () => {
         milk: {
             title: 'Vanilla Milk 🥛',
             icon: '🥛',
-            msg: 'Take things one day at a time, and remember to always be gentle with yourself. 🥛✨'
+            msg: 'Take things one day at a time, and remember to always be gentle with yourself.'
         },
         cake: {
             title: 'Strawberry Cake 🍰',
             icon: '🍰',
-            msg: 'Celebrate your small wins along the way, not just the big milestones. 🍰🍓'
+            msg: 'Celebrate your small wins along the way, not just the big ones.'
         },
         cookie: {
             title: 'Chocolate Chip Cookie 🍪',
             icon: '🍪',
-            msg: 'The best things in life take time to make, so trust your own pace and journey. 🍪💕'
+            msg: 'The best things in life takes time to make, so trust your own pace.'
         },
         donut: {
             title: 'Sakura Glazed Donut 🍩',
             icon: '🍩',
-            msg: 'A little reminder to enjoy the small things and appreciate the good moments in life. 🍩🌸'
+            msg: 'Enjoy the small things and appreciate your life.'
         },
         cocoa: {
             title: 'Hot Chocolate ☕',
             icon: '☕',
-            msg: 'Whenever things feel overwhelming, take a moment to pause, breathe, and rest. ☕☁️'
+            msg: 'Whenever things feel overwhelming, take a moment to pause, breathe, and rest.'
         }
     };
 

@@ -4545,7 +4545,7 @@ main {
 /* ── Cinnamoroll Lower-Right Scrapbook Companion ── */
 .cin-sticker-scrapbook-corner {
   position: absolute;
-  bottom: 4px;
+  bottom: px;
   right: 30px;
   width: 120px;
   z-index: 18;
