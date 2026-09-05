@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -26,6 +26,58 @@
     <audio id="bgAudio" src="assets/audio/birthday.mp3" preload="auto" loop></audio>
 
     <div id="app" class="app">
+
+        <!-- Global Day-to-Night Environmental System (Morning -> Afternoon -> Golden Hour -> Sunset -> Night) -->
+        <div id="dayNightEnvironment" class="day-night-environment env-morning" aria-hidden="true">
+            <div class="env-sky-layer"></div>
+            <div class="env-sun-layer">
+                <div class="env-sun">
+                    <div class="env-sun-corona"></div>
+                    <div class="env-sun-core"></div>
+                    <div class="env-sun-rays"></div>
+                </div>
+            </div>
+            <div class="env-clouds-layer">
+                <div class="env-cloud env-cloud-1">
+                    <svg viewBox="0 0 120 40" class="env-cloud-svg">
+                        <path d="M15 35 Q5 35 5 25 Q5 15 18 15 Q22 5 35 5 Q48 5 52 14 Q60 8 72 10 Q85 10 90 20 Q102 18 110 26 Q116 32 110 35 Z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <div class="env-cloud env-cloud-2">
+                    <svg viewBox="0 0 140 45" class="env-cloud-svg">
+                        <path d="M18 40 Q8 40 8 28 Q8 18 22 18 Q28 8 42 8 Q56 8 62 18 Q72 10 88 12 Q102 12 108 22 Q122 20 130 30 Q138 38 128 40 Z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <div class="env-cloud env-cloud-3">
+                    <svg viewBox="0 0 100 35" class="env-cloud-svg">
+                        <path d="M12 30 Q4 30 4 20 Q4 12 16 12 Q20 4 32 4 Q44 4 48 12 Q56 8 66 10 Q78 10 82 18 Q92 18 96 24 Q98 30 92 30 Z" fill="currentColor"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="env-glow-horizon"></div>
+            <div class="env-golden-aura"></div>
+            <div class="env-night-stars-layer">
+                <span class="env-night-star ens-1">✦</span>
+                <span class="env-night-star ens-2">·</span>
+                <span class="env-night-star ens-3">⭐</span>
+                <span class="env-night-star ens-4">✨</span>
+                <span class="env-night-star ens-5">·</span>
+                <span class="env-night-star ens-6">✦</span>
+                <span class="env-night-star ens-7">⭐</span>
+                <span class="env-night-star ens-8">·</span>
+                <span class="env-night-star ens-9">✨</span>
+            </div>
+            <div class="env-moon-layer">
+                <div class="env-moon-glow"></div>
+                <div class="env-moon">
+                    <svg viewBox="0 0 48 48" class="env-moon-svg">
+                        <path d="M28 4C17 4 8 13 8 24C8 35 17 44 28 44C32 44 36 43 39 40C30 38 23 30 23 20C23 13 27 7 33 4C31 4 29 4 28 4Z" fill="#FFF4D0"/>
+                        <circle cx="17" cy="19" r="1.5" fill="#FFE5A3" opacity="0.7"/>
+                        <circle cx="21" cy="29" r="2" fill="#FFE5A3" opacity="0.6"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
 
         <!-- Floating Ambient Pixel Sparkles & Falling Sakura Canvas -->
         <canvas id="sakuraCanvas" class="sakura-canvas" aria-hidden="true"></canvas>
@@ -166,7 +218,6 @@
                         <span class="stamp-seal-sparkle">✨</span>
                     </div>
                     
-                    
                     <!-- Cinnamoroll Letter Companion (Peeking from bottom corner) -->
                     <!-- Dancing Heart Cinnamoroll Sticker -->
                     <div class="cin-sticker cin-sticker-dancing" aria-hidden="true">
@@ -175,90 +226,85 @@
 
                     <header class="letter-header">
                         <span class="letter-badge">From: Cinnamoroll Circuit 💌 🌸</span>
-                        <h2 id="letter-title">Happy Birthday Nathalie! 🌸</h2>
+                        <h2 id="letter-title">Happy Birthday Nathalie</h2>
                         <time class="letter-date" datetime="2026-01-01">09-21-2026</time>
                     </header>
 
                     <div class="letter-content">
                         <p class="salutation">Dear Nathalie,</p>
 
-                        <p>Today is another year of your life, but I hope it's also a moment for you to pause and value how far you've come, the person you've become, and everything that has brought you here.</p>
+                        <p>Happy birthday.</p>
 
-                        <p>There's something about you that I've always found difficult to put into words. But I'll start with this: you're funny, smart, creative, pretty, a politically aware girlie, and, above all, someone who seems to carry so much love in her. You have so many wonderful things about you, and somehow, you carry them so naturally that you probably don't even notice them half the time.</p>
+                        <p>Today is another year of your life, and I hope it’s also a moment for you to reflect and value how far you’ve come, the person you’ve become, and everything that has brought you here.</p>
 
-                        <p>Somewhere along the way, you became an inspiration to me. On days when I feel tired or unmotivated, thinking about you makes me want to do a little better, try a little harder, and keep moving forward. You never asked to be an inspiration to me. You were simply being yourself, and somehow, that was enough. Maybe that's what makes it meaningful.</p>
+                        <p>There’s something about you that I’ve always found difficult to put into words. But I’ll start with this: you’re funny, smart, creative, pretty, a politically aware girlie, and, above all, someone who seems to carry so much love in her. There are so many beautiful things about you, and you carry them so effortlessly that you probably don’t even realize how special they are.</p>
 
-                        <p>There were moments too, like seeing you at the canteen with your friends. Nothing particularly special happened. You were just there, living your life, laughing, and doing your own thing, and somehow, seeing you made an ordinary day feel a little lighter. Maybe that's how it happened. Not all at once, but quietly, in short moments I probably didn't think much about at the time. Little by little, without me even noticing, you somehow ivy-ed your way into my thoughts.</p>
+                        <p>Somewhere along the way, you became an inspiration to me. On days when I feel tired or unmotivated, thinking about you makes me want to do a little better, try a little harder, and keep moving forward. You never asked to be an inspiration to me. You were simply being yourself, and somehow, that was enough. Maybe that’s what makes it meaningful.</p>
 
-                        <p>Now, the smallest things can remind me of you. A shade of blue, a song, a Cinnamoroll, or even something as simple as vanilla and milk. It's interesting how certain things can suddenly make you think of someone, even when there's no obvious reason why.</p>
+                        <p>There were moments too, like seeing you at the canteen with your friends. Nothing particularly special happened. You were just there, living your life, laughing, and doing your own thing, and seeing you made an ordinary day feel a little lighter. Maybe that’s how it happened. It happened bit by bit, in a way I barely noticed. Little by little, without me even noticing, you somehow ivy-ed your way into my thoughts.</p>
 
-                        <p>I know I don't truly know everything about you, and I never want to pretend that I do. What I know is only what I've been fortunate enough to see from a distance. But even from that distance, I've found so many reasons to admire you and the person you're becoming.</p>
+                        <p>Now, the smallest things can remind me of you. A shade of blue, a song, a Cinnamoroll, or even something as simple as vanilla and milk. Sometimes, the smallest things make you think of a person for no clear reason.</p>
+
+                        <p>I know I don’t truly know everything about you, and I never want to pretend that I do. What I know is only what I’ve been fortunate enough to see from a distance. But even from that distance, I’ve found so many reasons to admire you and the person you’re becoming.</p>
 
                         <p>And more than anything, I hope you succeed.</p>
 
-                        <p>I hope you reach the dreams you've worked so hard for. I hope the things you've spent countless hours studying, practicing, creating, and working toward eventually find their way back to you. Maybe someday, I'll see you as the future Miss TUPV. Maybe I'll see your name among the topnotchers, with RCh proudly beside your name. And if that day comes, wherever I happen to be, I hope I'll get to quietly smile and think about how much you deserve it.</p>
+                        <p>I hope you reach the dreams you’ve worked so hard for. I hope the things you’ve spent countless hours studying, practicing, creating, and working toward eventually find their way back to you. Maybe someday, I’ll see you as the future Miss TUPV. Maybe I’ll see your name among the topnotchers, with RCh proudly beside your name. If that day ever comes, wherever life finds me, I hope I’ll get to see it, knowing you deserve every bit of it.</p>
 
                         <p>Because I think you can.</p>
 
                         <p>So keep striving. Keep doing the things that make you happy. Keep cooking, baking, playing your guitar, listening to the music you love, chasing your dreams, and being authentically yourself.</p>
 
-                        <p>You don't have to have everything figured out. You don't have to know exactly where every path will lead. Sometimes, all you can do is take the next step and trust that the rest will become clearer along the way. And when life gets difficult, I hope you remember how many difficult things you've already made it through.</p>
+                        <p>You don’t have to have everything figured out. You don’t have to know exactly where every path will lead. Sometimes, all you can do is take the next step and trust that the rest will become clearer along the way. And when life gets difficult, I hope you remember how many difficult things you’ve already made it through.</p>
 
-                        <p>There will be days when you feel lost. Days when things don't go the way you hoped. Days when you wonder if you're doing enough or if you're getting anywhere at all.</p>
+                        <p>There will be days when you feel lost. Days when things don’t go the way you hoped. Days when you wonder if you’re doing enough or if you’re getting anywhere at all.</p>
 
-                        <p>When those days come, I hope you're gentle with yourself.</p>
+                        <p>When those days arrive, I hope you treat yourself kindly.</p>
 
                         <p>You will always find a way, just as you always have.</p>
 
-                        <p>And if you ever feel like you're falling behind, remember that growing doesn't always look like progress. Sometimes it's quiet. Sometimes it's slow. Sometimes you don't realize you've changed until you look back and see how different you are from the person you used to be.</p>
+                        <p>And if you ever feel like you’re falling behind, remember that growing doesn’t always look like progress. Sometimes, you don’t notice the change until you look back and see how different you are from the person you used to be.</p>
 
-                        <p>Just like flowers, you're capable of blooming beautifully, more than you think. You don't have to rush it.</p>
+                        <p>Just like flowers, you’re capable of blooming beautifully, more than you think.</p>
 
-                        <p>There is still so much ahead of you. So many places you haven't seen, things you haven't experienced, people you haven't met, and dreams you haven't reached yet. There are still so many versions of your life waiting for you. I hope you get to discover them one by one.</p>
+                        <p>You don’t have to rush it.</p>
 
-                        <p>As for me, I'll remain somewhere in the background. Maybe we've crossed paths before. Maybe we know each other through mutual connections. Maybe you've seen me without ever realizing it. Or maybe we've never actually met. And honestly, I think that's okay. You may never know who I am, and this message doesn't need to change that. I'm not writing this because I expect anything from you. I simply wanted to leave you with a few words that I hope make your birthday a little warmer.</p>
+                        <p>There is still so much ahead of you. So many places you haven’t seen, things you haven’t experienced, people you haven’t met, and dreams you haven’t reached yet. There are still so many versions of your life waiting for you. I hope you get to discover them one by one.</p>
 
-                        <p>Sometimes, you don't need to be part of someone's life to wish them well.</p>
+                        <p>As for me, I’ll stay in the background. Maybe we’ve crossed paths, or maybe we haven’t. Maybe you’ve seen me before, or maybe I’m just a stranger. That’s okay. You don’t need to know who I am, and this message isn’t meant to change that. I just wanted to share a few words that might make your birthday a little brighter.</p>
 
-                        <p>Sometimes, it's enough to see someone doing their best and quietly hope that life is kind to them.</p>
+                        <p>Sometimes, you don’t have to be involved in someone’s life to wish them well. Simply seeing them do their best is reason enough to hope good things come their way.</p>
 
-                        <p>That's all I really want for you.</p>
+                        <p>That’s all I really want for you.</p>
 
-                        <p>I hope you find happiness in the little things. I hope you have people around you who make you feel loved and understood. I hope you continue finding things that make you excited to wake up in the morning. I hope the dreams you're chasing eventually become the life you're living.</p>
+                        <p>May you find happiness in everyday moments. May you be supported by those who love and understand you. May you keep finding inspiration or reasons to be excited every morning. And may the dreams you follow become your reality. And on the days when they feel far away, I hope you remember that you’re still moving towards them.</p>
 
-                        <p>And on the days when they feel far away, I hope you remember that you're still moving toward them.</p>
-
-                        <p>So wherever life takes you, I hope you find something beautiful waiting there.</p>
-
-                        <p>I hope you become someone you're proud of, not because you became perfect, but because you remained true to yourself along the way.</p>
-
-                        <p>I hope you never lose your curiosity, your creativity, your kindness, or the little things that make you who you are.</p>
-
-                        <p>And I hope that somewhere along the way, you stop and realize that you've already become someone worth being proud of.</p>
+                        <p>No matter where life takes you, may you always find beauty along the way. Let your pride come not from chasing perfection, but from remaining true to yourself. Cherish your curiosity, creativity, kindness, and all the little things that make you uniquely you. And as you move forward, remember to pause and appreciate just how much you’ve grown and the person you’ve become.</p>
 
                         <p>Keep going. Keep growing. Keep blooming.</p>
 
-                        <p>There's no need to rush. Take your time. Find your way. And wherever that way leads, I hope it brings you somewhere you're happy to be.</p>
+                        <p>There’s no need to rush. Take your time. Find your way. And wherever that way leads, I hope it brings you somewhere you’re happy to be.</p>
 
                         <p class="valediction">
-                            Happy Birthday, Nathalie.<br>
+                            Happy birthday, Nathalie.<br>
                             <strong class="signature-handwritten">Cinnamoroll Circuit 💗</strong>
                         </p>
                     </div>
 
-                                            <div class="secret-confession-note" aria-label="A quiet thought">
-                            <span class="secret-pin">📎</span>
-                            <span class="secret-text">“from someone who admires you, but you’ll never know who.”</span>
-                            <span class="secret-author">— Cinnamoroll Circuit ☁️</span>
-                        </div>
+                    <div class="secret-confession-note" aria-label="A quiet thought">
+                        <span class="secret-pin">📎</span>
+                        <span class="secret-text">“from someone who admires you, but you’ll never know who.”</span>
+                        <span class="secret-author">— Cinnamoroll Circuit ☁️</span>
+                    </div>
 
                     <div class="letter-footer">
                         <button id="nextToPhotosBtn" class="primary-button inline-btn" type="button">
-                            One more thing… ✨
+                            One more thing...
                         </button>
                     </div>
                 </article>
             </section>
+
 
             <!-- 4. REPLACED PHOTO EXPERIENCE (3 Single Photos) -->
             <section id="photos" class="section-container" aria-labelledby="photos-title" style="display: none;">
@@ -592,77 +638,363 @@
                 </div>
             </section>
 
-            <!-- 5. DESSERT SHOP SECTION (Korean Café Style) -->
-            <section id="dessert" class="section-container" aria-labelledby="dessert-title" style="display: none;">
-                <div class="dessert-shop-container">
-                    <div class="card-glow-aura" aria-hidden="true"></div>
-                    <div class="card-corner-sakura cc-tl" aria-hidden="true">🌸</div>
-                    <div class="card-ribbon">🎀</div>
+            <!-- 5. Birthday Cafe (CAFÉ SECTION) -->
+            <section id="dessert" class="section-container cafe-section" aria-labelledby="dessert-title" style="display: none;">
 
-                    <header class="dessert-header">
-                        <span class="dessert-badge">Cinnamoroll Café 🍰 ☕</span>
-                        <h2 id="dessert-title">Sweet Birthday Treats 🧁</h2>
-                        <p class="dessert-subtitle">Pick something sweet for your special day!</p>
+                <!-- ── PHASE 1: Pixel Café Entrance Sign ── -->
+                <div class="cafe-entrance" id="cafeEntrance" aria-hidden="true">
+                    <div class="cafe-sign-string"></div>
+                    <div class="cafe-sign-board pixel-sign-board" role="img" aria-label="A Little Something for You — Open">
+                        <span class="cafe-sign-title">♡ Cinnamoroll Cafe ♡</span>
+                        <span class="cafe-sign-subtitle">Pick whichever one feels right today.</span>
+                        <span class="cafe-sign-open">[ OPEN ♡ ]</span>
+                    </div>
+                    <div class="cafe-entrance-particles" id="cafeEntranceParticles" aria-hidden="true"></div>
+                </div>
+
+                <!-- ── PHASE 2: Main Pixel Café Scene ── -->
+                <div class="cafe-scene pixel-cafe-scene" id="cafeScene">
+
+                    <!-- Layer 1: Pixel Room Backdrop (Back Layer) -->
+                    <div class="pixel-room-backdrop" aria-hidden="true">
+                        <!-- Upper Pastel Pixel Wall & Molding -->
+                        <div class="pixel-wall-upper">
+                            <div class="pixel-wall-trim"></div>
+                            <div class="pixel-wall-pattern"></div>
+                        </div>
+
+                        <!-- Pixel Wall Wainscoting (Lower Panel) -->
+                        <div class="pixel-wall-wainscot">
+                            <div class="wainscot-rail"></div>
+                            <div class="wainscot-panels">
+                                <span class="wp-seg"></span>
+                                <span class="wp-seg"></span>
+                                <span class="wp-seg"></span>
+                                <span class="wp-seg"></span>
+                                <span class="wp-seg"></span>
+                                <span class="wp-seg"></span>
+                            </div>
+                        </div>
+
+                        <!-- Large Pixel-Art Café Window looking outside -->
+                        <div class="pixel-cafe-window">
+                            <div class="pixel-window-outer-frame">
+                                <div class="pixel-window-sky-view">
+                                    <div class="pixel-sunbeam-cluster"></div>
+                                    <div class="pixel-cloud pcloud-1"></div>
+                                    <div class="pixel-cloud pcloud-2"></div>
+                                    <div class="pixel-distant-hills"></div>
+                                    <div class="pixel-distant-tree tree-left"></div>
+                                    <div class="pixel-distant-tree tree-right"></div>
+                                    <!-- Drifting Cherry Blossom Petals Outside Window -->
+                                    <div class="pixel-window-petals">
+                                        <span class="win-petal wp-1"></span>
+                                        <span class="win-petal wp-2"></span>
+                                        <span class="win-petal wp-3"></span>
+                                        <span class="win-petal wp-4"></span>
+                                    </div>
+                                </div>
+                                <!-- Stepped Window Panes -->
+                                <div class="pixel-window-mullions">
+                                    <div class="mullion-v"></div>
+                                    <div class="mullion-h"></div>
+                                </div>
+                                <!-- Window Sill & Flower Planter Box -->
+                                <div class="pixel-window-sill">
+                                    <div class="pixel-planter-box">
+                                        <span class="px-flower pf-1">🌸</span>
+                                        <span class="px-flower pf-2">🌷</span>
+                                        <span class="px-flower pf-3">🌸</span>
+                                    </div>
+                                </div>
+                                <div class="pixel-curtain curtain-left"></div>
+                                <div class="pixel-curtain curtain-right"></div>
+                            </div>
+                        </div>
+
+                        <!-- Hanging Pixel Pendant Lamps with Stepped Glow Clusters -->
+                        <div class="pixel-hanging-lamps">
+                            <div class="pixel-lamp lamp-left">
+                                <span class="lamp-pixel-cord"></span>
+                                <span class="lamp-pixel-shade"></span>
+                                <span class="lamp-pixel-bulb"></span>
+                                <span class="lamp-pixel-glow"></span>
+                            </div>
+                            <div class="pixel-lamp lamp-right">
+                                <span class="lamp-pixel-cord"></span>
+                                <span class="lamp-pixel-shade"></span>
+                                <span class="lamp-pixel-bulb"></span>
+                                <span class="lamp-pixel-glow"></span>
+                            </div>
+                        </div>
+
+                        <!-- Pixel Party Bunting / Garland -->
+                        <div class="pixel-bunting-garland">
+                            <span class="px-flag pf-pink"></span>
+                            <span class="px-flag pf-cream"></span>
+                            <span class="px-flag pf-blue"></span>
+                            <span class="px-flag pf-pink"></span>
+                            <span class="px-flag pf-gold"></span>
+                            <span class="px-flag pf-rose"></span>
+                            <span class="px-flag pf-blue"></span>
+                        </div>
+
+                        <!-- Wooden Plank Floor with Stepped Seams -->
+                        <div class="pixel-floor-planks">
+                            <div class="floor-plank-seam s1"></div>
+                            <div class="floor-plank-seam s2"></div>
+                            <div class="floor-plank-seam s3"></div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 2: Pixel Café Shelves, Props & Middle Layer -->
+                    <div class="pixel-cafe-middle-layer" aria-hidden="true">
+                        <!-- Left Pixel Shelf -->
+                        <div class="pixel-shelf shelf-left">
+                            <div class="shelf-pixel-plank"></div>
+                            <div class="shelf-pixel-items">
+                                <!-- Miniature Coffee Machine with Steam Pixels -->
+                                <div class="pixel-coffee-machine" title="pixel coffee machine">
+                                    <div class="pcm-top"></div>
+                                    <div class="pcm-body"></div>
+                                    <div class="pcm-spout"></div>
+                                    <div class="pcm-steam">♨</div>
+                                </div>
+                                <!-- Stacked Pastel Cups -->
+                                <div class="pixel-stacked-cups">
+                                    <span class="px-cup cup-top">☕</span>
+                                    <span class="px-cup cup-btm">☕</span>
+                                </div>
+                                <!-- Potted Plant -->
+                                <div class="pixel-potted-plant">
+                                    <span class="px-pot"></span>
+                                    <span class="px-leaf">🌱</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Pixel Shelf -->
+                        <div class="pixel-shelf shelf-right">
+                            <div class="shelf-pixel-plank"></div>
+                            <div class="shelf-pixel-items">
+                                <!-- Subtle Cinnamoroll Easter Egg Detail -->
+                                <div class="pixel-cinna-item" title="tiny Cinnamoroll helper ♡">
+                                    <span class="pcinna-ear-l"></span>
+                                    <span class="pcinna-head">☁️</span>
+                                    <span class="pcinna-ear-r"></span>
+                                    <span class="pcinna-cheeks"></span>
+                                </div>
+                                <!-- Pastry Bell Jar Display -->
+                                <div class="pixel-pastry-jar">
+                                    <div class="jar-dome"></div>
+                                    <span class="jar-mini-treat">🧁</span>
+                                    <div class="jar-stand"></div>
+                                </div>
+                                <!-- Tiny Stacked Plates -->
+                                <div class="pixel-stacked-plates">
+                                    <span class="px-plate pl-1"></span>
+                                    <span class="px-plate pl-2"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Framed Pixel Art on Walls -->
+                        <div class="pixel-wall-frame frame-left">
+                            <div class="px-frame-border">
+                                <span class="px-frame-icon">☕</span>
+                            </div>
+                        </div>
+                        <div class="pixel-wall-frame frame-right">
+                            <div class="px-frame-border">
+                                <span class="px-frame-icon">🍰</span>
+                            </div>
+                        </div>
+
+                        <!-- Tiny Pixel Specials Chalkboard Note -->
+                        <div class="cafe-specials-note pixel-specials-board">
+                            <div class="specials-tape"></div>
+                            <span class="specials-title">♡ Cinnamorolls Café ♡</span>
+                            <span class="specials-subtitle">TODAY'S SPECIALS</span>
+                            <div class="specials-divider">· · · · · · · · ·</div>
+                            <span class="specials-item">· Nathalie</span>
+                            <span class="specials-item">· @deardiavy</span>
+                            <span class="specials-item">· Olivia Rodrigo/One Direction girlie </span>
+                            <span class="specials-tagline"> baked fresh for our favorite customer </span>
+                        </div>
+
+                        <!-- Environmental Pixel Sparkles & Petals -->
+                        <div class="pixel-env-prop prop-pixel-star ps-1">✦</div>
+                        <div class="pixel-env-prop prop-pixel-star ps-2">✦</div>
+                        <div class="pixel-env-prop prop-pixel-heart ph-1">♡</div>
+                        <div class="pixel-env-prop prop-pixel-heart ph-2">♡</div>
+                        <div class="pixel-env-prop prop-pixel-cherry pc-1">🍒</div>
+                        <div class="pixel-env-prop prop-pixel-berry pb-1">🍓</div>
+                    </div>
+
+                    <!-- Ambient layer for floating sparkle pixels -->
+                    <div class="cafe-ambient-layer" id="cafeAmbient" aria-hidden="true"></div>
+
+                    <!-- Top Header & Permanent Hanging Pixel Sign -->
+                    <header class="cafe-scene-header">
+                        <div class="cafe-mini-hanging-sign" aria-hidden="true">
+                            <span class="sign-cord"></span>
+                            <div class="sign-tag">
+                                <span class="sign-name">Cinnamoroll's Café</span>
+                                <span class="sign-status">OPEN ♡</span>
+                            </div>
+                        </div>
+                        <div class="cafe-hint-wrapper" id="cafeDiscoveryHint" aria-live="polite">
+                            <p class="hint-line-main">Cinnamoroll's Café</p>
+                            <p class="hint-line-sub">Pick whichever treat feels right today. ♡</p>
+                        </div>
                     </header>
 
-                    <!-- Dessert Menu Grid -->
-                    <div class="dessert-menu-grid" role="radiogroup" aria-label="Birthday Dessert Menu">
-                        <button class="dessert-item-btn" type="button" data-dessert="milk" role="radio" aria-checked="false" aria-label="Vanilla Milk">
-                            <span class="dessert-icon">🥛</span>
-                            <span class="dessert-name">Vanilla Milk</span>
-                            <span class="dessert-sparkle" aria-hidden="true">✨</span>
+                    <!-- Layer 3: Organic Cozy Café Treats Presentation Layer -->
+                    <div class="cafe-treats-layer" id="cafeTreatsLayer" role="group" aria-label="Cinnamorolls Café Treats — tap each treat to reveal its message">
+
+                        <!-- 1. 🍫 Chocolate (Top Left) -->
+                        <button class="cafe-treat treat-chocolate-station" data-treat="chocolate"
+                                aria-label="Chocolate — for the days that feel a little too heavy"
+                                style="--pos-x: 23%; --pos-y: 22%; --rot: -3deg;">
+                            <div class="station-mat mat-washi-strip" aria-hidden="true">
+                                <div class="mat-washi washi-tl"></div>
+                            </div>
+                            <div class="treat-visual" aria-hidden="true">
+                                <img class="treat-sticker-img" src="assets/images/cafe/sticker_chocolate.png" alt="Chocolate sticker" draggable="false">
+                                <div class="treat-sparkle-halo"></div>
+                            </div>
+                            <div class="treat-card-pill">
+                                <span class="treat-card-title">Chocolate</span>
+                                <span class="treat-card-desc">for the days that feel a little too heavy</span>
+                            </div>
+                            <span class="treat-found-mark" aria-hidden="true">opened ♡</span>
                         </button>
 
-                        <button class="dessert-item-btn" type="button" data-dessert="cake" role="radio" aria-checked="false" aria-label="Strawberry Cake">
-                            <span class="dessert-icon">🍰</span>
-                            <span class="dessert-name">Strawberry Cake</span>
-                            <span class="dessert-sparkle" aria-hidden="true">🍓</span>
+                        <!-- 2. 🍪 Heart Cookie (Top Right) -->
+                        <button class="cafe-treat treat-cookie-station" data-treat="cookie"
+                                aria-label="Cookie — for when you need a little reminder that you're loved"
+                                style="--pos-x: 77%; --pos-y: 22%; --rot: 3deg;">
+                            <div class="station-mat mat-torn-kraft" aria-hidden="true">
+                                <div class="mat-washi washi-tr"></div>
+                            </div>
+                            <div class="treat-visual" aria-hidden="true">
+                                <img class="treat-sticker-img" src="assets/images/cafe/sticker_cookie.png" alt="Cookie sticker" draggable="false">
+                                <div class="treat-sparkle-halo"></div>
+                            </div>
+                            <div class="treat-card-pill">
+                                <span class="treat-card-title">Cookie</span>
+                                <span class="treat-card-desc">for when you need a little reminder that you're loved</span>
+                            </div>
+                            <span class="treat-found-mark" aria-hidden="true">opened ♡</span>
                         </button>
 
-                        <button class="dessert-item-btn" type="button" data-dessert="cookie" role="radio" aria-checked="false" aria-label="Cookie">
-                            <span class="dessert-icon">🍪</span>
-                            <span class="dessert-name">Cookie</span>
-                            <span class="dessert-sparkle" aria-hidden="true">💕</span>
+                        <!-- 3. 🍓 Strawberry Shortcake (Center/Mid Left) -->
+                        <button class="cafe-treat treat-shortcake-station" data-treat="shortcake"
+                                aria-label="Strawberry Shortcake — for when life could use a little sweetness"
+                                style="--pos-x: 19%; --pos-y: 56%; --rot: -2deg;">
+                            <div class="station-mat mat-ceramic-plate" aria-hidden="true">
+                                <span class="mat-deco-icon">🍓</span>
+                            </div>
+                            <div class="treat-visual" aria-hidden="true">
+                                <img class="treat-sticker-img" src="assets/images/cafe/sticker_shortcake.png" alt="Strawberry shortcake sticker" draggable="false">
+                                <div class="treat-sparkle-halo"></div>
+                            </div>
+                            <div class="treat-card-pill">
+                                <span class="treat-card-title">Strawberry Shortcake</span>
+                                <span class="treat-card-desc">for when life could use a little sweetness</span>
+                            </div>
+                            <span class="treat-found-mark" aria-hidden="true">opened ♡</span>
                         </button>
 
-                        <button class="dessert-item-btn" type="button" data-dessert="donut" role="radio" aria-checked="false" aria-label="Donut">
-                            <span class="dessert-icon">🍩</span>
-                            <span class="dessert-name">Donut</span>
-                            <span class="dessert-sparkle" aria-hidden="true">🌸</span>
+                        <!-- 4. 🍰 Birthday Cake (Centerpiece Hero — Center / Lower Center) -->
+                        <button class="cafe-treat treat-cake-station treat-centerpiece" data-treat="cake"
+                                aria-label="Birthday Cake — for today — because you deserve to celebrate"
+                                style="--pos-x: 50%; --pos-y: 44%; --rot: 0deg;">
+                            <div class="station-mat mat-doily-large" aria-hidden="true">
+                                <div class="mat-sparkle-ring"></div>
+                                <span class="mat-deco-icon cake-crown">👑</span>
+                            </div>
+                            <div class="treat-visual" aria-hidden="true">
+                                <img class="treat-sticker-img treat-cake-img" src="assets/images/cafe/sticker_cake.png" alt="Birthday cake centerpiece sticker" draggable="false">
+                                <div class="treat-sparkle-halo treat-cake-halo"></div>
+                            </div>
+                            <div class="treat-card-pill centerpiece-pill">
+                                <span class="treat-card-badge">✨ TODAY'S SPECIAL ✨</span>
+                                <span class="treat-card-title">Birthday Cake</span>
+                                <span class="treat-card-desc">for today, because you deserve to celebrate</span>
+                            </div>
+                            <span class="treat-found-mark" aria-hidden="true">celebrated ♡</span>
                         </button>
 
-                        <button class="dessert-item-btn" type="button" data-dessert="cocoa" role="radio" aria-checked="false" aria-label="Hot Chocolate">
-                            <span class="dessert-icon">☕</span>
-                            <span class="dessert-name">Hot Chocolate</span>
-                            <span class="dessert-sparkle" aria-hidden="true">☁️</span>
+                        <!-- 5. 🧁 Cupcake (Center/Mid Right) -->
+                        <button class="cafe-treat treat-cupcake-station" data-treat="cupcake"
+                                aria-label="Cupcake — for when you need a tiny reason to smile"
+                                style="--pos-x: 81%; --pos-y: 56%; --rot: 2deg;">
+                            <div class="station-mat mat-scallop-doily" aria-hidden="true">
+                                <span class="mat-deco-icon">✨</span>
+                            </div>
+                            <div class="treat-visual" aria-hidden="true">
+                                <img class="treat-sticker-img" src="assets/images/cafe/sticker_cupcake.png" alt="Cupcake sticker" draggable="false">
+                                <div class="treat-sparkle-halo"></div>
+                            </div>
+                            <div class="treat-card-pill">
+                                <span class="treat-card-title">Cupcake</span>
+                                <span class="treat-card-desc">for when you need a tiny reason to smile</span>
+                            </div>
+                            <span class="treat-found-mark" aria-hidden="true">opened ♡</span>
+                        </button>
+
+                        <!-- 6. 🧋 Birthday Drink (Bottom Center) -->
+                        <button class="cafe-treat treat-drink-station" data-treat="drink"
+                                aria-label="Birthday Drink — for when you need to slow down for a while"
+                                style="--pos-x: 50%; --pos-y: 82%; --rot: -1deg;">
+                            <div class="station-mat mat-scallop-coaster" aria-hidden="true">
+                                <div class="mat-washi washi-bl"></div>
+                            </div>
+                            <div class="treat-visual" aria-hidden="true">
+                                <img class="treat-sticker-img" src="assets/images/cafe/sticker_drink.png" alt="Birthday drink sticker" draggable="false">
+                                <div class="treat-sparkle-halo"></div>
+                            </div>
+                            <div class="treat-card-pill">
+                                <span class="treat-card-title">Birthday Drink</span>
+                                <span class="treat-card-desc">for when you need to slow down for a while</span>
+                            </div>
+                            <span class="treat-found-mark" aria-hidden="true">opened ♡</span>
+                        </button>
+
+                    </div><!-- /.cafe-treats-layer -->
+
+                    <!-- Layer 4: Pop-up / Unfolding Scrapbook Message Note with Cinnamoroll Helper -->
+                    <div class="cafe-note-panel" id="cafeNotePanel" aria-live="polite" aria-label="Secret message" style="display:none;"></div>
+
+                    <!-- Layer 5: Continue Action Button (Reveals after opening at least 1 treat) -->
+                    <div class="cafe-continue-wrap" id="cafeContinueWrap" style="display:none;" aria-live="polite">
+                        <button id="dessertToBouquetBtn" class="cafe-continue-btn" type="button"
+                                aria-label="Continue to the next surprise">
+                            <span>Next</span> <span class="btn-icon">🌸</span>
                         </button>
                     </div>
 
-                    <!-- Dynamic Dessert Message Card -->
-                    <div class="dessert-message-card" id="dessertMessageCard" aria-live="polite">
-                        <div class="dessert-msg-empty" id="dessertMsgPlaceholder">
-                            <span>Tap any dessert to reveal a message ♡</span>
-                        </div>
-                        <div class="dessert-msg-content" id="dessertMsgContent" style="display: none;">
-                            <span class="dessert-msg-icon" id="dessertMsgIcon">🍰</span>
-                            <h3 class="dessert-msg-title" id="dessertMsgTitle">Strawberry Cake</h3>
-                            <p class="dessert-msg-text" id="dessertMsgText">A special slice of sweetness for a day that celebrates someone as wonderful as you! 🍰🍓</p>
-                        </div>
-                    </div>
+                </div><!-- /.cafe-scene -->
 
-                    <!-- Continue Button -->
-                    <div class="dessert-footer">
-                        <button id="dessertToBouquetBtn" class="primary-button dessert-continue-btn" type="button">
-                            Something sweet before the next surprise ♡
-                        </button>
-                    </div>
-                </div>
+                <!-- Screen-reader only title -->
+                <h2 id="dessert-title" class="sr-only">Happy Birthday Nathalie</h2>
+
             </section>
 
             <!-- 6. CINEMATIC ANIMATED BOUQUET (Spacious Dome Layout - Zero Flower Intersections) -->
             <section id="bouquet" class="section-container" aria-labelledby="bouquet-title" style="display: none;">
                 <div class="bouquet-stage">
-                    
+
+                    <!-- Golden-hour sun glow disc behind bouquet -->
+                    <div class="bouquet-sun-glow" aria-hidden="true"></div>
+
+                    <!-- Scrapbook paper grain texture overlay -->
+                    <div class="bouquet-paper-grain" aria-hidden="true"></div>
+
+                    <!-- Warm stardust particles -->
+                    <div id="bouquetStardust" class="bouquet-stardust" aria-hidden="true"></div>
+
                     <!-- Soft Ambient Illuminated Glow behind Bouquet -->
                     <div class="bouquet-ambient-glow"></div>
 
@@ -806,22 +1138,39 @@
         <circle cx="300" cy="270" r="2.2" fill="#FFF0F5" class="star-dust sd7" />
     </g>
 
-    <!-- Sakura Blossom Bloom Additions -->
-    <g class="flower F-sakura F-sakura-1" style="transform-origin: 165px 145px;">
+    <!-- Sakura Blossom Bloom Additions (clickable flowers) -->
+    <g class="flower F-sakura F-sakura-1 flower-group" role="button" tabindex="0"
+       aria-label="Pink cherry blossom" data-compliment="you have such a lovely smile ♡"
+       style="transform-origin: 165px 145px;">
         <path d="M165,135 C160,122 170,122 165,135 Z M175,140 C188,135 188,145 175,140 Z M172,152 C180,162 170,166 172,152 Z M158,152 C150,166 140,162 158,152 Z M155,140 C142,145 142,135 155,140 Z" fill="#FFB7C5" stroke="#FF85A2" stroke-width="1.2" />
         <circle cx="165" cy="145" r="3" fill="#FFE5EC" />
         <circle cx="165" cy="145" r="1.2" fill="#FF3385" />
     </g>
-    <g class="flower F-sakura F-sakura-2" style="transform-origin: 295px 175px;">
+    <g class="flower F-sakura F-sakura-2 flower-group" role="button" tabindex="0"
+       aria-label="Soft pink blossom" data-compliment="you deserve beautiful things too ♡"
+       style="transform-origin: 295px 175px;">
         <path d="M295,165 C290,152 300,152 295,165 Z M305,170 C318,165 318,175 305,170 Z M302,182 C310,192 300,196 302,182 Z M288,182 C280,196 270,192 288,182 Z M285,170 C272,175 272,165 285,170 Z" fill="#FFCCD5" stroke="#FF85A2" stroke-width="1.2" />
         <circle cx="295" cy="175" r="3" fill="#FFF0F5" />
         <circle cx="295" cy="175" r="1.2" fill="#FF3385" />
     </g>
-    <g class="flower F-sakura F-sakura-3" style="transform-origin: 235px 95px;">
+    <g class="flower F-sakura F-sakura-3 flower-group" role="button" tabindex="0"
+       aria-label="Little sakura flower" data-compliment="keep being wonderfully you ♡"
+       style="transform-origin: 235px 95px;">
         <path d="M235,85 C230,72 240,72 235,85 Z M245,90 C258,85 258,95 245,90 Z M242,102 C250,112 240,116 242,102 Z M228,102 C220,116 210,112 228,102 Z M225,90 C212,95 212,85 225,90 Z" fill="#FFB7C5" stroke="#FF85A2" stroke-width="1.2" />
         <circle cx="235" cy="95" r="3" fill="#FFE5EC" />
         <circle cx="235" cy="95" r="1.2" fill="#FF3385" />
     </g>
+
+    <!-- Invisible hotspot rects for the raster-based main flowers (clickable) -->
+    <rect class="flower flower-group" role="button" tabindex="0"
+          aria-label="Red rose, centerpiece" data-compliment="a little something just for you ♡"
+          x="175" y="168" width="90" height="80" fill="transparent" style="transform-origin: 220px 208px;" />
+    <rect class="flower flower-group" role="button" tabindex="0"
+          aria-label="Golden sunflower" data-compliment="you make everything brighter ♡"
+          x="238" y="128" width="80" height="75" fill="transparent" style="transform-origin: 278px 165px;" />
+    <rect class="flower flower-group" role="button" tabindex="0"
+          aria-label="Soft pink rose" data-compliment="you're one of a kind ♡"
+          x="112" y="188" width="80" height="75" fill="transparent" style="transform-origin: 152px 225px;" />
 
     <!-- 4. Bow & Ribbon Layer (Appears on anim-ribbon) -->
     <g class="b-ribbon" style="transform-origin: 192.7px 403.2px;">
@@ -846,13 +1195,18 @@
                         <img src="assets/images/cin_wand.png" class="cin-bouquet-img" alt="Cinnamoroll presenting bouquet" draggable="false">
                     </div>
 
-                    <!-- Final Compliment & Birthday Text Banner -->
+                    <!-- Final Compliment & Birthday Text Banner / Note Card -->
                     <div id="bouquetBanner" class="bouquet-banner">
-                        <p class="banner-line1">You’re really pretty. 💐</p>
-                        <p class="banner-line2">Happy Birthday Nathalie! 💗</p>
+                        <!-- Scrapbook message card -->
+                        <div id="bouquetNoteCard" class="bouquet-note-card">
+                            <p class="bouquet-note-text">
+                                &ldquo;A pixelated bouquet, just because you deserve something pretty today.&rdquo;
+                            </p>
+                            <p class="bouquet-note-sig">&mdash; from Cinnamoroll Circuit ♡</p>
+                        </div>
                         
-                        <button id="bouquetToWishBtn" class="primary-button bouquet-next-btn" type="button">
-                            Wish for Something 💗
+                        <button id="bouquetToWishBtn" class="primary-button bouquet-next-btn" type="button" disabled>
+                            Continue &rarr;
                         </button>
                     </div>
 
@@ -1010,350 +1364,641 @@
                 </div>
             </section>
 
-            <!-- 7. FINALE SECTION: Vintage Scrapbook Collage - Greetings from Cinnamoroll -->
+            <!-- 7. FINALE SECTION: Pixel-Art Night Sky & Virgo Constellation Finale -->
             <section id="finale" class="section-container" aria-labelledby="finale-title" style="display: none;">
 
-                <!-- Ambient floating petals layer -->
-                <div id="memoryBoxPetals" class="memory-box-petals-layer" aria-hidden="true"></div>
+                <!-- ── Ambient Pixel Night Sky (Moon, Stars, Clouds, Hearts, Sparkles & Particles) ── -->
+                <div class="finale-night-sky" aria-hidden="true">
 
-                <!-- ═══════════════════════════════════════════════════
-                     SCRAPBOOK CANVAS  (id used by JS for class toggling)
-                ════════════════════════════════════════════════════════ -->
-                <div class="scrapbook-canvas" id="memoryBoxStage">
+                    <!-- Soft Glowing Pixel Crescent Moon -->
+                    <div class="pixel-moon-wrap">
+                        <svg viewBox="0 0 48 48" class="pixel-moon-svg">
+                            <path d="M28 4C17 4 8 13 8 24C8 35 17 44 28 44C32 44 36 43 39 40C30 38 23 30 23 20C23 13 27 7 33 4C31 4 29 4 28 4Z" fill="#FFF2C6"/>
+                            <path d="M28 8C19 8 12 15 12 24C12 33 19 40 28 40C30 40 33 39 35 38C28 35 23 28 23 20C23 15 26 10 30 8C29 8 28 8 28 8Z" fill="#FFE5A3" opacity="0.6"/>
+                            <circle cx="16" cy="18" r="1.5" fill="#FFFBE6" opacity="0.8"/>
+                            <circle cx="20" cy="30" r="2" fill="#FFFBE6" opacity="0.8"/>
+                            <circle cx="12" cy="26" r="1" fill="#FFFBE6" opacity="0.5"/>
+                        </svg>
+                    </div>
 
-                    <!-- ── LAYER 0: Cream aged-paper background ── -->
-                    <div class="sc-bg sc-bg-paper" aria-hidden="true"></div>
-                    <div class="sc-bg sc-bg-grain" aria-hidden="true"></div>
-                    <div class="sc-bg sc-bg-stain sc-stain-tl" aria-hidden="true"></div>
-                    <div class="sc-bg sc-bg-stain sc-stain-br" aria-hidden="true"></div>
+                    <!-- Twinkling Pixel Stars -->
+                    <div class="pixel-sky-stars">
+                        <span class="px-star px-star-lg p-s1">✦</span>
+                        <span class="px-star px-star-md p-s2">⭐</span>
+                        <span class="px-star px-star-sm p-s3">✨</span>
+                        <span class="px-star px-star-lg p-s4">✦</span>
+                        <span class="px-star px-star-dot p-s5">·</span>
+                        <span class="px-star px-star-md p-s6">✨</span>
+                        <span class="px-star px-star-sm p-s7">✦</span>
+                        <span class="px-star px-star-lg p-s8">⭐</span>
+                        <span class="px-star px-star-dot p-s9">·</span>
+                        <span class="px-star px-star-md p-s10">✦</span>
+                        <span class="px-star px-star-sm p-s11">✨</span>
+                        <span class="px-star px-star-md p-s12">⭐</span>
+                    </div>
 
-                    <!-- ── LAYER 1: Background Book Pages (Torn) ── -->
-                    <div class="sc-layer sc-layer-1" aria-hidden="true">
-                        <div class="sc-piece sc-book-page sp-book1">
-                            <div class="sp-book-lines">
-                                <span></span><span></span><span></span><span></span>
-                                <span></span><span></span><span></span>
-                            </div>
-                        </div>
-                        <div class="sc-piece sc-book-page sp-book2">
-                            <div class="sp-book-lines">
-                                <span></span><span></span><span></span><span></span>
-                                <span></span><span></span>
-                            </div>
-                        </div>
-                        <div class="sc-piece sc-newspaper sp-news1">
-                            <div class="sp-news-text">
-                                <p>✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦</p>
-                                <p>Nathalie ✦ Happy Birthday</p>
-                                <p>✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦</p>
-                                <p>Birthday Edition · Special Issue</p>
-                            </div>
+                    <!-- Four-Point Cross Sparkle Stars (CSS-drawn, pixel-art style) -->
+                    <div class="px-sparkle-star px-sp-warm psp1"></div>
+                    <div class="px-sparkle-star px-sp-pink psp2"></div>
+                    <div class="px-sparkle-star px-sp-white psp3"></div>
+                    <div class="px-sparkle-star px-sp-warm psp4"></div>
+                    <div class="px-sparkle-star px-sp-pink psp5"></div>
+                    <div class="px-sparkle-star px-sp-white psp6"></div>
+
+                    <!-- Drifting Soft Pixel Clouds -->
+                    <div class="pixel-sky-cloud p-c1">☁️</div>
+                    <div class="pixel-sky-cloud p-c2">☁️</div>
+                    <div class="pixel-sky-cloud p-c3">☁️</div>
+
+                    <!-- Floating Pixel Hearts -->
+                    <div class="pixel-sky-hearts">
+                        <span class="px-heart-fx p-h1">💖</span>
+                        <span class="px-heart-fx p-h2">💕</span>
+                        <span class="px-heart-fx p-h3">🌸</span>
+                        <span class="px-heart-fx p-h4">✨</span>
+                    </div>
+
+                    <!-- Ambient Pixel Particle System (tiny drifting rose/lavender/gold/white dots) -->
+                    <div class="px-ambient-particles">
+                        <div class="px-particle px-p-rose  pp1"></div>
+                        <div class="px-particle px-p-lav   pp2"></div>
+                        <div class="px-particle px-p-white pp3"></div>
+                        <div class="px-particle px-p-gold  pp4"></div>
+                        <div class="px-particle px-p-rose  pp5"></div>
+                        <div class="px-particle px-p-lav   pp6"></div>
+                        <div class="px-particle px-p-white pp7"></div>
+                        <div class="px-particle px-p-rose  pp8"></div>
+                        <div class="px-particle px-p-gold  pp9"></div>
+                        <div class="px-particle px-p-lav   pp10"></div>
+                        <div class="px-particle px-p-white pp11"></div>
+                        <div class="px-particle px-p-rose  pp12"></div>
+                    </div>
+
+                    <!-- Distant Pixel Cafe Silhouette (tiny glowing window, rooftop outline) -->
+                    <div class="px-cafe-silhouette">
+                        <svg viewBox="0 0 60 80" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Cafe body -->
+                            <rect x="4" y="34" width="52" height="46" fill="#2A0A2C" rx="1"/>
+                            <!-- Roof -->
+                            <polygon points="0,34 30,10 60,34" fill="#1E0822"/>
+                            <!-- Chimney -->
+                            <rect x="40" y="14" width="8" height="16" fill="#1A0620"/>
+                            <!-- Main glowing window (warm light) -->
+                            <rect class="px-cafe-win" x="10" y="42" width="16" height="12" rx="1" fill="#FFD97A"/>
+                            <!-- Second small window -->
+                            <rect class="px-cafe-win" x="34" y="42" width="16" height="12" rx="1" fill="#FFD97A" style="animation-delay: 0.8s"/>
+                            <!-- Door -->
+                            <rect x="22" y="58" width="14" height="22" fill="#150516" rx="1"/>
+                            <circle cx="34" cy="70" r="1.5" fill="#FFD97A" opacity="0.7"/>
+                            <!-- Sign above door -->
+                            <rect x="18" y="52" width="22" height="6" fill="#3D1240" rx="1"/>
+                            <rect x="21" y="54" width="16" height="2" fill="#FF99BB" opacity="0.6" rx="1"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- ── Pixel Ground Scene (grass blades, tiny flowers, mushroom) ── -->
+                <div class="finale-pixel-ground" aria-hidden="true">
+                    <svg viewBox="0 0 800 110" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Base ground fill -->
+                        <rect x="0" y="60" width="800" height="50" fill="#1A0A1E" opacity="0.85"/>
+                        <rect x="0" y="55" width="800" height="8" fill="#2D0D30" opacity="0.7"/>
+
+                        <!-- Grass blades (pixel columns) -->
+                        <rect x="5"   y="48" width="4" height="14" fill="#4A1A50" rx="1"/>
+                        <rect x="18"  y="44" width="4" height="18" fill="#3D1440" rx="1"/>
+                        <rect x="30"  y="50" width="3" height="12" fill="#5A2060" rx="1"/>
+                        <rect x="42"  y="45" width="4" height="17" fill="#3D1440" rx="1"/>
+                        <rect x="58"  y="47" width="3" height="15" fill="#4A1A50" rx="1"/>
+                        <rect x="72"  y="43" width="4" height="19" fill="#5A2060" rx="1"/>
+                        <rect x="88"  y="49" width="3" height="13" fill="#3D1440" rx="1"/>
+                        <rect x="102" y="45" width="4" height="17" fill="#4A1A50" rx="1"/>
+                        <rect x="118" y="48" width="3" height="14" fill="#5A2060" rx="1"/>
+                        <rect x="135" y="44" width="4" height="18" fill="#3D1440" rx="1"/>
+                        <rect x="155" y="46" width="3" height="16" fill="#4A1A50" rx="1"/>
+                        <rect x="172" y="43" width="4" height="19" fill="#5A2060" rx="1"/>
+                        <rect x="190" y="50" width="3" height="12" fill="#3D1440" rx="1"/>
+                        <rect x="210" y="45" width="4" height="17" fill="#4A1A50" rx="1"/>
+                        <rect x="230" y="47" width="3" height="15" fill="#5A2060" rx="1"/>
+                        <rect x="250" y="44" width="4" height="18" fill="#3D1440" rx="1"/>
+                        <rect x="270" y="49" width="3" height="13" fill="#4A1A50" rx="1"/>
+                        <rect x="290" y="43" width="4" height="19" fill="#5A2060" rx="1"/>
+                        <rect x="310" y="46" width="3" height="16" fill="#3D1440" rx="1"/>
+                        <rect x="332" y="44" width="4" height="18" fill="#4A1A50" rx="1"/>
+                        <rect x="355" y="47" width="3" height="15" fill="#5A2060" rx="1"/>
+                        <rect x="378" y="43" width="4" height="19" fill="#3D1440" rx="1"/>
+                        <rect x="402" y="50" width="3" height="12" fill="#4A1A50" rx="1"/>
+                        <rect x="425" y="45" width="4" height="17" fill="#5A2060" rx="1"/>
+                        <rect x="448" y="48" width="3" height="14" fill="#3D1440" rx="1"/>
+                        <rect x="470" y="43" width="4" height="19" fill="#4A1A50" rx="1"/>
+                        <rect x="492" y="46" width="3" height="16" fill="#5A2060" rx="1"/>
+                        <rect x="514" y="44" width="4" height="18" fill="#3D1440" rx="1"/>
+                        <rect x="535" y="49" width="3" height="13" fill="#4A1A50" rx="1"/>
+                        <rect x="558" y="45" width="4" height="17" fill="#5A2060" rx="1"/>
+                        <rect x="580" y="47" width="3" height="15" fill="#3D1440" rx="1"/>
+                        <rect x="602" y="43" width="4" height="19" fill="#4A1A50" rx="1"/>
+                        <rect x="624" y="50" width="3" height="12" fill="#5A2060" rx="1"/>
+                        <rect x="645" y="44" width="4" height="18" fill="#3D1440" rx="1"/>
+                        <rect x="665" y="46" width="3" height="16" fill="#4A1A50" rx="1"/>
+                        <rect x="685" y="43" width="4" height="19" fill="#5A2060" rx="1"/>
+                        <rect x="705" y="48" width="3" height="14" fill="#3D1440" rx="1"/>
+                        <rect x="724" y="45" width="4" height="17" fill="#4A1A50" rx="1"/>
+                        <rect x="744" y="49" width="3" height="13" fill="#5A2060" rx="1"/>
+                        <rect x="762" y="43" width="4" height="19" fill="#3D1440" rx="1"/>
+                        <rect x="780" y="46" width="3" height="16" fill="#4A1A50" rx="1"/>
+                        <rect x="794" y="44" width="4" height="18" fill="#5A2060" rx="1"/>
+
+                        <!-- Tiny pixel flowers (pink) -->
+                        <!-- Flower 1 @ 60 -->
+                        <rect x="56" y="36" width="4" height="8" fill="#5A1A3A" rx="1"/>
+                        <rect x="52" y="33" width="4" height="4" fill="#FF85A2" rx="1"/>
+                        <rect x="60" y="33" width="4" height="4" fill="#FF85A2" rx="1"/>
+                        <rect x="56" y="30" width="4" height="4" fill="#FFB3CC" rx="1"/>
+                        <rect x="56" y="34" width="4" height="3" fill="#FFDDEC" rx="1"/>
+
+                        <!-- Flower 2 @ 240 -->
+                        <rect x="238" y="36" width="4" height="8" fill="#5A1A3A" rx="1"/>
+                        <rect x="234" y="33" width="4" height="4" fill="#D07AB0" rx="1"/>
+                        <rect x="242" y="33" width="4" height="4" fill="#D07AB0" rx="1"/>
+                        <rect x="238" y="30" width="4" height="4" fill="#E8A0CC" rx="1"/>
+                        <rect x="238" y="34" width="4" height="3" fill="#F5D0E8" rx="1"/>
+
+                        <!-- Flower 3 @ 500 -->
+                        <rect x="498" y="36" width="4" height="8" fill="#5A1A3A" rx="1"/>
+                        <rect x="494" y="33" width="4" height="4" fill="#FF85A2" rx="1"/>
+                        <rect x="502" y="33" width="4" height="4" fill="#FF85A2" rx="1"/>
+                        <rect x="498" y="30" width="4" height="4" fill="#FFB3CC" rx="1"/>
+                        <rect x="498" y="34" width="4" height="3" fill="#FFDDEC" rx="1"/>
+
+                        <!-- Flower 4 @ 710 -->
+                        <rect x="708" y="36" width="4" height="8" fill="#5A1A3A" rx="1"/>
+                        <rect x="704" y="33" width="4" height="4" fill="#D07AB0" rx="1"/>
+                        <rect x="712" y="33" width="4" height="4" fill="#D07AB0" rx="1"/>
+                        <rect x="708" y="30" width="4" height="4" fill="#E8A0CC" rx="1"/>
+                        <rect x="708" y="34" width="4" height="3" fill="#F5D0E8" rx="1"/>
+
+                        <!-- Tiny pixel mushroom @ 380 -->
+                        <rect x="376" y="44" width="8" height="12" fill="#F5C8D0" rx="1"/>
+                        <rect x="374" y="36" width="12" height="10" fill="#C44060" rx="2"/>
+                        <rect x="377" y="37" width="2" height="2" fill="#F5C8D0" rx="0"/>
+                        <rect x="382" y="38" width="2" height="2" fill="#F5C8D0" rx="0"/>
+
+                        <!-- Tiny pixel mushroom @ 145 -->
+                        <rect x="143" y="44" width="6" height="10" fill="#E8D0B8" rx="1"/>
+                        <rect x="141" y="38" width="10" height="8" fill="#8B3A10" rx="2"/>
+                        <rect x="143" y="39" width="2" height="2" fill="#E8D0B8" rx="0"/>
+                        <rect x="147" y="40" width="2" height="2" fill="#E8D0B8" rx="0"/>
+
+                        <!-- Tiny pixel stone/pebbles -->
+                        <ellipse cx="320" cy="61" rx="6" ry="3" fill="#2E1030" opacity="0.8"/>
+                        <ellipse cx="330" cy="63" rx="4" ry="2" fill="#2A0D28" opacity="0.7"/>
+                        <ellipse cx="600" cy="62" rx="5" ry="2.5" fill="#2E1030" opacity="0.8"/>
+                    </svg>
+                </div>
+
+                <!-- ── Tiny Pixel Mailbox + Lantern (environmental storytelling) ── -->
+                <div class="px-env-items" aria-hidden="true">
+                    <!-- Tiny Pixel Lantern -->
+                    <svg width="22" height="38" viewBox="0 0 22 38" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Pole -->
+                        <rect x="10" y="16" width="2" height="22" fill="#3D1240"/>
+                        <!-- Lantern body -->
+                        <rect x="5" y="4" width="12" height="14" fill="#2A0A30" rx="2"/>
+                        <!-- Lantern glow window -->
+                        <rect class="px-lantern-glow" x="7" y="6" width="8" height="10" fill="#FFD070" rx="1" opacity="0.9"/>
+                        <!-- Lantern top cap -->
+                        <rect x="4" y="2" width="14" height="4" fill="#1E0822" rx="1"/>
+                        <rect x="9" y="0" width="4" height="3" fill="#1E0822"/>
+                        <!-- Lantern bottom -->
+                        <rect x="4" y="17" width="14" height="3" fill="#1E0822" rx="1"/>
+                        <!-- Ground base -->
+                        <rect x="6" y="36" width="10" height="2" fill="#2D0D30" rx="1"/>
+                    </svg>
+
+                    <!-- Tiny Pixel Mailbox -->
+                    <svg width="30" height="34" viewBox="0 0 30 34" xmlns="http://www.w3.org/2000/svg" style="margin-top: 4px;">
+                        <!-- Post -->
+                        <rect x="13" y="20" width="4" height="14" fill="#3D1240"/>
+                        <!-- Box body -->
+                        <rect x="2" y="8" width="26" height="14" fill="#B52B58" rx="2"/>
+                        <!-- Box roof arc -->
+                        <ellipse cx="15" cy="8" rx="13" ry="5" fill="#8B1A3A"/>
+                        <!-- Mail slot -->
+                        <rect x="6" y="13" width="14" height="2" fill="#1E0822" rx="1"/>
+                        <!-- Tiny flag -->
+                        <rect x="24" y="4" width="2" height="10" fill="#3D1240"/>
+                        <rect x="24" y="4" width="6" height="5" fill="#FF85A2"/>
+                        <!-- Base -->
+                        <rect x="8" y="32" width="14" height="2" fill="#2D0D30" rx="1"/>
+                    </svg>
+                </div>
+
+                <!-- ── 2. Transparent Night Atmosphere Overlay & Multi-Layer Stars ── -->
+                <div class="finale-night-overlay" aria-hidden="true">
+                    <div class="finale-vignette"></div>
+                    <div class="finale-shooting-star" id="finaleShootingStar"></div>
+
+                    <!-- Multi-type background stars -->
+                    <div class="finale-star-layer">
+                        <span class="star-tiny st-1">·</span>
+                        <span class="star-tiny st-2">·</span>
+                        <span class="star-tiny st-3">·</span>
+                        <span class="star-tiny st-4">·</span>
+                        <span class="star-tiny st-5">·</span>
+                        <span class="star-tiny st-6">·</span>
+                        <span class="star-tiny st-7">·</span>
+                        <span class="star-tiny st-8">·</span>
+                        <span class="star-tiny st-9">·</span>
+                        <span class="star-tiny st-10">·</span>
+                        <span class="star-tiny st-11">·</span>
+                        <span class="star-tiny st-12">·</span>
+
+                        <span class="star-medium sm-1">✦</span>
+                        <span class="star-medium sm-2">✦</span>
+                        <span class="star-medium sm-3">✦</span>
+                        <span class="star-medium sm-4">✦</span>
+                        <span class="star-medium sm-5">✦</span>
+                        <span class="star-medium sm-6">✦</span>
+
+                        <span class="star-flair sf-1">✦</span>
+                        <span class="star-flair sf-2">✦</span>
+                        <span class="star-flair sf-3">✦</span>
+                    </div>
+                </div>
+
+                <!-- ── 3. Interactive Starry Sky Finale: Virgo Constellation ── -->
+                <div class="night-sky-instruction" id="skyInstruction" role="status" aria-live="polite">
+                    <span class="ns-inst-sparkle">✦</span>
+                    <span class="ns-inst-text">Connect the stars ✨</span>
+                    <span class="ns-inst-sparkle">✦</span>
+                </div>
+
+                <div class="constellation-stage" id="constellationStage" aria-label="Night sky Virgo constellation">
+
+                    <!-- Soft Glowing Moon in the upper open sky away from the constellation -->
+                    <div class="finale-center-moon" id="finaleCenterMoon" aria-hidden="true">
+                        <div class="moon-outer-halo"></div>
+                        <div class="moon-inner-disc">
+                            <svg viewBox="0 0 100 100" class="center-moon-svg">
+                                <circle cx="50" cy="50" r="48" fill="url(#moonGrad)"/>
+                                <defs>
+                                    <radialGradient id="moonGrad" cx="40%" cy="38%" r="62%">
+                                        <stop offset="0%" stop-color="#FFFDF5"/>
+                                        <stop offset="45%" stop-color="#FFF2CE"/>
+                                        <stop offset="85%" stop-color="#FFE0A0"/>
+                                        <stop offset="100%" stop-color="#FFD485"/>
+                                    </radialGradient>
+                                </defs>
+                                <circle cx="34" cy="38" r="7" fill="#F7D48E" opacity="0.35"/>
+                                <circle cx="62" cy="32" r="9" fill="#F7D48E" opacity="0.30"/>
+                                <circle cx="48" cy="62" r="11" fill="#F7D48E" opacity="0.25"/>
+                                <circle cx="68" cy="64" r="6" fill="#F7D48E" opacity="0.28"/>
+                                <circle cx="30" cy="58" r="4.5" fill="#F7D48E" opacity="0.22"/>
+                            </svg>
                         </div>
                     </div>
 
-                    <!-- ── LAYER 2: Floral Paper Scraps ── -->
-                    <div class="sc-layer sc-layer-2" aria-hidden="true">
-                        <div class="sc-piece sc-floral-paper sp-floral1">
-                            <!-- SVG pressed rose botanical -->
-                            <svg viewBox="0 0 90 110" class="sc-botanical-svg">
-                                <path d="M45,100 C45,100 20,70 18,50 C16,32 30,18 45,20 C60,18 74,32 72,50 C70,70 45,100 45,100Z" fill="#C4875A" opacity="0.25"/>
-                                <path d="M45,20 C45,20 38,5 45,2 C52,5 45,20 45,20Z" fill="#8B5E3C" opacity="0.35"/>
-                                <!-- Rose petals -->
-                                <ellipse cx="45" cy="38" rx="10" ry="14" fill="#D4748A" opacity="0.6" transform="rotate(-15 45 38)"/>
-                                <ellipse cx="38" cy="42" rx="9" ry="12" fill="#C45F78" opacity="0.55" transform="rotate(20 38 42)"/>
-                                <ellipse cx="52" cy="42" rx="9" ry="12" fill="#D4748A" opacity="0.55" transform="rotate(-20 52 42)"/>
-                                <ellipse cx="43" cy="50" rx="11" ry="10" fill="#B85070" opacity="0.5"/>
-                                <!-- Center -->
-                                <circle cx="45" cy="44" r="5" fill="#8B3050" opacity="0.55"/>
-                                <!-- Leaves -->
-                                <path d="M28,60 C20,55 22,45 30,48 C35,52 30,62 28,60Z" fill="#6B8C5A" opacity="0.5"/>
-                                <path d="M62,60 C70,55 68,45 60,48 C55,52 60,62 62,60Z" fill="#6B8C5A" opacity="0.5"/>
-                            </svg>
-                        </div>
-                        <div class="sc-piece sc-floral-paper sp-floral2">
-                            <svg viewBox="0 0 80 80" class="sc-botanical-svg">
-                                <!-- Daisy pressed flower -->
-                                <g transform="translate(40,40)">
-                                    <ellipse rx="6" ry="18" fill="#E8C5B0" opacity="0.7"/>
-                                    <ellipse rx="6" ry="18" fill="#E8C5B0" opacity="0.7" transform="rotate(45)"/>
-                                    <ellipse rx="6" ry="18" fill="#E8C5B0" opacity="0.7" transform="rotate(90)"/>
-                                    <ellipse rx="6" ry="18" fill="#E8C5B0" opacity="0.7" transform="rotate(135)"/>
-                                    <ellipse rx="6" ry="18" fill="#DEB8A0" opacity="0.7" transform="rotate(22.5)"/>
-                                    <ellipse rx="6" ry="18" fill="#DEB8A0" opacity="0.7" transform="rotate(67.5)"/>
-                                    <ellipse rx="6" ry="18" fill="#DEB8A0" opacity="0.7" transform="rotate(112.5)"/>
-                                    <ellipse rx="6" ry="18" fill="#DEB8A0" opacity="0.7" transform="rotate(157.5)"/>
-                                    <circle r="9" fill="#C4945A" opacity="0.8"/>
-                                    <circle r="5" fill="#9B7040" opacity="0.9"/>
-                                </g>
-                            </svg>
-                        </div>
-                        <div class="sc-piece sc-floral-paper sp-floral3">
-                            <svg viewBox="0 0 100 90" class="sc-botanical-svg">
-                                <!-- Botanical leaf sprig -->
-                                <path d="M50,85 C50,85 50,20 50,10" stroke="#7B9E6B" stroke-width="2.5" fill="none" opacity="0.6"/>
-                                <path d="M50,60 C40,55 32,45 38,38 C44,32 52,48 50,60Z" fill="#7B9E6B" opacity="0.5"/>
-                                <path d="M50,60 C60,55 68,45 62,38 C56,32 48,48 50,60Z" fill="#8BAF7B" opacity="0.5"/>
-                                <path d="M50,40 C40,35 33,26 38,20 C43,14 52,28 50,40Z" fill="#7B9E6B" opacity="0.5"/>
-                                <path d="M50,40 C60,35 67,26 62,20 C57,14 48,28 50,40Z" fill="#8BAF7B" opacity="0.5"/>
-                                <!-- Small pink flowers -->
-                                <circle cx="50" cy="10" r="6" fill="#D4869A" opacity="0.65"/>
-                                <circle cx="48" cy="9" r="2.5" fill="#F0E0E8" opacity="0.9"/>
-                            </svg>
-                        </div>
-                    </div>
+                    <!-- Responsive SVG Constellation Stage with Virgo stars & lines (1000x620) -->
+                    <svg class="virgo-svg" id="virgoSvg" viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                            <filter id="virgoLineGlow" x="-30%" y="-30%" width="160%" height="160%">
+                                <feGaussianBlur stdDeviation="3" result="blur"/>
+                                <feMerge>
+                                    <feMergeNode in="blur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
 
-                    <!-- ── LAYER 3: Vintage Stamps & Tickets ── -->
-                    <div class="sc-layer sc-layer-3" aria-hidden="true">
-                        <!-- Postage Stamp 1: Pink Cinnamoroll themed -->
-                        <div class="sc-piece sc-stamp sp-stamp1">
-                            <div class="stamp-inner">
-                                <div class="stamp-img-area">☁️</div>
-                                <div class="stamp-value">🩷 20</div>
-                                <div class="stamp-country">Cinnamoroll</div>
-                            </div>
-                        </div>
-                        <!-- Postage Stamp 2: Rose -->
-                        <div class="sc-piece sc-stamp sp-stamp2">
-                            <div class="stamp-inner stamp-inner-rose">
-                                <div class="stamp-img-area">🌹</div>
-                                <div class="stamp-value">💕 20</div>
-                                <div class="stamp-country">Birthday</div>
-                            </div>
-                        </div>
-                        <!-- Postage Stamp 3: Star -->
-                        <div class="sc-piece sc-stamp sp-stamp3">
-                            <div class="stamp-inner stamp-inner-gold">
-                                <div class="stamp-img-area">⭐</div>
-                                <div class="stamp-value">✨ 8</div>
-                                <div class="stamp-country">Wishes</div>
-                            </div>
-                        </div>
-                        <!-- Ticket Stub -->
-                        <div class="sc-piece sc-ticket sp-ticket1">
-                            <div class="ticket-left">
-                                <div class="ticket-event">Birthday Celebration</div>
-                                <div class="ticket-date">2026 · For Nathalie</div>
-                            </div>
-                            <div class="ticket-stub">
-                                <span>ADMIT</span>
-                                <span>ONE</span>
-                                <span>🌸</span>
-                            </div>
-                        </div>
-                        <!-- Postmark / Ink Stamp -->
-                        <div class="sc-piece sc-postmark sp-postmark1" aria-hidden="true">
-                            <svg viewBox="0 0 90 90" class="postmark-svg">
-                                <circle cx="45" cy="45" r="40" fill="none" stroke="#8B4040" stroke-width="3" stroke-dasharray="4 3" opacity="0.6"/>
-                                <circle cx="45" cy="45" r="32" fill="none" stroke="#8B4040" stroke-width="2" opacity="0.5"/>
-                                <text x="45" y="36" text-anchor="middle" font-size="7" fill="#8B4040" opacity="0.7" font-family="serif">BIRTHDAY</text>
-                                <text x="45" y="50" text-anchor="middle" font-size="9" fill="#8B4040" opacity="0.8" font-family="serif" font-weight="bold">2026</text>
-                                <text x="45" y="62" text-anchor="middle" font-size="7" fill="#8B4040" opacity="0.7" font-family="serif">NATHALIE</text>
-                            </svg>
-                        </div>
-                    </div>
+                        <!-- Faint pre-existing blueprint guide lines showing the Virgo constellation outline -->
+                        <g id="virgo-guide-lines" class="virgo-guide-lines">
+                            <!-- Upper-left branch -->
+                            <line x1="87" y1="174" x2="288" y2="230" />
+                            <line x1="288" y1="230" x2="399" y2="302" />
+                            <!-- Spine: Waist down to Spica -->
+                            <line x1="399" y1="302" x2="402" y2="548" />
+                            <!-- Spica down to lower leg & foot -->
+                            <line x1="402" y1="548" x2="204" y2="489" />
+                            <line x1="204" y1="489" x2="200" y2="386" />
+                            <line x1="200" y1="386" x2="80" y2="357" />
+                            <!-- Torso: Waist to Porrima (chest) -->
+                            <line x1="399" y1="302" x2="575" y2="251" />
+                            <!-- Porrima up to Zavijava (head) -->
+                            <line x1="575" y1="251" x2="568" y2="76" />
+                            <!-- Porrima down to Heze (hip) -->
+                            <line x1="575" y1="251" x2="620" y2="378" />
+                            <!-- Spica to Heze (hip) closing torso triangle -->
+                            <line x1="402" y1="548" x2="620" y2="378" />
+                            <!-- Right arm: Heze to Zaniah -->
+                            <line x1="620" y1="378" x2="722" y2="378" />
+                            <!-- Zaniah to Rijl (far right tip) -->
+                            <line x1="722" y1="378" x2="917" y2="242" />
+                        </g>
 
-                    <!-- ── LAYER 4: Washi Tape Strips ── -->
-                    <div class="sc-layer sc-layer-washi" aria-hidden="true">
-                        <div class="sc-washi washi-h1"></div>
-                        <div class="sc-washi washi-v1"></div>
-                        <div class="sc-washi washi-h2"></div>
-                        <div class="sc-washi washi-d1"></div>
-                    </div>
+                        <!-- Dynamic glowing activated Virgo connection lines -->
+                        <g id="virgo-lines" class="virgo-active-lines" filter="url(#virgoLineGlow)"></g>
 
-                    <!-- ── LAYER 5: Small Decorative Photos / Memory Cards ── -->
-                    <div class="sc-layer sc-layer-5">
-                        <div class="sc-piece sc-photo-card sp-photo1">
-                            <div class="photo-card-img">🌸🎂🎀</div>
-                            <div class="photo-card-caption">happy birthday! ♡</div>
-                        </div>
-                        <div class="sc-piece sc-photo-card sp-photo2">
-                            <div class="photo-card-img">☁️⭐✨</div>
-                            <div class="photo-card-caption">from cinnamoroll</div>
-                        </div>
-                    </div>
+                        <!-- 12 Canonical Virgo Constellation Stars -->
+                        <g id="virgo-stars">
+                            <!-- 1. Upper Left Tip -->
+                            <g class="virgo-star-node star-inactive" id="virgo-star-upper-tip" data-star-id="virgo-star-upper-tip" role="button" tabindex="0" aria-label="Star Upper Wing Tip">
+                                <circle class="star-hit-area" cx="87" cy="174" r="32" />
+                                <circle class="star-glow-svg" cx="87" cy="174" r="16" />
+                                <circle class="star-core-svg" cx="87" cy="174" r="5.5" />
+                            </g>
 
-                    <!-- ── LAYER 6: Additional Pressed Flowers ── -->
-                    <div class="sc-layer sc-layer-6" aria-hidden="true">
-                        <!-- Small pressed pink flowers scattered around -->
-                        <div class="sc-piece sc-small-flower sf-1">
-                            <svg viewBox="0 0 40 40" width="40" height="40">
-                                <g transform="translate(20,20)">
-                                    <ellipse rx="4" ry="10" fill="#C45A78" opacity="0.65"/>
-                                    <ellipse rx="4" ry="10" fill="#C45A78" opacity="0.65" transform="rotate(60)"/>
-                                    <ellipse rx="4" ry="10" fill="#C45A78" opacity="0.65" transform="rotate(120)"/>
-                                    <circle r="4.5" fill="#8B3050" opacity="0.75"/>
-                                </g>
-                            </svg>
-                        </div>
-                        <div class="sc-piece sc-small-flower sf-2">
-                            <svg viewBox="0 0 36 36" width="36" height="36">
-                                <g transform="translate(18,18)">
-                                    <ellipse rx="3.5" ry="9" fill="#D4869A" opacity="0.7" transform="rotate(30)"/>
-                                    <ellipse rx="3.5" ry="9" fill="#D4869A" opacity="0.7" transform="rotate(90)"/>
-                                    <ellipse rx="3.5" ry="9" fill="#D4869A" opacity="0.7" transform="rotate(150)"/>
-                                    <ellipse rx="3.5" ry="9" fill="#C4758A" opacity="0.65" transform="rotate(210)"/>
-                                    <ellipse rx="3.5" ry="9" fill="#C4758A" opacity="0.65" transform="rotate(270)"/>
-                                    <ellipse rx="3.5" ry="9" fill="#C4758A" opacity="0.65" transform="rotate(330)"/>
-                                    <circle r="4" fill="#F0D0B8" opacity="0.9"/>
-                                </g>
-                            </svg>
-                        </div>
-                        <div class="sc-piece sc-small-flower sf-3">
-                            <svg viewBox="0 0 44 44" width="44" height="44">
-                                <g transform="translate(22,22)">
-                                    <ellipse rx="5" ry="13" fill="#E8C0B0" opacity="0.6"/>
-                                    <ellipse rx="5" ry="13" fill="#E8C0B0" opacity="0.6" transform="rotate(72)"/>
-                                    <ellipse rx="5" ry="13" fill="#DEB0A0" opacity="0.6" transform="rotate(144)"/>
-                                    <ellipse rx="5" ry="13" fill="#E8C0B0" opacity="0.6" transform="rotate(216)"/>
-                                    <ellipse rx="5" ry="13" fill="#DEB0A0" opacity="0.6" transform="rotate(288)"/>
-                                    <circle r="5.5" fill="#C08050" opacity="0.8"/>
-                                </g>
-                            </svg>
-                        </div>
-                        <div class="sc-piece sc-small-flower sf-4">
-                            <svg viewBox="0 0 32 32" width="32" height="32">
-                                <g transform="translate(16,16)">
-                                    <ellipse rx="3" ry="8" fill="#B85070" opacity="0.6"/>
-                                    <ellipse rx="3" ry="8" fill="#B85070" opacity="0.6" transform="rotate(45)"/>
-                                    <ellipse rx="3" ry="8" fill="#A84060" opacity="0.6" transform="rotate(90)"/>
-                                    <ellipse rx="3" ry="8" fill="#A84060" opacity="0.6" transform="rotate(135)"/>
-                                    <circle r="3.5" fill="#7B2840" opacity="0.8"/>
-                                </g>
-                            </svg>
-                        </div>
-                        <div class="sc-piece sc-small-flower sf-5">
-                            <svg viewBox="0 0 38 38" width="38" height="38">
-                                <g transform="translate(19,19)">
-                                    <ellipse rx="4" ry="11" fill="#D4A0B0" opacity="0.65"/>
-                                    <ellipse rx="4" ry="11" fill="#C49090" opacity="0.65" transform="rotate(60)"/>
-                                    <ellipse rx="4" ry="11" fill="#D4A0B0" opacity="0.65" transform="rotate(120)"/>
-                                    <ellipse rx="4" ry="11" fill="#C49090" opacity="0.65" transform="rotate(180)"/>
-                                    <ellipse rx="4" ry="11" fill="#D4A0B0" opacity="0.65" transform="rotate(240)"/>
-                                    <ellipse rx="4" ry="11" fill="#C49090" opacity="0.65" transform="rotate(300)"/>
-                                    <circle r="4" fill="#E8D0A8" opacity="0.9"/>
-                                </g>
-                            </svg>
-                        </div>
-                    </div>
+                            <!-- 2. Vindemiatrix (epsilon Vir) - Upper Left Wing Mid -->
+                            <g class="virgo-star-node star-inactive" id="virgo-star-vindemiatrix" data-star-id="virgo-star-vindemiatrix" role="button" tabindex="0" aria-label="Star Vindemiatrix (Epsilon Virginis)">
+                                <circle class="star-hit-area" cx="288" cy="230" r="32" />
+                                <circle class="star-glow-svg" cx="288" cy="230" r="16" />
+                                <circle class="star-core-svg" cx="288" cy="230" r="6" />
+                            </g>
 
-                    <!-- ── LAYER 7: Cinnamoroll Elements & Stickers ── -->
-                    <div class="sc-layer sc-layer-7">
-                        <!-- Cinnamoroll themed mini stamp -->
-                        <div class="sc-piece sc-cin-stamp sp-cin2" aria-hidden="true">
-                            <div class="cin-stamp-inner">
-                                <span class="cin-stamp-icon">☁️</span>
-                                <span class="cin-stamp-text">Cinnamoroll<br>Circuit</span>
-                            </div>
-                        </div>
-                        <!-- Blue heart cloud motif doodles -->
-                        <div class="sc-piece sc-cin-doodle sp-cin3" aria-hidden="true">
-                            <svg viewBox="0 0 80 30" class="cloud-doodle-svg">
-                                <text x="5" y="22" font-size="20" opacity="0.7">☁️💙☁️</text>
-                            </svg>
-                        </div>
-                        <!-- Star charm string -->
-                        <div class="sc-piece sc-cin-charm sp-cin4" aria-hidden="true">
-                            <svg viewBox="0 0 30 90" class="charm-string-svg">
-                                <line x1="15" y1="0" x2="15" y2="90" stroke="#C4A0A8" stroke-width="1.5" stroke-dasharray="3 2" opacity="0.6"/>
-                                <text x="8" y="25" font-size="13" opacity="0.8">⭐</text>
-                                <text x="7" y="50" font-size="11" opacity="0.75">💙</text>
-                                <text x="8" y="75" font-size="13" opacity="0.8">🌸</text>
-                            </svg>
-                        </div>
-                        <!-- Ribbon decoration -->
-                        <div class="sc-piece sc-ribbon sp-ribbon1" aria-hidden="true">
-                            <svg viewBox="0 0 120 18" class="ribbon-svg">
-                                <rect width="120" height="18" fill="#D4869A" opacity="0.5" rx="2"/>
-                                <rect x="0" y="7" width="120" height="4" fill="#C4758A" opacity="0.4"/>
-                                <!-- Ribbon pattern dots -->
-                                <circle cx="15" cy="9" r="2" fill="#F0B0C0" opacity="0.6"/>
-                                <circle cx="30" cy="9" r="2" fill="#F0B0C0" opacity="0.6"/>
-                                <circle cx="45" cy="9" r="2" fill="#F0B0C0" opacity="0.6"/>
-                                <circle cx="60" cy="9" r="2" fill="#F0B0C0" opacity="0.6"/>
-                                <circle cx="75" cy="9" r="2" fill="#F0B0C0" opacity="0.6"/>
-                                <circle cx="90" cy="9" r="2" fill="#F0B0C0" opacity="0.6"/>
-                                <circle cx="105" cy="9" r="2" fill="#F0B0C0" opacity="0.6"/>
-                            </svg>
-                        </div>
-                    </div>
+                            <!-- 3. Minelauva (delta Vir) - Central Waist Junction -->
+                            <g class="virgo-star-node star-inactive" id="virgo-star-minelauva" data-star-id="virgo-star-minelauva" role="button" tabindex="0" aria-label="Star Minelauva (Delta Virginis)">
+                                <circle class="star-hit-area" cx="399" cy="302" r="34" />
+                                <circle class="star-glow-svg" cx="399" cy="302" r="18" />
+                                <circle class="star-core-svg" cx="399" cy="302" r="6.5" />
+                            </g>
 
-                    <!-- ── LAYER 8: Paper Tags & Handwritten Notes ── -->
-                    <div class="sc-layer sc-layer-8">
-                        <div class="sc-piece sc-paper-tag sp-tag1">
-                            <div class="tag-hole"></div>
-                            <p class="tag-text">for Nathalie ♡</p>
-                            <p class="tag-subtext">from cinnamoroll ✦</p>
-                        </div>
-                        <div class="sc-piece sc-handwritten-note sp-note1">
-                            <p>wishing you all the<br>best things in life ~</p>
-                            <p class="note-sig">— cinnamoroll ☁️</p>
-                        </div>
-                        <div class="sc-piece sc-label sp-label1">
-                            <span>🌸 memories 🌸</span>
-                        </div>
-                    </div>
+                            <!-- 4. Spica (alpha Vir) - Primary Brightest Anchor -->
+                            <g class="virgo-star-node star-spica star-inactive" id="spica" data-star-id="spica" role="button" tabindex="0" aria-label="Primary Anchor Star Spica (Alpha Virginis)">
+                                <circle class="star-hit-area" cx="402" cy="548" r="38" />
+                                <circle class="spica-glow-outer" cx="402" cy="548" r="26" />
+                                <circle class="star-glow-svg" cx="402" cy="548" r="18" />
+                                <circle class="star-core-svg" cx="402" cy="548" r="8" />
+                                <path class="spica-cross-svg" d="M 402 526 L 404 548 L 402 570 L 400 548 Z M 380 548 L 402 550 L 424 548 L 402 546 Z" />
+                            </g>
 
-                    <!-- ── LAYER 9: Main Greeting Label (Central Focal Point with Memory Photo) ── -->
-                    <div class="sc-piece sc-greeting-label" id="scrapbookGreetingLabel">
-                        <div class="greeting-label-inner">
-                            <!-- Decorative corner flourishes -->
-                            <span class="greeting-corner gc-tl">✦</span>
-                            <span class="greeting-corner gc-tr">✦</span>
-                            <span class="greeting-corner gc-bl">✦</span>
-                            <span class="greeting-corner gc-br">✦</span>
+                            <!-- 5. Kang (kappa Vir) - Lower Leg Joint -->
+                            <g class="virgo-star-node star-inactive" id="virgo-star-kang" data-star-id="virgo-star-kang" role="button" tabindex="0" aria-label="Star Kang (Kappa Virginis)">
+                                <circle class="star-hit-area" cx="204" cy="489" r="32" />
+                                <circle class="star-glow-svg" cx="204" cy="489" r="16" />
+                                <circle class="star-core-svg" cx="204" cy="489" r="6" />
+                            </g>
 
-                            <!-- User-Provided Finale Memory Photo Container -->
-                            <div class="sc-greeting-photo-wrap">
-                                <div class="sc-photo-tape-top" aria-hidden="true"></div>
-                                <img
-                                    src="assets/images/final_photo.jpg"
-                                    alt="Finale Memory"
-                                    class="sc-greeting-photo"
-                                    draggable="false"
-                                    onerror="this.onerror=null; this.src='assets/images/photo2.jpg';"
-                                >
-                            </div>
+                            <!-- 6. Khambalia (lambda Vir) - Lower Leg Mid -->
+                            <g class="virgo-star-node star-inactive" id="virgo-star-khambalia" data-star-id="virgo-star-khambalia" role="button" tabindex="0" aria-label="Star Khambalia (Lambda Virginis)">
+                                <circle class="star-hit-area" cx="200" cy="386" r="32" />
+                                <circle class="star-glow-svg" cx="200" cy="386" r="15" />
+                                <circle class="star-core-svg" cx="200" cy="386" r="5.5" />
+                            </g>
 
-                            <p class="greeting-from" aria-hidden="true">✦ ✦ ✦</p>
-                            <h2 class="greeting-title" id="finale-title">Greetings from<br>Cinnamoroll ☁️</h2>
-                            <p class="greeting-body">Happy Birthday, Nathalie! 🌸<br>May this year be filled with gentle days,<br>beautiful moments, and everything<br>you've been hoping for. ♡</p>
-                            <p class="greeting-sign">Until next time ~</p>
-                        </div>
-                    </div>
+                            <!-- 7. Syrma (iota Vir) - Lower Foot Tip -->
+                            <g class="virgo-star-node star-inactive" id="virgo-star-syrma" data-star-id="virgo-star-syrma" role="button" tabindex="0" aria-label="Star Syrma (Iota Virginis)">
+                                <circle class="star-hit-area" cx="80" cy="357" r="32" />
+                                <circle class="star-glow-svg" cx="80" cy="357" r="15" />
+                                <circle class="star-core-svg" cx="80" cy="357" r="5.5" />
+                            </g>
 
-                    <!-- ── LAYER 10: Final Scattered Finishing Details ── -->
-                    <div class="sc-layer sc-layer-10" aria-hidden="true">
-                        <!-- Tiny decorative stars & sparkles -->
-                        <span class="sc-tiny-detail std-1">✦</span>
-                        <span class="sc-tiny-detail std-2">✦</span>
-                        <span class="sc-tiny-detail std-3">·</span>
-                        <span class="sc-tiny-detail std-4">·</span>
-                        <span class="sc-tiny-detail std-5">✦</span>
-                        <span class="sc-tiny-detail std-6">·</span>
-                        <span class="sc-tiny-detail std-7">✦</span>
-                        <span class="sc-tiny-detail std-8">·</span>
-                        <!-- Small envelope -->
-                        <div class="sc-piece sc-tiny-envelope std-env1">
-                            <svg viewBox="0 0 36 26" class="envelope-svg">
-                                <rect width="36" height="26" rx="2" fill="#E8D0B8" stroke="#C4A890" stroke-width="1"/>
-                                <path d="M0,0 L18,15 L36,0" fill="none" stroke="#C4A890" stroke-width="1"/>
-                                <path d="M0,26 L13,13" fill="none" stroke="#C4A890" stroke-width="0.8" opacity="0.6"/>
-                                <path d="M36,26 L23,13" fill="none" stroke="#C4A890" stroke-width="0.8" opacity="0.6"/>
-                            </svg>
-                        </div>
-                        <!-- Paper corner fold accent -->
-                        <div class="sc-corner-fold cf-tl" aria-hidden="true"></div>
-                        <div class="sc-corner-fold cf-br" aria-hidden="true"></div>
-                    </div>
+                            <!-- 8. Porrima (gamma Vir) - Chest Junction -->
+                            <g class="virgo-star-node star-inactive" id="virgo-star-porrima" data-star-id="virgo-star-porrima" role="button" tabindex="0" aria-label="Star Porrima (Gamma Virginis)">
+                                <circle class="star-hit-area" cx="575" cy="251" r="34" />
+                                <circle class="star-glow-svg" cx="575" cy="251" r="18" />
+                                <circle class="star-core-svg" cx="575" cy="251" r="7" />
+                            </g>
 
-                    <!-- ── Return to Start Button ── -->
-                    <div class="sc-return-container finale-action-container" id="finaleActionContainer">
-                        <button id="homeButton" class="primary-button finale-home-btn" type="button">
-                            Return to Start ✨
+                            <!-- 9. Zavijava (beta Vir) - Head Star -->
+                            <g class="virgo-star-node star-inactive" id="virgo-star-zavijava" data-star-id="virgo-star-zavijava" role="button" tabindex="0" aria-label="Star Zavijava (Beta Virginis)">
+                                <circle class="star-hit-area" cx="568" cy="76" r="32" />
+                                <circle class="star-glow-svg" cx="568" cy="76" r="16" />
+                                <circle class="star-core-svg" cx="568" cy="76" r="6" />
+                            </g>
+
+                            <!-- 10. Heze (zeta Vir) - Hip / Lower Torso Junction -->
+                            <g class="virgo-star-node star-inactive" id="virgo-star-heze" data-star-id="virgo-star-heze" role="button" tabindex="0" aria-label="Star Heze (Zeta Virginis)">
+                                <circle class="star-hit-area" cx="620" cy="378" r="34" />
+                                <circle class="star-glow-svg" cx="620" cy="378" r="16" />
+                                <circle class="star-core-svg" cx="620" cy="378" r="6.5" />
+                            </g>
+
+                            <!-- 11. Zaniah (eta Vir) - Right Arm Joint -->
+                            <g class="virgo-star-node star-inactive" id="virgo-star-zaniah" data-star-id="virgo-star-zaniah" role="button" tabindex="0" aria-label="Star Zaniah (Eta Virginis)">
+                                <circle class="star-hit-area" cx="722" cy="378" r="32" />
+                                <circle class="star-glow-svg" cx="722" cy="378" r="16" />
+                                <circle class="star-core-svg" cx="722" cy="378" r="6" />
+                            </g>
+
+                            <!-- 12. Rijl al Awwa (mu Vir) - Far Right Tip -->
+                            <g class="virgo-star-node star-inactive" id="virgo-star-rijl" data-star-id="virgo-star-rijl" role="button" tabindex="0" aria-label="Star Rijl al Awwa (Mu Virginis)">
+                                <circle class="star-hit-area" cx="917" cy="242" r="32" />
+                                <circle class="star-glow-svg" cx="917" cy="242" r="15" />
+                                <circle class="star-core-svg" cx="917" cy="242" r="5.5" />
+                            </g>
+                        </g>
+                    </svg>
+
+                </div>
+
+                <!-- ── 4. Virgo Completion Message (Hidden until all stars connected) ── -->
+                <div class="virgo-message-stage" id="virgoMessageStage" aria-hidden="true" style="display: none;">
+                    <p class="virgo-message-text">
+                        One by one, you connected the stars. And there it was: Virgo, your little piece of the night sky, written in the stars since the day you were born.
+                    </p>
+                    <div class="virgo-msg-continue-wrap" id="virgoMsgContinueWrap">
+                        <button id="virgoMessageContinue" class="virgo-msg-continue-btn" type="button" aria-label="Continue to your letter">
+                            <span>Continue</span><span class="virgo-msg-btn-sparkle">✦</span>
                         </button>
                     </div>
+                </div>
 
-                </div><!-- end .scrapbook-canvas -->
+            </section>
+
+            <!-- 8. LETTER FINALE SECTION: Dedicated page for Nathalie's photo & letter after Virgo reveal -->
+            <section id="letter-finale" class="section-container" aria-labelledby="letter-finale-title" style="display: none;">
+
+                <!-- ── Ambient Constellation Night Sky (Moon, Stars, Clouds, Hearts, Sparkles & Particles) ── -->
+                <div class="finale-night-sky" aria-hidden="true">
+                    <!-- Soft Glowing Pixel Crescent Moon -->
+                    <div class="pixel-moon-wrap">
+                        <svg viewBox="0 0 48 48" class="pixel-moon-svg">
+                            <path d="M28 4C17 4 8 13 8 24C8 35 17 44 28 44C32 44 36 43 39 40C30 38 23 30 23 20C23 13 27 7 33 4C31 4 29 4 28 4Z" fill="#FFF2C6"/>
+                            <path d="M28 8C19 8 12 15 12 24C12 33 19 40 28 40C30 40 33 39 35 38C28 35 23 28 23 20C23 15 26 10 30 8C29 8 28 8 28 8Z" fill="#FFE5A3" opacity="0.6"/>
+                            <circle cx="16" cy="18" r="1.5" fill="#FFFBE6" opacity="0.8"/>
+                            <circle cx="20" cy="30" r="2" fill="#FFFBE6" opacity="0.8"/>
+                            <circle cx="12" cy="26" r="1" fill="#FFFBE6" opacity="0.5"/>
+                        </svg>
+                    </div>
+
+                    <!-- Twinkling Pixel Stars -->
+                    <div class="pixel-sky-stars">
+                        <span class="px-star px-star-lg p-s1">✦</span>
+                        <span class="px-star px-star-md p-s2">⭐</span>
+                        <span class="px-star px-star-sm p-s3">✨</span>
+                        <span class="px-star px-star-lg p-s4">✦</span>
+                        <span class="px-star px-star-dot p-s5">·</span>
+                        <span class="px-star px-star-md p-s6">✨</span>
+                        <span class="px-star px-star-sm p-s7">✦</span>
+                        <span class="px-star px-star-lg p-s8">⭐</span>
+                        <span class="px-star px-star-dot p-s9">·</span>
+                        <span class="px-star px-star-md p-s10">✦</span>
+                        <span class="px-star px-star-sm p-s11">✨</span>
+                        <span class="px-star px-star-md p-s12">⭐</span>
+                    </div>
+
+                    <!-- Four-Point Cross Sparkle Stars -->
+                    <div class="px-sparkle-star px-sp-warm psp1"></div>
+                    <div class="px-sparkle-star px-sp-pink psp2"></div>
+                    <div class="px-sparkle-star px-sp-white psp3"></div>
+                    <div class="px-sparkle-star px-sp-warm psp4"></div>
+                    <div class="px-sparkle-star px-sp-pink psp5"></div>
+                    <div class="px-sparkle-star px-sp-white psp6"></div>
+
+                    <!-- Drifting Soft Pixel Clouds -->
+                    <div class="pixel-sky-cloud p-c1">☁️</div>
+                    <div class="pixel-sky-cloud p-c2">☁️</div>
+                    <div class="pixel-sky-cloud p-c3">☁️</div>
+
+                    <!-- Floating Pixel Hearts -->
+                    <div class="pixel-sky-hearts">
+                        <span class="px-heart-fx p-h1">💖</span>
+                        <span class="px-heart-fx p-h2">💕</span>
+                        <span class="px-heart-fx p-h3">🌸</span>
+                        <span class="px-heart-fx p-h4">✨</span>
+                    </div>
+
+                    <!-- Ambient Pixel Particle System -->
+                    <div class="px-ambient-particles">
+                        <div class="px-particle px-p-rose  pp1"></div>
+                        <div class="px-particle px-p-lav   pp2"></div>
+                        <div class="px-particle px-p-white pp3"></div>
+                        <div class="px-particle px-p-gold  pp4"></div>
+                        <div class="px-particle px-p-rose  pp5"></div>
+                        <div class="px-particle px-p-lav   pp6"></div>
+                        <div class="px-particle px-p-white pp7"></div>
+                        <div class="px-particle px-p-rose  pp8"></div>
+                        <div class="px-particle px-p-gold  pp9"></div>
+                        <div class="px-particle px-p-lav   pp10"></div>
+                        <div class="px-particle px-p-white pp11"></div>
+                        <div class="px-particle px-p-rose  pp12"></div>
+                    </div>
+                </div>
+
+                <!-- ── Pixel Ground Scene (grass blades, tiny flowers, mushroom) ── -->
+                <div class="finale-pixel-ground" aria-hidden="true">
+                    <svg viewBox="0 0 800 110" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="0" y="60" width="800" height="50" fill="#1A0A1E" opacity="0.85"/>
+                        <rect x="0" y="55" width="800" height="8" fill="#2D0D30" opacity="0.7"/>
+                        <rect x="5"   y="48" width="4" height="14" fill="#4A1A50" rx="1"/>
+                        <rect x="18"  y="44" width="4" height="18" fill="#3D1440" rx="1"/>
+                        <rect x="30"  y="50" width="3" height="12" fill="#5A2060" rx="1"/>
+                        <rect x="42"  y="45" width="4" height="17" fill="#3D1440" rx="1"/>
+                        <rect x="58"  y="47" width="3" height="15" fill="#4A1A50" rx="1"/>
+                        <rect x="72"  y="43" width="4" height="19" fill="#5A2060" rx="1"/>
+                        <rect x="102" y="45" width="4" height="17" fill="#4A1A50" rx="1"/>
+                        <rect x="135" y="44" width="4" height="18" fill="#3D1440" rx="1"/>
+                        <rect x="172" y="43" width="4" height="19" fill="#5A2060" rx="1"/>
+                        <rect x="210" y="45" width="4" height="17" fill="#4A1A50" rx="1"/>
+                        <rect x="250" y="44" width="4" height="18" fill="#3D1440" rx="1"/>
+                        <rect x="290" y="43" width="4" height="19" fill="#5A2060" rx="1"/>
+                        <rect x="332" y="44" width="4" height="18" fill="#4A1A50" rx="1"/>
+                        <rect x="378" y="43" width="4" height="19" fill="#3D1440" rx="1"/>
+                        <rect x="425" y="45" width="4" height="17" fill="#5A2060" rx="1"/>
+                        <rect x="470" y="43" width="4" height="19" fill="#4A1A50" rx="1"/>
+                        <rect x="514" y="44" width="4" height="18" fill="#3D1440" rx="1"/>
+                        <rect x="558" y="45" width="4" height="17" fill="#5A2060" rx="1"/>
+                        <rect x="602" y="43" width="4" height="19" fill="#4A1A50" rx="1"/>
+                        <rect x="645" y="44" width="4" height="18" fill="#3D1440" rx="1"/>
+                        <rect x="685" y="43" width="4" height="19" fill="#5A2060" rx="1"/>
+                        <rect x="724" y="45" width="4" height="17" fill="#4A1A50" rx="1"/>
+                        <rect x="762" y="43" width="4" height="19" fill="#3D1440" rx="1"/>
+                        <rect x="794" y="44" width="4" height="18" fill="#5A2060" rx="1"/>
+                        <!-- Flowers -->
+                        <rect x="56" y="36" width="4" height="8" fill="#5A1A3A" rx="1"/>
+                        <rect x="52" y="33" width="4" height="4" fill="#FF85A2" rx="1"/>
+                        <rect x="60" y="33" width="4" height="4" fill="#FF85A2" rx="1"/>
+                        <rect x="56" y="30" width="4" height="4" fill="#FFB3CC" rx="1"/>
+                        <rect x="238" y="36" width="4" height="8" fill="#5A1A3A" rx="1"/>
+                        <rect x="234" y="33" width="4" height="4" fill="#D07AB0" rx="1"/>
+                        <rect x="242" y="33" width="4" height="4" fill="#D07AB0" rx="1"/>
+                        <rect x="238" y="30" width="4" height="4" fill="#E8A0CC" rx="1"/>
+                        <rect x="498" y="36" width="4" height="8" fill="#5A1A3A" rx="1"/>
+                        <rect x="494" y="33" width="4" height="4" fill="#FF85A2" rx="1"/>
+                        <rect x="502" y="33" width="4" height="4" fill="#FF85A2" rx="1"/>
+                        <rect x="498" y="30" width="4" height="4" fill="#FFB3CC" rx="1"/>
+                        <rect x="708" y="36" width="4" height="8" fill="#5A1A3A" rx="1"/>
+                        <rect x="704" y="33" width="4" height="4" fill="#D07AB0" rx="1"/>
+                        <rect x="712" y="33" width="4" height="4" fill="#D07AB0" rx="1"/>
+                        <rect x="708" y="30" width="4" height="4" fill="#E8A0CC" rx="1"/>
+                    </svg>
+                </div>
+
+                <!-- ── Transparent Night Atmosphere Overlay & Multi-Layer Stars ── -->
+                <div class="finale-night-overlay" aria-hidden="true">
+                    <div class="finale-vignette"></div>
+                    <div class="finale-star-layer">
+                        <span class="star-tiny st-1">·</span>
+                        <span class="star-tiny st-2">·</span>
+                        <span class="star-tiny st-3">·</span>
+                        <span class="star-tiny st-4">·</span>
+                        <span class="star-tiny st-5">·</span>
+                        <span class="star-tiny st-6">·</span>
+                        <span class="star-tiny st-7">·</span>
+                        <span class="star-tiny st-8">·</span>
+                        <span class="star-tiny st-9">·</span>
+                        <span class="star-tiny st-10">·</span>
+                        <span class="star-tiny st-11">·</span>
+                        <span class="star-tiny st-12">·</span>
+                        <span class="star-medium sm-1">✦</span>
+                        <span class="star-medium sm-2">⭐</span>
+                        <span class="star-medium sm-3">✦</span>
+                        <span class="star-medium sm-4">⭐</span>
+                        <span class="star-medium sm-5">✦</span>
+                        <span class="star-medium sm-6">⭐</span>
+                        <span class="star-flair sf-1">✨</span>
+                        <span class="star-flair sf-2">✨</span>
+                        <span class="star-flair sf-3">✨</span>
+                    </div>
+                </div>
+
+                <!-- Cinematic letter reveal stage -->
+                <div class="finale-reveal-stage" id="finaleRevealStage" aria-hidden="true">
+                    <article class="finale-letter-card" id="finaleLetterCard">
+                        <!-- Pixel Corner & Ribbon Accents -->
+                        <span class="flc-corner flc-tl" aria-hidden="true">🌸</span>
+                        <span class="flc-corner flc-tr" aria-hidden="true">✦</span>
+                        <span class="flc-corner flc-bl" aria-hidden="true">✦</span>
+                        <span class="flc-corner flc-br" aria-hidden="true">🌸</span>
+                        <span class="flc-top-ribbon" aria-hidden="true">🎀</span>
+
+                        <!-- Framed Memory Photo Container - Main Visual Focus -->
+                        <div class="finale-photo-frame" id="finalePhotoFrame">
+                            <div class="finale-photo-tape" aria-hidden="true"></div>
+                            <img
+                                src="assets/images/final_photo.jpg"
+                                alt="Happy Birthday Nathalie"
+                                class="finale-photo-img"
+                                id="finalePhotoImg"
+                                draggable="false"
+                                loading="lazy"
+                            >
+                        </div>
+
+                        <!-- Final Birthday Letter Message -->
+                        <header class="flc-header">
+                            <h2 class="flc-greeting" id="letter-finale-title">Happy Birthday, Nathalie! 🌸</h2>
+                        </header>
+
+                        <div class="flc-body">
+                            <p>Thank you for taking the time to go through this website I made for you.</p>
+                            <p>I hope you enjoyed all the little things I prepared, from the pictures, flowers, and sweet treats to the birthday wish at the end.</p>
+                            <p>I may not be able to say all of these things personally, but I hope this is a small way to remind you that you are appreciated and deserve to be happy.</p>
+                            <p>I hope you have a beautiful birthday and that this year brings you many good things.</p>
+                            <p class="flc-closing">Happy Birthday, Nathalie. ♡</p>
+                        </div>
+
+                        <footer class="flc-footer">
+                            <p class="flc-sign">Until next time ~</p>
+                        </footer>
+                    </article>
+
+                    <!-- "Return to Start" Action -->
+                    <div class="finale-action-wrap" id="finaleActionWrap">
+                        <button id="homeButton" class="primary-button finale-pixel-btn" type="button">
+                            <span>Return to Start</span> <span></span>
+                        </button>
+                    </div>
+                </div>
 
             </section>
 
@@ -1367,29 +2012,140 @@
         <!-- Toast notification container -->
         <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-        <!-- Floating Spotify-Style Music Controller -->
-        <div id="musicController" class="floating-music-controller" aria-label="Background Music Controller">
-            <!-- Artist Picture -->
-            <div class="music-artist-avatar-wrap">
-                <img src="assets/images/artist.png" alt="Lee Hi" class="music-artist-photo" draggable="false" onerror="this.onerror=null; this.src='assets/images/cin_airplane.png';">
-            </div>
+        <!-- Dreamy Floating Music Player Widget (Bottom-Right Fixed) -->
+        <aside id="musicPlayerWidget" class="floating-music-widget" aria-label="Birthday Music Player">
+            
+            <!-- A. Collapsed Floating Button State -->
+            <button id="musicCollapsedBtn" class="music-collapsed-toggle" type="button" aria-label="Expand music player" title="Expand music player 🎵">
+                <div class="collapsed-pulse-rings" aria-hidden="true">
+                    <span class="pulse-ring ring-1"></span>
+                    <span class="pulse-ring ring-2"></span>
+                </div>
+                <div class="collapsed-inner-disc">
+                    <span class="collapsed-music-icon" aria-hidden="true">🎵</span>
+                    <span class="collapsed-sparkle-icon" aria-hidden="true">✨</span>
+                </div>
+                <span class="collapsed-mini-ribbon" aria-hidden="true">🎀</span>
+            </button>
 
-            <!-- Song Info & Controls Row -->
-            <div class="music-details-wrap">
-                <div class="music-info-text">
-                    <span class="music-title">Only ♡</span>
-                    <span class="music-artist">LeeHi ‧ 2021</span>
+            <!-- B. Expanded Floating Music Card -->
+            <div id="musicPlayerCard" class="music-player-card" role="region" aria-label="Now Playing">
+                
+                <!-- Ambient Subtle Sparkle / Flower Accents -->
+                <div class="music-card-sparkles" aria-hidden="true">
+                    <span class="mc-sparkle mcs-1">✨</span>
+                    <span class="mc-sparkle mcs-2">🌸</span>
+                    <span class="mc-sparkle mcs-3">💖</span>
                 </div>
-                <div class="music-controls-row">
-                    <button id="musicPlayPauseBtn" class="music-ctrl-btn" type="button" aria-label="Pause background music" title="Play / Pause">
-                        <span class="music-btn-icon" id="musicPlayIcon">❚❚</span>
-                    </button>
-                    <button id="musicMuteBtn" class="music-ctrl-btn" type="button" aria-label="Mute background music" title="Mute / Unmute">
-                        <span class="music-btn-icon" id="musicMuteIcon">🔊</span>
+
+                <!-- Card Header with Cute Tag and Collapse Button -->
+                <div class="music-card-header">
+                    <div class="music-tag">
+                        <span class="music-tag-heart">🎀</span>
+                        <span class="music-tag-text">Nathalie's Birthday Song</span>
+                    </div>
+                    <button id="musicCollapseBtn" class="music-collapse-btn" type="button" aria-label="Minimize music player" title="Minimize">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
                     </button>
                 </div>
-            </div>
-        </div>
+
+                <!-- Main Content (Album Art + Info + Progress + Controls) -->
+                <div class="music-card-main">
+                    
+                    <!-- Album Artwork Container -->
+                    <div class="music-album-art-wrap">
+                        <div class="album-art-inner">
+                            <img 
+                                src="assets/images/artist.png" 
+                                alt="Lee Hi Album Artwork" 
+                                class="music-album-img" 
+                                draggable="false" 
+                                onerror="this.onerror=null; this.src='assets/images/cin_airplane.png';"
+                            >
+                            <div class="album-art-gloss" aria-hidden="true"></div>
+                        </div>
+                        <!-- Mini sound wave equalizer animation -->
+                        <div class="album-sound-waves" aria-hidden="true">
+                            <span class="sw-bar b1"></span>
+                            <span class="sw-bar b2"></span>
+                            <span class="sw-bar b3"></span>
+                        </div>
+                    </div>
+
+                    <!-- Song Info & Controls Body -->
+                    <div class="music-body-info">
+                        
+                        <!-- Song Typography (Crisp, Elegant & Non-Pixel) -->
+                        <div class="music-text-group">
+                            <div class="music-song-title" title="ONLY ♡">ONLY </div>
+                            <div class="music-artist-name">LeeHi ‧ 2021 🌸</div>
+                        </div>
+
+                        <!-- Thin Elegant Progress Bar with Scrubbing -->
+                        <div class="music-progress-section">
+                            <div id="musicProgressBar" class="music-progress-bar" role="slider" aria-label="Playback progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+                                <div class="music-progress-track">
+                                    <div id="musicProgressFill" class="music-progress-fill" style="width: 0%;">
+                                        <div class="music-progress-thumb"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="music-time-row">
+                                <span id="musicCurrentTime" class="music-time-text">0:00</span>
+                                <span id="musicTotalTime" class="music-time-text">3:41</span>
+                            </div>
+                        </div>
+
+                        <!-- Polished Circular Controls -->
+                        <div class="music-controls-row">
+                            <!-- Previous / Restart Button -->
+                            <button id="musicPrevBtn" class="music-action-btn music-btn-secondary" type="button" aria-label="Restart song" title="Previous / Restart">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                                    <line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="3" stroke-linecap="round"></line>
+                                </svg>
+                            </button>
+
+                            <!-- Play/Pause Button (Main Visual Focus with Glow) -->
+                            <button id="musicPlayPauseBtn" class="music-action-btn music-btn-primary" type="button" aria-label="Pause background music" title="Play / Pause">
+                                <span id="musicPlayIcon" class="music-play-icon-sym">
+                                    <svg class="icon-play" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display: none;"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
+                                    <svg class="icon-pause" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>
+                                </span>
+                            </button>
+
+                            <!-- Next / Loop Button -->
+                            <button id="musicNextBtn" class="music-action-btn music-btn-secondary" type="button" aria-label="Next song" title="Next / Loop">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                                    <line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="3" stroke-linecap="round"></line>
+                                </svg>
+                            </button>
+
+                            <!-- Volume / Mute Button -->
+                            <button id="musicMuteBtn" class="music-action-btn music-btn-secondary" type="button" aria-label="Mute background music" title="Mute / Unmute">
+                                <span id="musicMuteIcon" class="music-mute-icon-sym">
+                                    <svg class="icon-unmuted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"></polygon>
+                                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                                    </svg>
+                                    <svg class="icon-muted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display: none;">
+                                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"></polygon>
+                                        <line x1="23" y1="9" x2="17" y2="15"></line>
+                                        <line x1="17" y1="9" x2="23" y2="15"></line>
+                                    </svg>
+                                </span>
+                            </button>
+                        </div><!-- end .music-controls-row -->
+
+                    </div><!-- end .music-body-info -->
+                </div><!-- end .music-card-main -->
+
+            </div><!-- end #musicPlayerCard -->
+        </aside>
 
     </div>
 
