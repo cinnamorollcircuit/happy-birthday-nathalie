@@ -8316,7 +8316,13 @@ body.cafe-golden-hour .pixel-room-backdrop {
 
 /* Translucent starry overlay without heavy dark masking */
 #letter-finale .finale-night-overlay {
-  opacity: 0.65 !important;
+  opacity: 0.75 !important;
+  pointer-events: none;
+}
+
+/* Pixel ground visible in letter-finale */
+#letter-finale .finale-pixel-ground {
+  opacity: 0.85 !important;
   pointer-events: none;
 }
 
@@ -8376,6 +8382,471 @@ body.cafe-golden-hour .pixel-room-backdrop {
     0 0 40px rgba(255, 120, 160, 0.28);
 }
 
+/* ==========================================================================
+   VINE BORDER: Decorative Vine on Finale Letter Card
+   ========================================================================== */
+
+/* Canvas container holding both vine layers + card */
+.flc-card-canvas {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Layer 1: Under-card vine — peeks out behind card border (z-index < card) */
+.card-vine-under {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: visible;
+}
+
+.vine-under-svg {
+  position: absolute;
+  pointer-events: none;
+  overflow: visible;
+  filter: drop-shadow(0 0 8px rgba(130, 60, 180, 0.35))
+          drop-shadow(0 0 18px rgba(90, 30, 120, 0.20));
+  opacity: 0.82;
+}
+
+/* Bottom-left climbing vine — anchored to card bottom-left corner */
+.vine-under-bl {
+  bottom: -10px;
+  left: -22px;
+  width: clamp(70px, 12vw, 110px);
+  height: auto;
+}
+
+/* Top-left + top-edge horizontal vine */
+.vine-under-tl {
+  top: -18px;
+  left: -14px;
+  width: clamp(180px, 60%, 320px);
+  height: auto;
+}
+
+/* Top-right corner accent */
+.vine-under-tr {
+  top: -14px;
+  right: -18px;
+  width: clamp(80px, 18vw, 130px);
+  height: auto;
+}
+
+/* Layer 2: Over-card vine — tendrils graze over card border (z-index > card) */
+.card-vine-over {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  overflow: visible;
+}
+
+.vine-over-svg {
+  position: absolute;
+  pointer-events: none;
+  overflow: visible;
+  filter: drop-shadow(0 0 5px rgba(160, 90, 220, 0.45))
+          drop-shadow(0 0 12px rgba(110, 40, 160, 0.30));
+  opacity: 0.90;
+}
+
+/* Bottom-left over tendril */
+.vine-over-bl {
+  bottom: 0;
+  left: -6px;
+  width: clamp(50px, 9vw, 80px);
+  height: auto;
+}
+
+/* Top-edge over tendril */
+.vine-over-top {
+  top: 0;
+  left: 5%;
+  width: clamp(150px, 55%, 280px);
+  height: auto;
+}
+
+/* Top-right over accent */
+.vine-over-tr {
+  top: 4px;
+  right: -4px;
+  width: clamp(55px, 12vw, 85px);
+  height: auto;
+}
+
+/* Ensure card itself is layered correctly within canvas */
+.flc-card-canvas > article.finale-letter-card {
+  position: relative;
+  z-index: 2;
+}
+
+/* Subtle sway on over-card vine buds/blossoms */
+.vine-bud-bloom {
+  animation: vineBudSway 6s ease-in-out infinite alternate;
+  transform-origin: bottom center;
+}
+
+@keyframes vineBudSway {
+  0%   { transform: rotate(0deg) scale(1); }
+  100% { transform: rotate(1.5deg) scale(1.02); }
+}
+
+/* Mobile tweaks for vine */
+@media (max-width: 640px) {
+  .vine-under-bl  { width: clamp(55px, 15vw, 80px);  left: -12px; }
+  .vine-under-tl  { width: clamp(140px, 80vw, 240px); }
+  .vine-under-tr  { width: clamp(60px, 14vw, 90px);  right: -12px; }
+  .vine-over-bl   { width: clamp(38px, 10vw, 58px); }
+  .vine-over-top  { width: clamp(120px, 70vw, 200px); }
+  .vine-over-tr   { width: clamp(42px, 10vw, 60px); }
+}
+
+/* Prefers-reduced-motion: freeze sway */
+@media (prefers-reduced-motion: reduce) {
+  .vine-bud-bloom {
+    animation: none !important;
+  }
+}
+
+/* ==========================================================================
+   FINALE ATMOSPHERIC LAYER: Glowing Violet Butterflies & Purple Lilies
+   ========================================================================== */
+
+/* ── 1. Glowing Purple Lilies Layer (Framing Bottom Corners) ── */
+.finale-lilies-layer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 240px;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+}
+
+.finale-lilies-cluster {
+  position: absolute;
+  bottom: -4px;
+  width: clamp(120px, 18vw, 175px);
+  max-width: 175px;
+  height: auto;
+  pointer-events: none;
+  transform-origin: bottom center;
+}
+
+.lilies-cluster-left {
+  left: clamp(4px, 3.5vw, 45px);
+  animation: lilyBreatheLeft 7.8s ease-in-out infinite alternate;
+}
+
+.lilies-cluster-right {
+  right: clamp(4px, 3.5vw, 45px);
+  animation: lilyBreatheRight 8.6s ease-in-out infinite alternate;
+  animation-delay: 1.4s;
+}
+
+.lily-cluster-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 0 16px rgba(180, 110, 255, 0.45)) drop-shadow(0 0 35px rgba(123, 44, 191, 0.28));
+}
+
+@keyframes lilyBreatheLeft {
+  0% {
+    opacity: 0.62;
+    transform: translateY(0) rotate(0deg);
+    filter: drop-shadow(0 0 12px rgba(180, 110, 255, 0.4)) drop-shadow(0 0 28px rgba(123, 44, 191, 0.2)) brightness(0.95);
+  }
+  50% {
+    opacity: 0.88;
+    transform: translateY(-3px) rotate(-0.5deg);
+    filter: drop-shadow(0 0 20px rgba(220, 160, 255, 0.7)) drop-shadow(0 0 45px rgba(157, 78, 221, 0.42)) brightness(1.15);
+  }
+  100% {
+    opacity: 0.62;
+    transform: translateY(0) rotate(0deg);
+    filter: drop-shadow(0 0 12px rgba(180, 110, 255, 0.4)) drop-shadow(0 0 28px rgba(123, 44, 191, 0.2)) brightness(0.95);
+  }
+}
+
+@keyframes lilyBreatheRight {
+  0% {
+    opacity: 0.65;
+    transform: translateY(0) rotate(0deg);
+    filter: drop-shadow(0 0 14px rgba(180, 110, 255, 0.4)) drop-shadow(0 0 28px rgba(123, 44, 191, 0.2)) brightness(0.95);
+  }
+  50% {
+    opacity: 0.90;
+    transform: translateY(-3px) rotate(0.5deg);
+    filter: drop-shadow(0 0 22px rgba(220, 160, 255, 0.72)) drop-shadow(0 0 45px rgba(157, 78, 221, 0.45)) brightness(1.16);
+  }
+  100% {
+    opacity: 0.65;
+    transform: translateY(0) rotate(0deg);
+    filter: drop-shadow(0 0 14px rgba(180, 110, 255, 0.4)) drop-shadow(0 0 28px rgba(123, 44, 191, 0.2)) brightness(0.95);
+  }
+}
+
+/* ── 2. Glowing Violet Butterflies Layer (Drifting, Trails & Sparkles) ── */
+.finale-butterflies-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+}
+
+.finale-butterfly-entity {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform, opacity;
+  opacity: 0;
+}
+
+.butterfly-motion-carrier {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Butterfly SVG Visuals */
+.butterfly-visual {
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 0 8px rgba(210, 140, 255, 0.85)) drop-shadow(0 0 18px rgba(157, 78, 221, 0.55));
+}
+
+.butterfly-svg {
+  display: block;
+  overflow: visible;
+}
+
+/* Butterfly Wing Flapping */
+.bf-wing-left {
+  transform-origin: 18px 15px;
+  animation: wingFlapL 1.15s ease-in-out infinite alternate;
+}
+
+.bf-wing-right {
+  transform-origin: 18px 15px;
+  animation: wingFlapR 1.15s ease-in-out infinite alternate;
+}
+
+@keyframes wingFlapL {
+  0%   { transform: scaleX(1) rotate(0deg); }
+  100% { transform: scaleX(0.25) rotate(-6deg); }
+}
+
+@keyframes wingFlapR {
+  0%   { transform: scaleX(1) rotate(0deg); }
+  100% { transform: scaleX(0.25) rotate(6deg); }
+}
+
+/* Butterfly Light Trail Ribbon */
+.butterfly-trail-svg {
+  position: absolute;
+  right: 55%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 110px;
+  height: 38px;
+  pointer-events: none;
+  z-index: 1;
+  overflow: visible;
+  filter: drop-shadow(0 0 8px rgba(199, 125, 255, 0.65)) blur(0.4px);
+}
+
+.trail-ribbon-path {
+  animation: trailBreathing 3.2s ease-in-out infinite alternate;
+}
+
+@keyframes trailBreathing {
+  0%   { opacity: 0.6; stroke-width: 2px; }
+  100% { opacity: 0.95; stroke-width: 3px; }
+}
+
+/* Sparkle-Stars Around Butterfly Trail */
+.butterfly-sparkles {
+  position: absolute;
+  right: 40%;
+  top: 30%;
+  width: 80px;
+  height: 40px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.bf-sparkle {
+  position: absolute;
+  font-family: monospace;
+  font-size: 0.82rem;
+  line-height: 1;
+  color: #FFF0FA;
+  text-shadow:
+    0 0 8px rgba(255, 220, 255, 0.9),
+    0 0 16px rgba(199, 125, 255, 0.8);
+  animation: bfSparkleTwinkle 2.2s ease-in-out infinite alternate;
+}
+
+.bfs-1 { top: -6px; left: 18px; animation-delay: 0.1s; font-size: 0.9rem; }
+.bfs-2 { top: 18px; left: 38px; animation-delay: 0.8s; font-size: 0.75rem; color: #E0AAFF; }
+.bfs-3 { top: 8px;  left: 60px; animation-delay: 1.5s; font-size: 0.85rem; }
+.bfs-4 { top: -10px; left: 45px; animation-delay: 0.5s; font-size: 0.7rem; color: #FFD6FF; }
+
+@keyframes bfSparkleTwinkle {
+  0%   { opacity: 0.2; transform: scale(0.65) rotate(0deg); }
+  50%  { opacity: 0.95; transform: scale(1.15) rotate(45deg); }
+  100% { opacity: 0.3; transform: scale(0.7) rotate(90deg); }
+}
+
+/* ── Individual Butterfly Sizes, Flight Paths & Durations ── */
+
+/* Butterfly 1: Large (34px), gentle low-to-high wave across rightward */
+.butterfly-1 {
+  width: 34px;
+  height: 26px;
+  animation: butterflyPath1 24s cubic-bezier(0.35, 0, 0.65, 1) infinite;
+  animation-delay: 0s;
+}
+
+@keyframes butterflyPath1 {
+  0% {
+    opacity: 0;
+    transform: translate3d(-60px, 68vh, 0) rotate(10deg);
+  }
+  12% {
+    opacity: 0.78;
+  }
+  30% {
+    transform: translate3d(24vw, 52vh, 0) rotate(4deg);
+  }
+  55% {
+    transform: translate3d(52vw, 40vh, 0) rotate(-6deg);
+    opacity: 0.82;
+  }
+  78% {
+    transform: translate3d(78vw, 24vh, 0) rotate(8deg);
+    opacity: 0.75;
+  }
+  92% {
+    opacity: 0.45;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(100vw + 60px), 14vh, 0) rotate(12deg);
+  }
+}
+
+/* Butterfly 2: Medium-Large (28px), slow drift leftward across mid-scene */
+.butterfly-2 {
+  width: 28px;
+  height: 22px;
+  animation: butterflyPath2 27s cubic-bezier(0.35, 0, 0.65, 1) infinite;
+  animation-delay: -11s;
+}
+
+@keyframes butterflyPath2 {
+  0% {
+    opacity: 0;
+    transform: translate3d(calc(100vw + 50px), 28vh, 0) scaleX(-1) rotate(14deg);
+  }
+  14% {
+    opacity: 0.75;
+  }
+  35% {
+    transform: translate3d(68vw, 38vh, 0) scaleX(-1) rotate(-4deg);
+  }
+  62% {
+    transform: translate3d(38vw, 50vh, 0) scaleX(-1) rotate(8deg);
+    opacity: 0.8;
+  }
+  82% {
+    transform: translate3d(14vw, 62vh, 0) scaleX(-1) rotate(-6deg);
+    opacity: 0.65;
+  }
+  94% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-60px, 70vh, 0) scaleX(-1) rotate(10deg);
+  }
+}
+
+/* Butterfly 3: Small-Medium (23px), floating diagonally from bottom-left to upper-center */
+.butterfly-3 {
+  width: 23px;
+  height: 18px;
+  animation: butterflyPath3 21s cubic-bezier(0.35, 0, 0.65, 1) infinite;
+  animation-delay: -5s;
+}
+
+@keyframes butterflyPath3 {
+  0% {
+    opacity: 0;
+    transform: translate3d(12vw, 92vh, 0) rotate(-18deg);
+  }
+  15% {
+    opacity: 0.72;
+  }
+  42% {
+    transform: translate3d(36vw, 64vh, 0) rotate(-10deg);
+  }
+  70% {
+    transform: translate3d(60vw, 34vh, 0) rotate(-22deg);
+    opacity: 0.78;
+  }
+  88% {
+    transform: translate3d(82vw, 12vh, 0) rotate(-15deg);
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(95vw, -30px, 0) rotate(-18deg);
+  }
+}
+
+/* Butterfly 4: Small (18px), drifting gently across the upper sky */
+.butterfly-4 {
+  width: 18px;
+  height: 14px;
+  animation: butterflyPath4 25s cubic-bezier(0.35, 0, 0.65, 1) infinite;
+  animation-delay: -18s;
+}
+
+@keyframes butterflyPath4 {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50px, 20vh, 0) rotate(8deg);
+  }
+  16% {
+    opacity: 0.68;
+  }
+  40% {
+    transform: translate3d(32vw, 28vh, 0) rotate(-4deg);
+  }
+  68% {
+    transform: translate3d(66vw, 22vh, 0) rotate(6deg);
+    opacity: 0.72;
+  }
+  88% {
+    transform: translate3d(88vw, 32vh, 0) rotate(-2deg);
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(100vw + 40px), 36vh, 0) rotate(5deg);
+  }
+}
+
 /* Mobile tweaks for letter-finale */
 @media (max-width: 640px) {
   #letter-finale {
@@ -8386,9 +8857,70 @@ body.cafe-golden-hour .pixel-room-backdrop {
     width: 96vw;
   }
 
+  .finale-lilies-layer {
+    height: 180px;
+  }
+
+  .finale-lilies-cluster {
+    width: clamp(90px, 24vw, 125px);
+    bottom: -8px;
+  }
+
+  .lilies-cluster-left {
+    left: 2px;
+  }
+
+  .lilies-cluster-right {
+    right: 2px;
+  }
+
+  .butterfly-trail-svg {
+    width: 85px;
+  }
+
   .virgo-message-text {
     font-size: 0.92rem;
     line-height: 1.75;
   }
 }
+
+/* Respect Prefers-Reduced-Motion */
+@media (prefers-reduced-motion: reduce) {
+  .lilies-cluster-left,
+  .lilies-cluster-right {
+    animation: none !important;
+    opacity: 0.68 !important;
+    filter: drop-shadow(0 0 14px rgba(180, 110, 255, 0.45)) drop-shadow(0 0 28px rgba(123, 44, 191, 0.25)) !important;
+  }
+
+  .butterfly-1,
+  .butterfly-2,
+  .butterfly-3,
+  .butterfly-4 {
+    animation: none !important;
+  }
+
+  .butterfly-1 {
+    opacity: 0.35 !important;
+    transform: translate3d(8vw, 35vh, 0) rotate(5deg) !important;
+  }
+
+  .butterfly-2 {
+    opacity: 0.3 !important;
+    transform: translate3d(82vw, 45vh, 0) scaleX(-1) rotate(-5deg) !important;
+  }
+
+  .butterfly-3,
+  .butterfly-4 {
+    display: none !important;
+  }
+
+  .bf-wing-left,
+  .bf-wing-right,
+  .trail-ribbon-path,
+  .bf-sparkle {
+    animation: none !important;
+  }
+}
+
 
