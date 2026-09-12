@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 420" width="220" height="420" aria-hidden="true" focusable="false">
+  <title>Hanging vine with pink and purple blossoms (mirrored)</title>
+
+  <defs>
+    <linearGradient id="bvStemR" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3E6B3C"/>
+      <stop offset="100%" stop-color="#2F542E"/>
+    </linearGradient>
+    <linearGradient id="bvLeafR" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6AA85F"/>
+      <stop offset="100%" stop-color="#4E8F4C"/>
+    </linearGradient>
+    <linearGradient id="bvBloomPinkR" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F59AC4"/>
+      <stop offset="100%" stop-color="#E66AA0"/>
+    </linearGradient>
+    <linearGradient id="bvBloomPurpleR" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B69AE8"/>
+      <stop offset="100%" stop-color="#9A6BD6"/>
+    </linearGradient>
+    <linearGradient id="bvBloomDeepR" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E86AA6"/>
+      <stop offset="100%" stop-color="#C74E90"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ── MAIN TRAILING STEM (dropping from top, slight S-curve, mirrored) ── -->
+  <path d="M190 0 C176 60, 202 120, 178 180 C154 240, 190 300, 162 366 C154 390, 150 404, 146 420"
+        fill="none" stroke="url(#bvStemR)" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- ── SECONDARY TWISTING STEM ── -->
+  <path d="M124 0 C110 54, 138 116, 116 176 C98 228, 124 292, 100 356 C94 378, 90 396, 86 420"
+        fill="none" stroke="url(#bvStemR)" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- ── TINY SIDE TENDRILS ── -->
+  <path d="M190 60 C202 58, 208 48, 206 40" fill="none" stroke="#4E8F4C" stroke-width="2" stroke-linecap="round"/>
+  <path d="M116 110 C102 104, 94 94, 96 84" fill="none" stroke="#4E8F4C" stroke-width="2" stroke-linecap="round"/>
+  <path d="M178 180 C190 182, 196 192, 194 200" fill="none" stroke="#4E8F4C" stroke-width="2" stroke-linecap="round"/>
+  <path d="M116 240 C102 238, 94 230, 96 222" fill="none" stroke="#4E8F4C" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- ── LEAVES (pixel-ish pointed ovals) ── -->
+  <path d="M200 44 C214 34, 218 18, 208 12 C198 8, 188 20, 190 36 Z" fill="url(#bvLeafR)"/>
+  <path d="M186 98 C174 88, 164 82, 160 90 C158 98, 168 108, 180 110 Z" fill="url(#bvLeafR)"/>
+  <path d="M202 160 C216 152, 222 138, 212 132 C202 128, 192 140, 194 156 Z" fill="url(#bvLeafR)"/>
+  <path d="M172 232 C160 222, 150 216, 146 224 C144 232, 154 242, 166 244 Z" fill="url(#bvLeafR)"/>
+  <path d="M190 300 C204 292, 210 278, 200 272 C190 268, 180 280, 182 296 Z" fill="url(#bvLeafR)"/>
+  <path d="M124 60 C110 50, 98 46, 94 54 C92 62, 102 72, 116 74 Z" fill="url(#bvLeafR)"/>
+  <path d="M132 140 C118 130, 108 126, 104 134 C102 142, 112 152, 126 154 Z" fill="url(#bvLeafR)"/>
+  <path d="M116 220 C102 210, 90 206, 86 214 C84 222, 94 232, 108 234 Z" fill="url(#bvLeafR)"/>
+  <path d="M120 300 C106 290, 94 286, 90 294 C88 302, 98 312, 112 314 Z" fill="url(#bvLeafR)"/>
+
+  <!-- ── BLOOM 1 (pink, top-right) ── -->
+  <g transform="translate(194, 22)">
+    <circle cx="0" cy="0" r="7" fill="url(#bvBloomPinkR)"/>
+    <circle cx="-6" cy="3" r="4" fill="url(#bvBloomPinkR)" opacity="0.8"/>
+    <circle cx="6" cy="3" r="4" fill="url(#bvBloomPinkR)" opacity="0.8"/>
+    <circle cx="0" cy="-7" r="4" fill="url(#bvBloomPinkR)" opacity="0.85"/>
+    <circle cx="0" cy="0" r="2.5" fill="#FFE08A"/>
+  </g>
+
+  <!-- ── BLOOM 2 (purple, upper left) ── -->
+  <g transform="translate(120, 34)">
+    <circle cx="0" cy="0" r="6.5" fill="url(#bvBloomPurpleR)"/>
+    <circle cx="-5" cy="2" r="3.8" fill="url(#bvBloomPurpleR)" opacity="0.8"/>
+    <circle cx="5" cy="2" r="3.8" fill="url(#bvBloomPurpleR)" opacity="0.8"/>
+    <circle cx="0" cy="-6" r="3.8" fill="url(#bvBloomPurpleR)" opacity="0.85"/>
+    <circle cx="0" cy="0" r="2.2" fill="#FFE08A"/>
+  </g>
+
+  <!-- ── BLOOM 3 (deep pink, mid-right) ── -->
+  <g transform="translate(182, 122)">
+    <circle cx="0" cy="0" r="7" fill="url(#bvBloomDeepR)"/>
+    <circle cx="-6" cy="3" r="4" fill="url(#bvBloomDeepR)" opacity="0.8"/>
+    <circle cx="6" cy="3" r="4" fill="url(#bvBloomDeepR)" opacity="0.8"/>
+    <circle cx="0" cy="-7" r="4" fill="url(#bvBloomDeepR)" opacity="0.85"/>
+    <circle cx="0" cy="0" r="2.5" fill="#FFD9A0"/>
+  </g>
+
+  <!-- ── BLOOM 4 (pink, mid-left) ── -->
+  <g transform="translate(112, 168)">
+    <circle cx="0" cy="0" r="6.5" fill="url(#bvBloomPinkR)"/>
+    <circle cx="-5" cy="2" r="3.8" fill="url(#bvBloomPinkR)" opacity="0.8"/>
+    <circle cx="5" cy="2" r="3.8" fill="url(#bvBloomPinkR)" opacity="0.8"/>
+    <circle cx="0" cy="-6" r="3.8" fill="url(#bvBloomPinkR)" opacity="0.85"/>
+    <circle cx="0" cy="0" r="2.2" fill="#FFE08A"/>
+  </g>
+
+  <!-- ── BLOOM 5 (purple, lower-right) ── -->
+  <g transform="translate(172, 268)">
+    <circle cx="0" cy="0" r="7" fill="url(#bvBloomPurpleR)"/>
+    <circle cx="-6" cy="3" r="4" fill="url(#bvBloomPurpleR)" opacity="0.8"/>
+    <circle cx="6" cy="3" r="4" fill="url(#bvBloomPurpleR)" opacity="0.8"/>
+    <circle cx="0" cy="-7" r="4" fill="url(#bvBloomPurpleR)" opacity="0.85"/>
+    <circle cx="0" cy="0" r="2.5" fill="#FFD9A0"/>
+  </g>
+
+  <!-- ── BLOOM 6 (deep pink, bottom left) ── -->
+  <g transform="translate(104, 316)">
+    <circle cx="0" cy="0" r="6.5" fill="url(#bvBloomDeepR)"/>
+    <circle cx="-5" cy="2" r="3.8" fill="url(#bvBloomDeepR)" opacity="0.8"/>
+    <circle cx="5" cy="2" r="3.8" fill="url(#bvBloomDeepR)" opacity="0.8"/>
+    <circle cx="0" cy="-6" r="3.8" fill="url(#bvBloomDeepR)" opacity="0.85"/>
+    <circle cx="0" cy="0" r="2.2" fill="#FFE08A"/>
+  </g>
+
+  <!-- ── BLOOM 7 (small pink bud, very bottom) ── -->
+  <g transform="translate(148, 384)">
+    <circle cx="0" cy="0" r="5" fill="url(#bvBloomPinkR)"/>
+    <circle cx="0" cy="0" r="2" fill="#FFE08A"/>
+  </g>
+
+  <!-- ── TINY PIXEL BLOOM SPARKLES ── -->
+  <g fill="#FFE08A" opacity="0.85">
+    <rect x="198" y="16" width="3" height="3"/>
+    <rect x="116" y="28" width="3" height="3"/>
+    <rect x="186" y="116" width="3" height="3"/>
+    <rect x="108" y="162" width="3" height="3"/>
+    <rect x="176" y="262" width="3" height="3"/>
+    <rect x="100" y="310" width="3" height="3"/>
+  </g>
+</svg>

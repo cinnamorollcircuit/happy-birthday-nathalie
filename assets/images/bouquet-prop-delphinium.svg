@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 128" width="96" height="128" aria-hidden="true" focusable="false">
+  <title>Pixel delphinium spike, transparent background</title>
+  <!-- Tall stem -->
+  <rect x="44" y="24" width="8" height="100" fill="#4E8F4C"/>
+  <!-- Flower cluster (blue) -->
+  <rect x="40" y="24" width="10" height="10" fill="#6B96DE"/>
+  <rect x="46" y="12" width="10" height="10" fill="#7BA6E8"/>
+  <rect x="38" y="38" width="10" height="10" fill="#7BA6E8"/>
+  <rect x="44" y="52" width="10" height="10" fill="#6B96DE"/>
+  <rect x="38" y="66" width="10" height="10" fill="#7BA6E8"/>
+  <rect x="44" y="80" width="10" height="10" fill="#6B96DE"/>
+  <!-- Small side leaves -->
+  <rect x="26" y="64" width="12" height="6" fill="#6AA85F"/>
+  <rect x="58" y="84" width="12" height="6" fill="#6AA85F"/>
+</svg>

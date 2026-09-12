@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
+<body class="time-bouquet">
 
     <a href="#mainContent" class="skip-link">Skip to Content</a>
 
@@ -28,7 +28,7 @@
     <div id="app" class="app">
 
         <!-- Global Day-to-Night Environmental System (Morning -> Afternoon -> Golden Hour -> Sunset -> Night) -->
-        <div id="dayNightEnvironment" class="day-night-environment env-morning" aria-hidden="true">
+        <div id="dayNightEnvironment" class="day-night-environment env-golden-hour" aria-hidden="true">
             <div class="env-sky-layer"></div>
             <div class="env-sun-layer">
                 <div class="env-sun">
@@ -106,7 +106,7 @@
         <main id="mainContent">
 
             <!-- 1. LANDING SECTION -->
-            <section id="landing" class="section-container active-section" aria-labelledby="landing-title">
+            <section id="landing" class="section-container" style="display: none;" aria-labelledby="landing-title">
                 <div class="background-effects">
                     <div class="pixel-landscape-bg"></div>
                     <div class="gradient-overlay"></div>
@@ -178,6 +178,10 @@
                     <h2 id="opening-title">Getting everything ready…</h2>
                     <p class="opening-subtitle">sorry if may bugs hehe 🐾</p>
 
+                    <!-- Dessert Sailor Cinnamoroll Sticker -->
+                    <div class="cin-sticker cin-sticker-dessert" aria-hidden="true">
+                        <img src="assets/images/cin_dessert.png" alt="Cinnamoroll with Desserts" draggable="false">
+                    </div>
 
                     <!-- Paw-print progress dots -->
                     <div class="paw-progress" aria-hidden="true">
@@ -295,7 +299,7 @@
 
                     <div class="letter-footer">
                         <button id="nextToPhotosBtn" class="primary-button inline-btn" type="button">
-                            Continue 🌸
+                            One more thing...
                         </button>
                     </div>
                 </article>
@@ -306,7 +310,7 @@
             <section id="photos" class="section-container" aria-labelledby="photos-title" style="display: none;">
                 <header class="section-header">
                     <span class="section-tag">Happy Birthday Nathalie 🌸</span>
-                    <h2 id="photos-title"></h2>
+                    <h2 id="photos-title">One more thing…</h2>
                 </header>
 
                 <!-- Ambient Floating Photo Charms -->
@@ -408,7 +412,7 @@
                 <!-- Scrapbook Action to proceed to Scrapbook Collage -->
                 <div class="scrapbook-actions" id="scrapbookActions">
                     <button id="photo3NextBtn" class="primary-button photo-continue-btn" type="button">
-                        Continue 🌸
+                        See what's next... 💖
                     </button>
                 </div>
             </section>
@@ -629,7 +633,7 @@
                 <!-- Scrapbook Bottom Action / Sweetness Caption -->
                 <div class="collage-actions" id="collageActions">
                     <button id="collageToDessertBtn" class="scrapbook-caption-pill-btn" type="button">
-                        Continue 🌸
+                        Next 🌸
                     </button>
                 </div>
             </section>
@@ -979,7 +983,7 @@
             </section>
 
             <!-- 6. CINEMATIC ANIMATED BOUQUET (Spacious Dome Layout - Zero Flower Intersections) -->
-            <section id="bouquet" class="section-container" aria-labelledby="bouquet-title" style="display: none;">
+            <section id="bouquet" class="section-container active-section" aria-labelledby="bouquet-title" style="display: flex;">
 
                 <!-- ══ CINEMATIC ANIMATED BOUQUET REVEAL ══
                      Site's pink gradient stays as the base; transparent pixel-art
@@ -1401,6 +1405,10 @@
                     </div><!-- /.bouquet-wrapper -->
                     </div><!-- /.cinematic-bouquet -->
 
+                    <!-- Cinnamoroll Companion SVG (stays in place, front and center) -->
+                    <div id="cinnamorollContainer" class="cinnamoroll-container" aria-hidden="true">
+                        <img src="assets/images/cin_wand.png" class="cin-bouquet-img" alt="Cinnamoroll presenting bouquet" draggable="false">
+                    </div>
 
                     <!-- Settle: caption + Continue fade up once everything rests -->
                     <div id="bouquetBanner" class="bouquet-banner cinematic-settle">
@@ -1413,7 +1421,7 @@
                         </div>
 
                         <button id="bouquetToWishBtn" class="primary-button bouquet-next-btn" type="button" disabled>
-                            Continue 🌸
+                            Continue &rarr;
                         </button>
                     </div>
 
@@ -1866,14 +1874,6 @@
                     <span class="ns-inst-sparkle">✦</span>
                     <span class="ns-inst-text">Connect the stars ✨</span>
                     <span class="ns-inst-sparkle">✦</span>
-                </div>
-
-                <!-- Subtle star progress counter: empty until first activation -->
-                <div
-                    id="virgoProgress"
-                    class="virgo-progress"
-                    aria-live="polite"
-                    aria-label="Constellation progress">
                 </div>
 
                 <div class="constellation-stage" id="constellationStage" aria-label="Night sky Virgo constellation">
@@ -2852,6 +2852,92 @@
 
     <!-- Main JavaScript Engine -->
     <script src="js/script.js" defer></script>
-</body>
+
+    <script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        const t = params.get('t');
+        const isReduced = params.get('reduced');
+
+        // Ensure section is visible
+        const bouquetSection = document.getElementById('bouquet');
+        if (bouquetSection) {
+            bouquetSection.style.display = 'flex';
+            bouquetSection.classList.add('active-section');
+        }
+
+        const reveal = document.getElementById('cinematicReveal');
+        const bw = document.querySelector('.bouquet-wrapper');
+        const btn = document.getElementById('bouquetToWishBtn');
+
+        if (isReduced) {
+            const style = document.createElement('style');
+            style.textContent = `
+                *, *::before, *::after {
+                    animation-duration: 0.001ms !important;
+                    animation-delay: 0ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.001ms !important;
+                }
+            `;
+            document.head.appendChild(style);
+            if (reveal) reveal.classList.add('cinematic-play');
+            if (bw) bw.classList.add('settled');
+            if (btn) btn.disabled = false;
+            return;
+        }
+
+        if (reveal) {
+            reveal.classList.add('cinematic-play');
+        }
+
+        if (t) {
+            const seekMs = parseFloat(t) * 1000;
+            if (seekMs >= 2400 && bw) {
+                bw.classList.add('settled');
+            }
+            if (seekMs >= 3600 && btn) {
+                btn.disabled = false;
+            }
+
+            requestAnimationFrame(() => {
+                const anims = document.getAnimations();
+                anims.forEach(anim => {
+                    anim.pause();
+                    try {
+                        anim.currentTime = seekMs;
+                    } catch (e) {}
+                });
+            });
+        }
+    });
+    </script>
+    
+<script>
+const b = document.getElementById('bouquet');
+const cr = document.getElementById('cinematicReveal');
+const bw = document.querySelector('.bouquet-wrapper');
+const nc = document.querySelector('.bouquet-note-card');
+const btn = document.getElementById('bouquetToWishBtn');
+
+function getInfo(name, el) {
+    if (!el) return name + ': null';
+    const r = el.getBoundingClientRect();
+    const s = window.getComputedStyle(el);
+    return name + ': rect=(' + Math.round(r.x) + ',' + Math.round(r.y) + ',' + Math.round(r.width) + ',' + Math.round(r.height) + ') opacity=' + s.opacity + ' disp=' + s.display + ' vis=' + s.visibility + ' tr=' + s.transform;
+}
+
+const res = [
+    getInfo('bouquet', b),
+    getInfo('cinematicReveal', cr),
+    getInfo('bouquetWrapper', bw),
+    getInfo('noteCard', nc),
+    getInfo('btn', btn)
+].join('\n');
+
+console.log('---EVAL_START---');
+console.log(res);
+console.log('---EVAL_END---');
+</script></body>
 
 </html>

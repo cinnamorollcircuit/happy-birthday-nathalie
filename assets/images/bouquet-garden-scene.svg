@@ -1,0 +1,222 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="960" height="540" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A pixel-art garden flowerbed at dawn — pale blue sky, soft pink cloud pond on the horizon, and a wide bed of tulips, daisies, pansies, delphiniums and mixed blooms">
+  <title>Pixel-art garden flowerbed at dawn</title>
+
+  <!-- ── SKY (pale morning blue) ── -->
+  <rect width="960" height="540" fill="#CFE7F5"/>
+
+  <!-- ── PALE BLUE SKY GRADIENT BAND (soft, subtle) ── -->
+  <rect x="0" y="0" width="960" height="230" fill="url(#skyFade)"/>
+  <defs>
+    <linearGradient id="skyFade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D6EBF8"/>
+      <stop offset="100%" stop-color="#CFE7F5"/>
+    </linearGradient>
+    <linearGradient id="pondGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F7D6E3"/>
+      <stop offset="55%" stop-color="#F2C8DA"/>
+      <stop offset="100%" stop-color="#EBBFD2"/>
+    </linearGradient>
+    <linearGradient id="hillBack" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B9D8A8"/>
+      <stop offset="100%" stop-color="#A5CC96"/>
+    </linearGradient>
+    <linearGradient id="hillMid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8FC07F"/>
+      <stop offset="100%" stop-color="#7FB472"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ── DISTANT SOFT PINK CLOUDS (pond-on-horizon haze) ── -->
+  <g fill="#F9E3EE" opacity="0.85">
+    <ellipse cx="180" cy="248" rx="150" ry="16"/>
+    <ellipse cx="480" cy="258" rx="200" ry="20"/>
+    <ellipse cx="760" cy="250" rx="140" ry="14"/>
+    <ellipse cx="330" cy="268" rx="110" ry="12"/>
+    <ellipse cx="640" cy="270" rx="130" ry="13"/>
+  </g>
+
+  <!-- ── SOFT PINK POND / MIST HORIZON ── -->
+  <rect x="0" y="238" width="960" height="70" fill="url(#pondGrad)" opacity="0.55"/>
+
+  <!-- ── ROLLING BACK HILLS (distant greens) ── -->
+  <path d="M0 300 Q160 240 340 296 Q520 250 700 296 Q820 268 960 292 L960 340 L0 340 Z" fill="url(#hillBack)" opacity="0.85"/>
+
+  <!-- ── MID HILLS (deeper green, just behind flowerbed) ── -->
+  <path d="M0 330 Q220 290 420 330 Q640 300 820 332 Q900 320 960 330 L960 372 L0 372 Z" fill="url(#hillMid)" opacity="0.95"/>
+
+  <!-- ── GRASS FORE-GROUND BAND (soft green) ── -->
+  <rect x="0" y="344" width="960" height="196" fill="#9CC98A"/>
+
+  <!-- ── PIXEL SOIL BED (darker strip under flowers) ── -->
+  <rect x="0" y="392" width="960" height="34" fill="#7A5C4A"/>
+
+  <!-- ── TINY PIXEL GRASS SPROUTS ── -->
+  <g fill="#7FB472">
+    <rect x="28" y="382" width="4" height="10"/>
+    <rect x="52" y="386" width="4" height="8"/>
+    <rect x="140" y="380" width="4" height="12"/>
+    <rect x="266" y="384" width="4" height="9"/>
+    <rect x="412" y="378" width="4" height="13"/>
+    <rect x="560" y="382" width="4" height="11"/>
+    <rect x="700" y="386" width="4" height="8"/>
+    <rect x="832" y="380" width="4" height="12"/>
+    <rect x="906" y="384" width="4" height="9"/>
+  </g>
+
+  <!-- ────────────────────────────────────────────────────────────
+       FLOWERBED — a wide row of pixel blooms.
+       Each bloom is a tiny 6x6 pixel-art sprite drawn as rects.
+       Slight horizontal offsets give an organic, hand-tied feel.
+  ──────────────────────────────────────────────────────────── -->
+
+  <!-- == TULIP 1 (pink) == -->
+  <g>
+    <rect x="64" y="300" width="6" height="96" fill="#4E8F4C"/>
+    <rect x="62" y="300" width="4" height="4" fill="#E15B8E"/>
+    <rect x="66" y="296" width="4" height="4" fill="#E15B8E"/>
+    <rect x="70" y="300" width="4" height="4" fill="#E15B8E"/>
+    <rect x="66" y="300" width="4" height="4" fill="#F08BB0"/>
+  </g>
+
+  <!-- == DAISY 1 (white) == -->
+  <g>
+    <rect x="128" y="318" width="6" height="80" fill="#4E8F4C"/>
+    <rect x="120" y="312" width="6" height="6" fill="#FFFFFF"/>
+    <rect x="126" y="306" width="6" height="6" fill="#FFFFFF"/>
+    <rect x="132" y="312" width="6" height="6" fill="#FFFFFF"/>
+    <rect x="126" y="318" width="6" height="6" fill="#FFFFFF"/>
+    <rect x="126" y="312" width="6" height="6" fill="#FFE08A"/>
+  </g>
+
+  <!-- == DELPHINIUM SPIKE 1 (blue) == -->
+  <g>
+    <rect x="186" y="252" width="6" height="144" fill="#4E8F4C"/>
+    <rect x="182" y="256" width="8" height="8" fill="#7BA6E8"/>
+    <rect x="186" y="240" width="8" height="8" fill="#6B96DE"/>
+    <rect x="184" y="268" width="8" height="8" fill="#7BA6E8"/>
+    <rect x="188" y="284" width="8" height="8" fill="#6B96DE"/>
+    <rect x="184" y="300" width="8" height="8" fill="#7BA6E8"/>
+    <rect x="186" y="316" width="8" height="8" fill="#6B96DE"/>
+    <rect x="188" y="332" width="8" height="8" fill="#7BA6E8"/>
+  </g>
+
+  <!-- == PANSY 1 (violet) == -->
+  <g>
+    <rect x="248" y="316" width="6" height="80" fill="#4E8F4C"/>
+    <rect x="242" y="312" width="6" height="6" fill="#9A6BD6"/>
+    <rect x="248" y="306" width="6" height="6" fill="#B98CE6"/>
+    <rect x="254" y="312" width="6" height="6" fill="#9A6BD6"/>
+    <rect x="248" y="318" width="6" height="6" fill="#B98CE6"/>
+    <rect x="248" y="312" width="6" height="6" fill="#F5C95C"/>
+  </g>
+
+  <!-- == MIXED PINK BLOOM 1 (peony-ish) == -->
+  <g>
+    <rect x="316" y="300" width="6" height="96" fill="#4E8F4C"/>
+    <rect x="310" y="300" width="6" height="6" fill="#F28BB8"/>
+    <rect x="316" y="294" width="6" height="6" fill="#F29EC6"/>
+    <rect x="322" y="300" width="6" height="6" fill="#F28BB8"/>
+    <rect x="316" y="306" width="6" height="6" fill="#F29EC6"/>
+    <rect x="316" y="300" width="6" height="6" fill="#FFD9A0"/>
+  </g>
+
+  <!-- == TULIP 2 (coral) == -->
+  <g>
+    <rect x="386" y="306" width="6" height="90" fill="#4E8F4C"/>
+    <rect x="384" y="306" width="4" height="4" fill="#F07B54"/>
+    <rect x="388" y="302" width="4" height="4" fill="#F07B54"/>
+    <rect x="392" y="306" width="4" height="4" fill="#F07B54"/>
+    <rect x="388" y="306" width="4" height="4" fill="#F5A27E"/>
+  </g>
+
+  <!-- == DAISY 2 (soft yellow) == -->
+  <g>
+    <rect x="452" y="314" width="6" height="84" fill="#4E8F4C"/>
+    <rect x="446" y="310" width="6" height="6" fill="#FFF6DC"/>
+    <rect x="452" y="304" width="6" height="6" fill="#FFF6DC"/>
+    <rect x="458" y="310" width="6" height="6" fill="#FFF6DC"/>
+    <rect x="452" y="316" width="6" height="6" fill="#FFF6DC"/>
+    <rect x="452" y="310" width="6" height="6" fill="#FFD25E"/>
+  </g>
+
+  <!-- == DELPHINIUM SPIKE 2 (lavender) == -->
+  <g>
+    <rect x="520" y="256" width="6" height="140" fill="#4E8F4C"/>
+    <rect x="516" y="260" width="8" height="8" fill="#B49AE8"/>
+    <rect x="520" y="244" width="8" height="8" fill="#A78AE2"/>
+    <rect x="518" y="272" width="8" height="8" fill="#B49AE8"/>
+    <rect x="522" y="288" width="8" height="8" fill="#A78AE2"/>
+    <rect x="518" y="304" width="8" height="8" fill="#B49AE8"/>
+    <rect x="520" y="320" width="8" height="8" fill="#A78AE2"/>
+  </g>
+
+  <!-- == PANSY 2 (deep purple) == -->
+  <g>
+    <rect x="588" y="316" width="6" height="80" fill="#4E8F4C"/>
+    <rect x="582" y="312" width="6" height="6" fill="#8B4FB0"/>
+    <rect x="588" y="306" width="6" height="6" fill="#A76FD0"/>
+    <rect x="594" y="312" width="6" height="6" fill="#8B4FB0"/>
+    <rect x="588" y="318" width="6" height="6" fill="#A76FD0"/>
+    <rect x="588" y="312" width="6" height="6" fill="#F5C95C"/>
+  </g>
+
+  <!-- == MIXED PINK BLOOM 2 (rose) == -->
+  <g>
+    <rect x="656" y="300" width="6" height="96" fill="#4E8F4C"/>
+    <rect x="650" y="300" width="6" height="6" fill="#E85D8B"/>
+    <rect x="656" y="294" width="6" height="6" fill="#F07DA2"/>
+    <rect x="662" y="300" width="6" height="6" fill="#E85D8B"/>
+    <rect x="656" y="306" width="6" height="6" fill="#F07DA2"/>
+    <rect x="656" y="300" width="6" height="6" fill="#FFD9A0"/>
+  </g>
+
+  <!-- == TULIP 3 (cream) == -->
+  <g>
+    <rect x="724" y="308" width="6" height="88" fill="#4E8F4C"/>
+    <rect x="722" y="308" width="4" height="4" fill="#FBEBD2"/>
+    <rect x="726" y="304" width="4" height="4" fill="#FBEBD2"/>
+    <rect x="730" y="308" width="4" height="4" fill="#FBEBD2"/>
+    <rect x="726" y="308" width="4" height="4" fill="#FDF6E8"/>
+  </g>
+
+  <!-- == DAISY 3 (pink) == -->
+  <g>
+    <rect x="792" y="314" width="6" height="84" fill="#4E8F4C"/>
+    <rect x="786" y="310" width="6" height="6" fill="#FBD7E4"/>
+    <rect x="792" y="304" width="6" height="6" fill="#FBD7E4"/>
+    <rect x="798" y="310" width="6" height="6" fill="#FBD7E4"/>
+    <rect x="792" y="316" width="6" height="6" fill="#FBD7E4"/>
+    <rect x="792" y="310" width="6" height="6" fill="#FFD25E"/>
+  </g>
+
+  <!-- == DELPHINIUM SPIKE 3 (periwinkle, far right) == -->
+  <g>
+    <rect x="858" y="258" width="6" height="138" fill="#4E8F4C"/>
+    <rect x="854" y="262" width="8" height="8" fill="#9FB8EC"/>
+    <rect x="858" y="246" width="8" height="8" fill="#8FA8E6"/>
+    <rect x="856" y="274" width="8" height="8" fill="#9FB8EC"/>
+    <rect x="860" y="290" width="8" height="8" fill="#8FA8E6"/>
+    <rect x="856" y="306" width="8" height="8" fill="#9FB8EC"/>
+    <rect x="858" y="322" width="8" height="8" fill="#8FA8E6"/>
+  </g>
+
+  <!-- ── TINY LEAF SPROUTS on stems (pixel green) ── -->
+  <g fill="#6AA85F">
+    <rect x="58"  y="352" width="10" height="4"/>
+    <rect x="122" y="356" width="10" height="4"/>
+    <rect x="180" y="352" width="10" height="4"/>
+    <rect x="242" y="356" width="10" height="4"/>
+    <rect x="310" y="352" width="10" height="4"/>
+    <rect x="380" y="356" width="10" height="4"/>
+    <rect x="446" y="352" width="10" height="4"/>
+    <rect x="514" y="356" width="10" height="4"/>
+    <rect x="582" y="352" width="10" height="4"/>
+    <rect x="650" y="356" width="10" height="4"/>
+    <rect x="718" y="352" width="10" height="4"/>
+    <rect x="786" y="356" width="10" height="4"/>
+    <rect x="852" y="352" width="10" height="4"/>
+  </g>
+
+  <!-- ── SUBTLE FOREGROUND SHADOW to seat the bed ── -->
+  <rect x="0" y="424" width="960" height="10" fill="#6D5542" opacity="0.35"/>
+</svg>

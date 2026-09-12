@@ -1330,13 +1330,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function createStardustParticles() {
         if (!DOM.bouquetStardust) return;
         DOM.bouquetStardust.innerHTML = '';
+        const isMobile = window.innerWidth <= 640;
+        const count = isMobile ? 8 : 16;
         const colors = [
             'rgba(255, 225, 130, 0.85)',
             'rgba(255, 190, 150, 0.75)',
             'rgba(255, 240, 210, 0.90)',
             'rgba(255, 170, 190, 0.80)'
         ];
-        for (let i = 0; i < 18; i++) {
+        for (let i = 0; i < count; i++) {
             const particle = document.createElement('div');
             particle.className = 'stardust-particle';
             const size = Math.random() * 3.5 + 2;
@@ -1355,7 +1357,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function createFloatingPetals() {
         if (!DOM.floatingPetals) return;
         DOM.floatingPetals.innerHTML = '';
-        for (let i = 0; i < 10; i++) {
+        const isMobile = window.innerWidth <= 640;
+        const count = isMobile ? 5 : 10;
+        for (let i = 0; i < count; i++) {
             const petal = document.createElement('div');
             petal.className = 'floating-petal';
             petal.style.left = `${Math.random() * 85 + 5}%`;
@@ -1365,6 +1369,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    let bouquetObserver = null;
+    let bouquetHasPlayed = false;
+
     function resetBouquetScene() {
         if (state.bouquetTimerIds) {
             state.bouquetTimerIds.forEach(id => clearTimeout(id));
@@ -1372,6 +1379,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         state.bouquetCompleted = false;
         state.bouquetFlowerClicked = false;
+        bouquetHasPlayed = false;
+
+        const reveal = document.getElementById('cinematicReveal');
+        if (reveal) {
+            reveal.classList.remove('cinematic-play');
+        }
 
         if (DOM.bouquetWrapper) {
             DOM.bouquetWrapper.className = 'bouquet-wrapper';
@@ -1387,6 +1400,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (DOM.bouquetToWishBtn) {
             DOM.bouquetToWishBtn.disabled = true;
+            DOM.bouquetToWishBtn.classList.remove('show');
         }
         if (DOM.bouquetStardust) {
             DOM.bouquetStardust.innerHTML = '';
@@ -1400,6 +1414,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 pill.classList.remove('show');
             });
         }
+
+        // Re-arm the observer if section exists
+        if (bouquetObserver && DOM.sections.bouquet) {
+            bouquetObserver.observe(DOM.sections.bouquet);
+        }
     }
 
     function addBouquetStep(delay, callback) {
@@ -1407,87 +1426,50 @@ document.addEventListener('DOMContentLoaded', () => {
         state.bouquetTimerIds.push(id);
     }
 
-    function triggerCompliment(index) {
-        if (!DOM.floatingCompliments) return;
-        const pill = DOM.floatingCompliments[index];
-        if (pill) {
-            pill.classList.remove('show');
-            void pill.offsetWidth;
-            pill.classList.add('show');
-        }
-    }
+    function playBouquetCinematicReveal() {
+        if (bouquetHasPlayed) return;
+        bouquetHasPlayed = true;
 
-    function startBouquetCreationAnimation() {
-        resetBouquetScene();
+        // Step 1: Ambient drift loop for sparkles & petals
         createFloatingPetals();
         createStardustParticles();
 
-        // Step 1: Stems grow upward (0.3s)
-        addBouquetStep(300, () => {
-            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('anim-stems');
-        });
+        const reveal = document.getElementById('cinematicReveal');
+        if (reveal) {
+            reveal.classList.remove('cinematic-play');
+            void reveal.offsetWidth; // Force reflow
+            reveal.classList.add('cinematic-play');
+        }
 
-        // Step 2: Leaves unfold (0.9s)
-        addBouquetStep(900, () => {
-            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('anim-leaves');
-        });
+        if (DOM.cinnamorollContainer) {
+            DOM.cinnamorollContainer.classList.add('show');
+        }
 
-        // Step 3: First flower blooms (1.6s) + Compliment 1
-        addBouquetStep(1600, () => {
-            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('anim-f1');
-            triggerCompliment(0);
-        });
-
-        // Step 4: Second flower blooms (2.2s) + Compliment 2
-        addBouquetStep(2200, () => {
-            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('anim-f2');
-            triggerCompliment(1);
-        });
-
-        // Step 5: Third flower blooms (2.8s) + Compliment 3
-        addBouquetStep(2800, () => {
-            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('anim-f3');
-            triggerCompliment(2);
-        });
-
-        // Step 6: Lotus flowers unfold gracefully (3.5s) + Compliment 4
-        addBouquetStep(3500, () => {
-            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('anim-lotus');
-            triggerCompliment(3);
-        });
-
-        // Step 7: Supporting blossoms & baby's breath (4.2s) + Compliment 5
-        addBouquetStep(4200, () => {
-            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('anim-f4');
-            triggerCompliment(4);
-        });
-
-        // Step 8: Satin Ribbon wraps around stems (4.9s)
-        addBouquetStep(4900, () => {
-            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('anim-ribbon');
-        });
-
-        // Step 9: Orbiting sparkles appear (5.5s)
-        addBouquetStep(5500, () => {
-            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('anim-sparkles');
-        });
-
-        // Step 10: Cinnamoroll companion enters presenting flowers (6.1s)
-        addBouquetStep(6100, () => {
-            if (DOM.cinnamorollContainer) DOM.cinnamorollContainer.classList.add('show');
-        });
-
-        // Step 11: Final settling breathe sway, note card, Cinnamoroll wave & reveal Continue button (6.9s)
-        addBouquetStep(6900, () => {
-            if (DOM.bouquetWrapper) DOM.bouquetWrapper.classList.add('completed');
-            if (DOM.cinnamorollContainer) DOM.cinnamorollContainer.classList.add('wave');
-            if (DOM.bouquetBanner) DOM.bouquetBanner.classList.add('show');
-            if (DOM.bouquetNoteCard) DOM.bouquetNoteCard.classList.add('show');
-            state.bouquetCompleted = true;
-            if (DOM.bouquetToWishBtn) {
-                DOM.bouquetToWishBtn.disabled = false;
+        // Step 4: Settle bouquet into resting breathe sway (~3.6s)
+        addBouquetStep(3600, () => {
+            if (DOM.bouquetWrapper) {
+                DOM.bouquetWrapper.classList.add('settled');
             }
         });
+
+        // Step 5: Enable Continue button as caption card arrives (~5.0s)
+        addBouquetStep(5040, () => {
+            state.bouquetCompleted = true;
+            if (DOM.bouquetBanner) {
+                DOM.bouquetBanner.classList.add('show');
+            }
+            if (DOM.bouquetNoteCard) {
+                DOM.bouquetNoteCard.classList.add('show');
+            }
+            if (DOM.bouquetToWishBtn) {
+                DOM.bouquetToWishBtn.disabled = false;
+                DOM.bouquetToWishBtn.classList.add('show');
+            }
+        });
+    }
+
+    function startBouquetCreationAnimation() {
+        playBouquetCinematicReveal();
     }
 
     function initBouquetInteractions() {
@@ -1512,11 +1494,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const complimentText = fg.getAttribute('data-compliment') || 'a little something just for you ♡';
                 showFlowerComplimentPop(complimentText, clientX, clientY);
 
-                // 4. Reveal/Enable Continue button on first flower click
+                // 4. Reveal/Enable Continue button on first flower click if not already
                 if (!state.bouquetFlowerClicked) {
                     state.bouquetFlowerClicked = true;
-                    if (DOM.bouquetBanner) DOM.bouquetBanner.classList.add('show');
-                    if (DOM.bouquetNoteCard) DOM.bouquetNoteCard.classList.add('show');
                     if (DOM.bouquetToWishBtn) {
                         DOM.bouquetToWishBtn.disabled = false;
                     }
@@ -1535,6 +1515,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize bouquet interactive flower handlers
     initBouquetInteractions();
+
+    // --------------------------------------------------------------------------
+    // 5c-2. Cinematic Bouquet Reveal Trigger (IntersectionObserver, once per enter)
+    // --------------------------------------------------------------------------
+    function initBouquetCinematic() {
+        const reveal = document.getElementById('cinematicReveal');
+        const section = DOM.sections.bouquet;
+        if (!reveal || !section) return;
+
+        if (!('IntersectionObserver' in window)) {
+            // Fallback: if no IO support, trigger immediately
+            playBouquetCinematicReveal();
+            return;
+        }
+
+        if (bouquetObserver) {
+            bouquetObserver.disconnect();
+        }
+
+        bouquetObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting && !bouquetHasPlayed) {
+                    playBouquetCinematicReveal();
+                    bouquetObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        bouquetObserver.observe(section);
+    }
+    initBouquetCinematic();
 
     // Flow 5: Bouquet -> Wish / Cake Section
     if (DOM.bouquetToWishBtn) {
@@ -2008,7 +2019,86 @@ document.addEventListener('DOMContentLoaded', () => {
     // --------------------------------------------------------------------------
     let audioCtx = null;
 
-    // 12 Canonical Virgo Constellation Stars with coordinates matching reference image in viewBox="0 0 1000 620"
+    function buildNebulaStarfield() {
+        const field = document.getElementById('nebulaStarfield');
+        if (!field || field.childElementCount > 0) return;
+
+        let seed = 20260908;
+        const rand = () => {
+            seed = (seed * 1664525 + 1013904223) >>> 0;
+            return seed / 4294967296;
+        };
+
+        const frag = document.createDocumentFragment();
+        const count = 146;
+
+        for (let i = 0; i < count; i++) {
+            const dot = document.createElement('span');
+            const size = 1 + rand() * 2.2;
+            const isGold = rand() < 0.1;
+            dot.className = isGold ? 'nebula-dot nebula-dot--gold' : 'nebula-dot';
+            const left = (rand() * 100).toFixed(2);
+            const top = (rand() * 100).toFixed(2);
+            const oMin = (0.12 + rand() * 0.35).toFixed(2);
+            const oMax = (0.55 + rand() * 0.45).toFixed(2);
+            dot.style.cssText = [
+                `left:${left}%`,
+                `top:${top}%`,
+                `width:${size.toFixed(1)}px`,
+                `height:${size.toFixed(1)}px`,
+                `--tw:${(2.4 + rand() * 3.6).toFixed(2)}s`,
+                `--td:${(rand() * 5).toFixed(2)}s`,
+                `--o-min:${oMin}`,
+                `--o-max:${oMax}`
+            ].join(';');
+            frag.appendChild(dot);
+        }
+
+        // Warm gold flecks clustered in the magenta/pink cloud
+        for (let i = 0; i < 22; i++) {
+            const fleck = document.createElement('span');
+            fleck.className = 'nebula-dot nebula-dot--gold';
+            const size = 1 + rand() * 1.6;
+            const left = (52 + rand() * 28).toFixed(2);
+            const top = (34 + rand() * 34).toFixed(2);
+            fleck.style.cssText = [
+                `left:${left}%`,
+                `top:${top}%`,
+                `width:${size.toFixed(1)}px`,
+                `height:${size.toFixed(1)}px`,
+                `--tw:${(2.8 + rand() * 3.2).toFixed(2)}s`,
+                `--td:${(rand() * 4.5).toFixed(2)}s`,
+                `--o-min:${(0.18 + rand() * 0.25).toFixed(2)}`,
+                `--o-max:${(0.55 + rand() * 0.4).toFixed(2)}`
+            ].join(';');
+            frag.appendChild(fleck);
+        }
+
+        const sparkleSpots = [
+            [12, 18], [78, 14], [88, 62], [8, 72],
+            [22, 48], [74, 78], [46, 10], [92, 32], [16, 88]
+        ];
+        sparkleSpots.forEach(([x, y], i) => {
+            const sp = document.createElement('span');
+            sp.className = 'nebula-sparkle';
+            sp.style.cssText = `left:${x}%;top:${y}%;--tw:${(3.4 + i * 0.18).toFixed(2)}s;--td:${(i * 0.35).toFixed(2)}s`;
+            frag.appendChild(sp);
+        });
+
+        field.appendChild(frag);
+    }
+
+    buildNebulaStarfield();
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // Virgo Constellation — "Connect the Stars"
+    //
+    // Design: visitor clicks any 12 stars in any order. Lines appear only when
+    // BOTH endpoint stars of an existing Virgo edge are activated. The final
+    // geometry is always the correct Virgo constellation, regardless of click order.
+    // ─────────────────────────────────────────────────────────────────────────────
+
+    // 12 Canonical Virgo Constellation Stars — coordinates match viewBox="0 0 1000 620"
     const virgoStars = {
         'virgo-star-upper-tip':    { x: 87,  y: 174, isSpica: false, note: 587.33 },  // Upper Left Wing Tip
         'virgo-star-vindemiatrix': { x: 288, y: 230, isSpica: false, note: 659.25 },  // Epsilon Vir - Upper Left Wing Mid
@@ -2024,138 +2114,117 @@ document.addEventListener('DOMContentLoaded', () => {
         'virgo-star-rijl':         { x: 917, y: 242, isSpica: false, note: 1661.22 }  // Mu Vir - Far Right Tip
     };
 
-    // Predetermined Astronomical Virgo Edges (Only lines between these stars will draw)
+    // Predetermined Astronomical Virgo Edges — a line appears only when BOTH
+    // endpoint stars have been activated. Click order never changes the geometry.
     const virgoEdges = [
-        ['virgo-star-upper-tip', 'virgo-star-vindemiatrix'],
+        ['virgo-star-upper-tip',   'virgo-star-vindemiatrix'],
         ['virgo-star-vindemiatrix', 'virgo-star-minelauva'],
-        ['virgo-star-minelauva', 'spica'],
-        ['spica', 'virgo-star-kang'],
-        ['virgo-star-kang', 'virgo-star-khambalia'],
-        ['virgo-star-khambalia', 'virgo-star-syrma'],
-        ['virgo-star-minelauva', 'virgo-star-porrima'],
-        ['virgo-star-porrima', 'virgo-star-zavijava'],
-        ['virgo-star-porrima', 'virgo-star-heze'],
-        ['spica', 'virgo-star-heze'],
-        ['virgo-star-heze', 'virgo-star-zaniah'],
-        ['virgo-star-zaniah', 'virgo-star-rijl']
+        ['virgo-star-minelauva',   'spica'],
+        ['spica',                   'virgo-star-kang'],
+        ['virgo-star-kang',         'virgo-star-khambalia'],
+        ['virgo-star-khambalia',    'virgo-star-syrma'],
+        ['virgo-star-minelauva',    'virgo-star-porrima'],
+        ['virgo-star-porrima',      'virgo-star-zavijava'],
+        ['virgo-star-porrima',      'virgo-star-heze'],
+        ['spica',                   'virgo-star-heze'],
+        ['virgo-star-heze',         'virgo-star-zaniah'],
+        ['virgo-star-zaniah',       'virgo-star-rijl']
     ];
 
-    // Canonical progressive guidance sequence
-    const virgoGuideOrder = [
-        'spica',
-        'virgo-star-minelauva',
-        'virgo-star-vindemiatrix',
-        'virgo-star-upper-tip',
-        'virgo-star-porrima',
-        'virgo-star-zavijava',
-        'virgo-star-heze',
-        'virgo-star-zaniah',
-        'virgo-star-rijl',
-        'virgo-star-kang',
-        'virgo-star-khambalia',
-        'virgo-star-syrma'
-    ];
+    // ── Constellation State ───────────────────────────────────────────────────
+    // Tracks which stars the visitor has activated (any order, freely)
+    const activatedVirgoStars = new Set();
 
+    // Tracks already-drawn edge keys to prevent duplicate SVG lines
     const drawnEdges = new Set();
+
+    // Completion guard — triggerVirgoCompletion() runs exactly once
+    let virgoCompleted = false;
+
+    // ── Audio ─────────────────────────────────────────────────────────────────
 
     function playStarChime(starId, isSpica) {
         try {
             if (!audioCtx) {
                 const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-                if (AudioContextClass) {
-                    audioCtx = new AudioContextClass();
-                }
+                if (AudioContextClass) audioCtx = new AudioContextClass();
             }
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
             if (!audioCtx) return;
 
-            const now = audioCtx.currentTime;
-            const starData = virgoStars[starId];
-            const freq = starData ? starData.note : 880;
+            const now  = audioCtx.currentTime;
+            const freq = (virgoStars[starId] ? virgoStars[starId].note : 880);
 
             if (isSpica) {
-                // Distinct brilliant blue-white crystalline shimmer chord for Spica: E6 + B6 + E7
+                // Brilliant blue-white shimmer chord for Spica: E6 + B6 + E7
                 [freq, freq * 1.5, freq * 2].forEach((f, i) => {
-                    const osc = audioCtx.createOscillator();
+                    const osc  = audioCtx.createOscillator();
                     const gain = audioCtx.createGain();
                     osc.type = i === 2 ? 'triangle' : 'sine';
                     osc.frequency.setValueAtTime(f, now + i * 0.035);
-
                     gain.gain.setValueAtTime(0.001, now + i * 0.035);
                     gain.gain.exponentialRampToValueAtTime(0.18 / (i + 1), now + i * 0.035 + 0.04);
                     gain.gain.exponentialRampToValueAtTime(0.0001, now + i * 0.035 + 1.4);
-
                     osc.connect(gain);
                     gain.connect(audioCtx.destination);
-
                     osc.start(now + i * 0.035);
                     osc.stop(now + i * 0.035 + 1.45);
                 });
             } else {
                 // Gentle crystalline chime for regular stars
-                const osc = audioCtx.createOscillator();
+                const osc  = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
-
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(freq, now);
-
                 gain.gain.setValueAtTime(0.001, now);
                 gain.gain.exponentialRampToValueAtTime(0.16, now + 0.04);
                 gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.85);
-
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
-
                 osc.start(now);
                 osc.stop(now + 0.9);
             }
-        } catch (e) {
-            // Audio context not available or blocked - silent fallback
-        }
+        } catch (_) { /* Audio unavailable — silent fallback */ }
     }
 
     function playCelestialChord() {
         try {
             if (!audioCtx) {
                 const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-                if (AudioContextClass) {
-                    audioCtx = new AudioContextClass();
-                }
+                if (AudioContextClass) audioCtx = new AudioContextClass();
             }
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
             if (!audioCtx) return;
 
-            // Celestial ascending arpeggio chord: E5, A5, B5, E6, G#6, B6
+            // Celestial ascending arpeggio: E5, A5, B5, E6, G#6, B6
             const chord = [659.25, 880.00, 987.77, 1318.51, 1661.22, 1975.53];
-            const now = audioCtx.currentTime;
+            const now   = audioCtx.currentTime;
 
             chord.forEach((freq, i) => {
-                const noteTime = now + (i * 0.09);
-                const osc = audioCtx.createOscillator();
+                const noteTime = now + i * 0.09;
+                const osc  = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
-
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(freq, noteTime);
-
                 gain.gain.setValueAtTime(0.001, noteTime);
                 gain.gain.exponentialRampToValueAtTime(0.12, noteTime + 0.05);
                 gain.gain.exponentialRampToValueAtTime(0.0001, noteTime + 1.8);
-
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
-
                 osc.start(noteTime);
                 osc.stop(noteTime + 1.85);
             });
-        } catch (e) {}
+        } catch (_) {}
     }
+
+    // ── Line Drawing ──────────────────────────────────────────────────────────
+    // Uses the REAL SVG line length so the draw-on animation always covers the
+    // full segment — not a fixed arbitrary value.
 
     function drawVirgoLine(u, v) {
         if (!u || !v || u === v) return;
+
+        // Canonical sorted edge key prevents duplicate lines
         const edgeKey = [u, v].sort().join('--');
         if (drawnEdges.has(edgeKey)) return;
         drawnEdges.add(edgeKey);
@@ -2167,53 +2236,125 @@ document.addEventListener('DOMContentLoaded', () => {
         const p2 = virgoStars[v];
         if (!p1 || !p2) return;
 
+        // Actual SVG distance → accurate stroke-dasharray animation
+        const length = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+
         const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
         line.setAttribute('x1', p1.x);
         line.setAttribute('y1', p1.y);
         line.setAttribute('x2', p2.x);
         line.setAttribute('y2', p2.y);
         line.setAttribute('class', 'virgo-line');
+        line.setAttribute('data-line-from', u);
+        line.setAttribute('data-line-to',   v);
+
         group.appendChild(line);
+
+        // Progressive draw-on animation; permanently settles to solid state on finish
+        if (line.animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            line.style.strokeDasharray = `${length}`;
+            line.style.strokeDashoffset = `${length}`;
+
+            const anim = line.animate([
+                { strokeDashoffset: `${length}` },
+                { strokeDashoffset: '0' }
+            ], {
+                duration: 620,
+                easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+                fill: 'forwards'
+            });
+
+            anim.onfinish = () => {
+                line.style.strokeDasharray = 'none';
+                line.style.strokeDashoffset = '0';
+            };
+        } else {
+            line.style.strokeDasharray = 'none';
+            line.style.strokeDashoffset = '0';
+        }
     }
 
+    // Check all Virgo edges — draw any line whose both endpoints are now activated
     function checkVirgoEdges(newStarId) {
         virgoEdges.forEach(([u, v]) => {
-            if ((u === newStarId && state.activatedStars.has(v)) ||
-                (v === newStarId && state.activatedStars.has(u))) {
+            if (
+                (u === newStarId && activatedVirgoStars.has(v)) ||
+                (v === newStarId && activatedVirgoStars.has(u))
+            ) {
                 drawVirgoLine(u, v);
             }
         });
     }
 
-    // ── 3-State Star Progression & Single Guided Target Engine ──
-    function updateGuidedStar() {
-        if (state.constellationCompleted) return;
+    // ── Progress Indicator ────────────────────────────────────────────────────
 
-        // Find the next unactivated star in the canonical sequence
-        const nextTargetId = virgoGuideOrder.find(id => !state.activatedStars.has(id));
+    function updateVirgoProgress() {
+        const progressEl = document.getElementById('virgoProgress');
+        if (!progressEl) return;
 
-        document.querySelectorAll('.virgo-star-node').forEach(node => {
-            const id = node.getAttribute('data-star-id') || node.id;
-            if (state.activatedStars.has(id)) {
-                node.classList.remove('star-guided', 'star-inactive', 'star-beckon');
-                node.classList.add('activated');
-            } else if (id === nextTargetId) {
-                node.classList.remove('star-inactive', 'star-beckon');
-                node.classList.add('star-guided');
-            } else {
-                node.classList.remove('star-guided', 'star-beckon');
-                node.classList.add('star-inactive');
-            }
-        });
+        const count = activatedVirgoStars.size;
+        const total = Object.keys(virgoStars).length; // 12
+
+        if (count === 0) {
+            progressEl.textContent = '';
+            progressEl.classList.remove('virgo-progress-visible');
+        } else {
+            progressEl.textContent = `${count} / ${total} ✦`;
+            progressEl.classList.add('virgo-progress-visible');
+        }
     }
 
+    // ── Lightweight Celestial Sparkles for Constellation (Lag-Free) ───────────
+    function createConstellationStarSparkle(x, y) {
+        let container = document.querySelector('.sparkle-burst-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.className = 'sparkle-burst-container';
+            container.setAttribute('aria-hidden', 'true');
+            document.body.appendChild(container);
+        }
+
+        const symbols = ['✨', '✦', '·', '⭐'];
+        const count = 6;
+
+        for (let i = 0; i < count; i++) {
+            const el = document.createElement('span');
+            el.className = 'sparkle-burst-item';
+            el.textContent = symbols[i % symbols.length];
+            el.style.left = `${x}px`;
+            el.style.top = `${y}px`;
+
+            const angle = (i / count) * 2 * Math.PI + (Math.random() * 0.4 - 0.2);
+            const dist = 28 + Math.random() * 36;
+            const tx = Math.cos(angle) * dist;
+            const ty = Math.sin(angle) * dist - 12;
+            const rot = (Math.random() * 60 - 30) + 'deg';
+
+            el.style.fontSize = (0.75 + Math.random() * 0.35) + 'rem';
+            el.style.setProperty('--tx', `${tx}px`);
+            el.style.setProperty('--ty', `${ty}px`);
+            el.style.setProperty('--rot', rot);
+            el.style.animationDuration = '0.6s';
+
+            container.appendChild(el);
+
+            setTimeout(() => {
+                el.remove();
+            }, 680);
+        }
+    }
+
+    // ── Star Activation ───────────────────────────────────────────────────────
+    // No guide order. No penalties. All 12 stars are equally valid at any time.
+
     function handleStarClick(starNode) {
-        if (!starNode || state.constellationCompleted) return;
+        // Guard: ignore after completion or if star already activated
+        if (!starNode || virgoCompleted) return;
 
         const starId = starNode.getAttribute('data-star-id') || starNode.id;
-        if (!starId || state.activatedStars.has(starId)) return;
+        if (!starId || activatedVirgoStars.has(starId)) return;
 
-        // 1. Dismiss hint on first star interaction
+        // 1. Dismiss instruction hint on the very first interaction
         const instruction = document.getElementById('skyInstruction');
         if (instruction && !state.hintDismissed) {
             state.hintDismissed = true;
@@ -2221,128 +2362,142 @@ document.addEventListener('DOMContentLoaded', () => {
             instruction.classList.add('instruction-hidden');
         }
 
-        // 2. Mark star as activated
-        state.activatedStars.add(starId);
-        starNode.classList.remove('star-inactive', 'star-guided', 'star-beckon');
+        // 2. Mark star activated — visual state + burst effect
+        activatedVirgoStars.add(starId);
+        starNode.classList.remove('star-inactive', 'star-beckon');
         starNode.classList.add('activated', 'just-activated');
-        setTimeout(() => {
+
+        // Remove burst class after animation completes (~850ms)
+        const burstTimer = setTimeout(() => {
             starNode.classList.remove('just-activated');
         }, 850);
+        state.starFinaleTimers.push(burstTimer);
 
-        // 3. Delicate sparkle burst at star position
+        // 3. Delicate celestial sparkle burst at star position (lightweight, zero lag)
         const rect = starNode.getBoundingClientRect();
-        createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+        createConstellationStarSparkle(rect.left + rect.width / 2, rect.top + rect.height / 2);
 
-        // 4. Play crystalline chime (Spica has brilliant blue-white shimmer chord)
-        const isSpica = (starId === 'spica');
-        playStarChime(starId, isSpica);
+        // 4. Crystalline chime — Spica gets the brilliant shimmer chord
+        playStarChime(starId, starId === 'spica');
 
-        // 5. Draw predetermined Virgo connection lines only between canonically connected active stars
+        // 5. Reveal Virgo lines whose both endpoints are now activated
         checkVirgoEdges(starId);
 
-        // 6. Advance guidance to the next unactivated star
-        updateGuidedStar();
+        // 6. Update subtle progress counter
+        updateVirgoProgress();
 
-        // 7. Check if all 12 Virgo stars have been activated
-        if (state.activatedStars.size >= Object.keys(virgoStars).length && !state.constellationCompleted) {
+        // 7. Check if all 12 stars are now activated
+        if (activatedVirgoStars.size >= Object.keys(virgoStars).length && !virgoCompleted) {
             triggerVirgoCompletion();
         }
     }
 
+    // ── Cinematic Completion Reveal ───────────────────────────────────────────
+    // Triggers exactly once when all 12 stars are activated.
+
     function triggerVirgoCompletion() {
-        state.constellationCompleted = true;
+        virgoCompleted            = true;
+        state.constellationCompleted = true; // keep outer state in sync
 
-        const stage = document.getElementById('constellationStage');
+        const stage       = document.getElementById('constellationStage');
         const instruction = document.getElementById('skyInstruction');
+        const progressEl  = document.getElementById('virgoProgress');
 
-        if (instruction) {
-            instruction.classList.add('instruction-hidden');
-        }
-
-        // Ensure all predetermined Virgo lines are drawn and stay permanently visible
+        // Ensure every Virgo edge is drawn (catches gaps from rapid clicking)
         virgoEdges.forEach(([u, v]) => drawVirgoLine(u, v));
 
-        // Ensure all 12 stars are brightly lit, settled, and interactive logic is stopped
+        // Permanently settle all lines to solid visible state so none can ever disappear
+        document.querySelectorAll('.virgo-line').forEach(line => {
+            line.style.strokeDasharray = 'none';
+            line.style.strokeDashoffset = '0';
+        });
+
+        // Lock all stars — constellation is permanently revealed
         document.querySelectorAll('.virgo-star-node').forEach(node => {
-            node.classList.remove('star-guided', 'star-inactive', 'star-beckon');
+            node.classList.remove('star-inactive', 'star-beckon');
             node.classList.add('activated');
-            node.style.pointerEvents = 'none'; // Stop interactive connection logic so constellation cannot be changed
+            node.style.pointerEvents = 'none';
             node.style.cursor = 'default';
         });
 
-        // STEP 1 (0ms): Completed constellation glows with radiant starlight
-        if (stage) {
-            stage.classList.add('step1-brighten', 'constellation-completed');
-        }
+        // ── 0ms: constellation-completed → lines glow permanently ──
+        if (stage) stage.classList.add('step1-brighten', 'constellation-completed');
 
-        // STEP 2 (350ms): Constellation lines pulse with starlight
-        const t2 = setTimeout(() => {
+        // ── ~400ms: subtle brightness pulse + ambient particles respond ──
+        const t1 = setTimeout(() => {
             if (stage) stage.classList.add('step2-pulse');
-        }, 350);
+            const finaleSec = document.getElementById('finale');
+            if (finaleSec) finaleSec.classList.add('particles-responding');
+        }, 400);
 
-        // STEP 3 (800ms): Celestial chord and gentle Spica sparkle
-        const t3 = setTimeout(() => {
+        // ── ~900ms: Spica sparkle burst + celestial chord ──
+        const t2 = setTimeout(() => {
             playCelestialChord();
             const spicaEl = document.getElementById('spica');
             if (spicaEl) {
-                const rect = spicaEl.getBoundingClientRect();
-                createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+                const r = spicaEl.getBoundingClientRect();
+                createConstellationStarSparkle(r.left + r.width / 2, r.top + r.height / 2);
             }
-        }, 800);
+        }, 900);
 
-        // STEP 4 (1000ms): Settle the completed constellation, then fade in the Virgo message
+        // ── ~1200ms: constellation settles ──
+        const t3 = setTimeout(() => {
+            if (stage) stage.classList.add('constellation-settled');
+        }, 1200);
+
+        // ── ~1800ms: instruction + progress counter fade out ──
         const t4 = setTimeout(() => {
-            if (stage) {
-                stage.classList.add('constellation-settled');
+            if (instruction) {
+                instruction.classList.remove('instruction-visible');
+                instruction.classList.add('instruction-hidden');
             }
+            if (progressEl) progressEl.classList.add('virgo-progress-fade');
+        }, 1800);
 
+        // ── ~2200ms: Virgo message elegantly fades in ──
+        const t5 = setTimeout(() => {
             const msgStage = document.getElementById('virgoMessageStage');
             if (msgStage) {
                 msgStage.style.display = 'flex';
-                void msgStage.offsetWidth; // Force reflow before transition
+                void msgStage.offsetWidth; // Force reflow for CSS transition
                 msgStage.classList.add('virgo-msg-visible');
                 msgStage.setAttribute('aria-hidden', 'false');
 
-                // Scroll gently so the message is visible below the constellation
+                // Scroll so the message is visible below the constellation
                 setTimeout(() => {
                     msgStage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }, 400);
             }
-        }, 1000);
+        }, 2200);
 
-        // STEP 5 (3600ms): Fade in the Continue button (after text is fully visible)
-        const t5 = setTimeout(() => {
+        // ── ~4200ms: Continue button appears ──
+        const t6 = setTimeout(() => {
             const continueWrap = document.getElementById('virgoMsgContinueWrap');
-            if (continueWrap) {
-                continueWrap.classList.add('continue-btn-visible');
-            }
-        }, 3600);
+            if (continueWrap) continueWrap.classList.add('continue-btn-visible');
+        }, 4200);
 
-        state.starFinaleTimers.push(t2, t3, t4, t5);
+        state.starFinaleTimers.push(t1, t2, t3, t4, t5, t6);
     }
 
-    // ---------------------------------------------------------------------------
-    // Virgo Message "Continue" → switch to dedicated Letter-Finale section
-    // ---------------------------------------------------------------------------
+    // ── Continue button → Letter-Finale section ───────────────────────────────
+
     function initLetterFinaleScene() {
         const revealStage = document.getElementById('finaleRevealStage');
         if (!revealStage) return;
 
-        // Small entrance delay so the section transition completes before the reveal starts
+        // Small entrance delay so the section transition completes first
         const tReveal = setTimeout(() => {
             revealStage.classList.add('reveal-visible');
             revealStage.setAttribute('aria-hidden', 'false');
 
             const actionWrap = document.getElementById('finaleActionWrap');
-            if (actionWrap) {
-                actionWrap.classList.add('action-visible');
-            }
+            if (actionWrap) actionWrap.classList.add('action-visible');
         }, 600);
 
         state.starFinaleTimers.push(tReveal);
     }
 
-    // Wire the Continue button
+    // Wire the Continue button (single listener, attached once at parse time)
     const vmContinueBtn = document.getElementById('virgoMessageContinue');
     if (vmContinueBtn) {
         vmContinueBtn.addEventListener('click', (e) => {
@@ -2353,42 +2508,57 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ── Reset ─────────────────────────────────────────────────────────────────
+    // Called each time the visitor revisits #finale — no stale state persists.
+
     function resetStarFinale() {
+        // Clear all pending completion-sequence timers
         if (state.starFinaleTimers) {
             state.starFinaleTimers.forEach(id => clearTimeout(id));
             state.starFinaleTimers = [];
         }
-        state.activatedStars = new Set();
-        state.lastClickedStarIndex = null;
-        state.hintDismissed = false;
-        state.constellationCompleted = false;
+
+        // Reset constellation state objects
+        activatedVirgoStars.clear();
         drawnEdges.clear();
+        virgoCompleted               = false;
+        state.constellationCompleted = false;
+        state.lastClickedStarIndex   = null;
+        state.hintDismissed          = false;
 
         // Reset shooting star
         const shootingStar = document.getElementById('finaleShootingStar');
-        if (shootingStar) {
-            shootingStar.classList.remove('shooting-star-active');
-        }
+        if (shootingStar) shootingStar.classList.remove('shooting-star-active');
 
-        // Reset all 12 Virgo stars to inactive state and restore pointer events
-        const starNodes = document.querySelectorAll('.virgo-star-node');
-        starNodes.forEach(node => {
-            node.classList.remove('activated', 'just-activated', 'star-guided', 'star-beckon');
+        // Reset all 12 Virgo stars to inactive — restore pointer events
+        document.querySelectorAll('.virgo-star-node').forEach(node => {
+            node.classList.remove('activated', 'just-activated', 'star-beckon');
             node.classList.add('star-inactive');
             node.style.removeProperty('pointer-events');
             node.style.removeProperty('cursor');
         });
 
-        // Clear SVG constellation lines
+        // Clear dynamic SVG constellation lines
         const group = document.getElementById('virgo-lines');
         if (group) group.innerHTML = '';
 
+        // Reset stage classes
         const stage = document.getElementById('constellationStage');
         if (stage) {
-            stage.classList.remove('step1-brighten', 'step2-pulse', 'constellation-completed', 'constellation-settled');
+            stage.classList.remove(
+                'step1-brighten', 'step2-pulse',
+                'constellation-completed', 'constellation-settled'
+            );
         }
 
-        // Reset the Virgo completion message stage
+        // Reset progress indicator
+        const progressEl = document.getElementById('virgoProgress');
+        if (progressEl) {
+            progressEl.textContent = '';
+            progressEl.classList.remove('virgo-progress-visible', 'virgo-progress-fade');
+        }
+
+        // Reset the Virgo completion message
         const msgStage = document.getElementById('virgoMessageStage');
         if (msgStage) {
             msgStage.classList.remove('virgo-msg-visible');
@@ -2396,50 +2566,52 @@ document.addEventListener('DOMContentLoaded', () => {
             msgStage.setAttribute('aria-hidden', 'true');
         }
 
-        // Reset the continue button wrapper
+        // Reset Continue button wrapper
         const continueWrap = document.getElementById('virgoMsgContinueWrap');
-        if (continueWrap) {
-            continueWrap.classList.remove('continue-btn-visible');
-        }
+        if (continueWrap) continueWrap.classList.remove('continue-btn-visible');
 
-        // Reset Letter-Finale reveal stage (now lives in #letter-finale section)
+        // Reset Letter-Finale reveal stage
         const revealStage = document.getElementById('finaleRevealStage');
         if (revealStage) {
             revealStage.classList.remove('reveal-visible');
             revealStage.setAttribute('aria-hidden', 'true');
         }
 
-        // Reset instruction hint
+        // Reset instruction hint visibility
         const instruction = document.getElementById('skyInstruction');
         if (instruction) {
             instruction.classList.remove('instruction-visible', 'instruction-hidden');
         }
 
-        // Hide "Return to Start" button container
+        // Hide Letter-Finale action wrap
         const actionWrap = document.getElementById('finaleActionWrap');
-        if (actionWrap) {
-            actionWrap.classList.remove('action-visible');
-        }
+        if (actionWrap) actionWrap.classList.remove('action-visible');
 
-        // Reset finale section content visibility
+        // Remove particle response + finale state classes
         const finaleSec = document.getElementById('finale');
         if (finaleSec) {
-            finaleSec.classList.remove('finale-sky-active', 'finale-content-visible');
+            finaleSec.classList.remove(
+                'finale-sky-active', 'finale-content-visible', 'particles-responding'
+            );
         }
     }
 
+    // ── Scene Init ────────────────────────────────────────────────────────────
+    // Called each time the visitor enters #finale.
+
     function initFinaleScene() {
         resetStarFinale();
+        buildNebulaStarfield();
 
         const finaleSec = document.getElementById('finale');
-        if (finaleSec) {
-            finaleSec.classList.add('finale-sky-active');
-        }
+        if (finaleSec) finaleSec.classList.add('finale-sky-active');
 
-        // Guide user to the primary anchor star (Spica)
-        updateGuidedStar();
+        // All 12 stars start equally dim — no "next" star is highlighted
+        document.querySelectorAll('.virgo-star-node').forEach(node => {
+            node.classList.add('star-inactive');
+        });
 
-        // Fade in "Psst… tap the glowing stars ✨" hint gently
+        // Fade in "Connect the stars ✨" instruction after a brief atmospheric pause
         const instruction = document.getElementById('skyInstruction');
         if (instruction) {
             instruction.classList.remove('instruction-hidden');
@@ -2451,7 +2623,7 @@ document.addEventListener('DOMContentLoaded', () => {
             state.starFinaleTimers.push(tInst);
         }
 
-        // Trigger occasional shooting star across the night sky after ~2.6s
+        // Occasional shooting star across the night sky after ~2.6s
         const shootingStar = document.getElementById('finaleShootingStar');
         if (shootingStar) {
             shootingStar.classList.remove('shooting-star-active');
@@ -2466,13 +2638,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Attach click and keyboard listeners to all Virgo constellation stars
-    const virgoStarNodes = document.querySelectorAll('.virgo-star-node');
-    virgoStarNodes.forEach(starNode => {
+    // ── Event Listeners ───────────────────────────────────────────────────────
+    // Unified click (handles both mouse + touch). Single listener per star,
+    // registered once at parse time — no duplicate attachment risk.
+
+    document.querySelectorAll('.virgo-star-node').forEach(starNode => {
+        // click fires for both mouse and synthesized touch-tap events
         starNode.addEventListener('click', (e) => {
             e.preventDefault();
             handleStarClick(starNode);
         });
+
+        // Keyboard: Enter or Space activates the star (accessibility)
         starNode.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();

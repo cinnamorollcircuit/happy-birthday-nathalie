@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+@keyframes move { from { transform: translateX(0); } to { transform: translateX(500px); } }
+.box { width: 100px; height: 100px; background: red; animation: move 2s linear forwards; }
+</style>
+</head>
+<body style="margin:0; background: #fff;">
+<div class="box"></div>
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    document.getAnimations().forEach(a => {
+        a.pause();
+        a.currentTime = 1000;
+    });
+});
+</script>
+</body>
+</html>
