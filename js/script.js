@@ -470,6 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const randomEnter = enterAnimations[Math.floor(Math.random() * enterAnimations.length)];
 
         if (currentEl && currentEl !== targetEl && currentEl.style.display !== 'none') {
+            if (currentId === 'wish') currentEl.classList.remove('wish-intro-visible');
             currentEl.classList.remove('active-section', ...enterAnimations);
             currentEl.classList.add(randomExit);
 
@@ -502,6 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     void el.offsetWidth;
                     el.classList.add('active-section', randomEnter);
                 } else {
+                    if (id === 'wish') el.classList.remove('wish-intro-visible');
                     el.classList.remove('active-section');
                     el.style.display = 'none';
                 }
@@ -876,7 +878,7 @@ document.addEventListener('DOMContentLoaded', () => {
         chocolate: {
             noteStyle:  'sticky-note',
             noteHeader: 'Chocolate 🍫',
-            noteBody:   'If today feels heavy, I hope this gives you pause and breath. You don’t have to know everything right now.',
+            noteBody:   '<strong>Moment of comfort.</strong><br>Whatever’s going on, you’ve got this. Take it one thing at a time.',
             doodle:     '🍫',
             cinnaImg:   'assets/images/cin_xie_xie.png',
             cinnaAlt:   'Cinnamoroll sending a cozy hug'
@@ -884,7 +886,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cookie: {
             noteStyle:  'folded-note',
             noteHeader: 'Cookie 🍪',
-            noteBody:   'If you ever need to hear it, you truly deserve to be appreciated. Even in the smallest ways, your presence makes a difference, more than you might realize.',
+            noteBody:   '<strong>Gentle reminder.</strong><br>You’re doing better than you think.',
             doodle:     '🍪',
             cinnaImg:   'assets/images/cin_cookie.png',
             cinnaAlt:   'Cinnamoroll holding a heart cookie'
@@ -892,7 +894,7 @@ document.addEventListener('DOMContentLoaded', () => {
         shortcake: {
             noteStyle:  'torn-paper',
             noteHeader: 'Strawberry Shortcake 🍓',
-            noteBody:   'I hope this year brings you many small things to look forward to happiness, gentle surprises, and memories you’ll want to keep close for a long time.',
+            noteBody:   '<strong>Touch of sweetness.</strong><br>Life gets messy sometimes. You’ll figure it out.',
             doodle:     '🍓',
             cinnaImg:   'assets/images/cin_dessert.png',
             cinnaAlt:   'Cinnamoroll with strawberries'
@@ -900,7 +902,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cake: {
             noteStyle:  'washi-card',
             noteHeader: 'Birthday Cake 🍰',
-            noteBody:   'Today is yours, and I hope you let yourself enjoy it. Reaching this point is already something worth celebrating.',
+            noteBody:   '<strong>Time for celebration.</strong><br>Today is your day. Enjoy it, make a wish, and celebrate how far you’ve come.',
             doodle:     '🍰',
             cinnaImg:   'assets/images/cin_bday_cake.png',
             cinnaAlt:   'Cinnamoroll celebrating Nathalie’s birthday'
@@ -908,7 +910,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cupcake: {
             noteStyle:  'heart-tag',
             noteHeader: 'Cupcake 🧁',
-            noteBody:   'This isn’t anything big, just a reminder to smile today. I hope something gentle and unexpected finds its way to you, even if it’s only a small thing.',
+            noteBody:   '<strong>Moment of happiness.</strong><br>You’re allowed to have a good day, even when everything isn’t perfect.',
             doodle:     '🧁',
             cinnaImg:   'assets/images/cin_wand.png',
             cinnaAlt:   'Cinnamoroll cheering with a star wand'
@@ -916,7 +918,7 @@ document.addEventListener('DOMContentLoaded', () => {
         drink: {
             noteStyle:  'paper-strip',
             noteHeader: 'Birthday Drink 🧋',
-            noteBody:   'When life feels busy, I hope you remember to slow down now and then. Maybe take a moment with your favorite drink, and let yourself rest.',
+            noteBody:   '<strong>Moment to pause.</strong><br>Take a breath and slow down a little. You don’t have to figure everything out today.',
             doodle:     '🧋',
             cinnaImg:   'assets/images/cin_dancing.png',
             cinnaAlt:   'Cinnamoroll relaxing with floating hearts'
@@ -1546,6 +1548,33 @@ document.addEventListener('DOMContentLoaded', () => {
         bouquetObserver.observe(section);
     }
     initBouquetCinematic();
+
+    // The wish copy enters only once the Cake/Wish section is actually in view.
+    // Removing the class when it leaves view lets the small sequence replay on return.
+    function initWishIntroReveal() {
+        const wishSection = DOM.sections.wish;
+        if (!wishSection) return;
+
+        const revealWishIntro = () => wishSection.classList.add('wish-intro-visible');
+
+        if (!('IntersectionObserver' in window)) {
+            revealWishIntro();
+            return;
+        }
+
+        const wishObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    requestAnimationFrame(revealWishIntro);
+                } else {
+                    wishSection.classList.remove('wish-intro-visible');
+                }
+            });
+        }, { threshold: 0.25 });
+
+        wishObserver.observe(wishSection);
+    }
+    initWishIntroReveal();
 
     // Flow 5: Bouquet -> Wish / Cake Section
     if (DOM.bouquetToWishBtn) {

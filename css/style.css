@@ -427,6 +427,61 @@ main {
   font-weight: 400;
 }
 
+/* Wish heading — a quiet candlelit entrance, played when the section enters view. */
+#wish .section-header > .section-tag,
+#wish .section-header > #wish-title,
+#wish .section-header > p,
+#wish .wish-flourish {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+#wish .section-header > .section-tag {
+  margin-bottom: 0.95rem;
+}
+
+#wish.wish-intro-visible .section-header > .section-tag {
+  animation: wishTextReveal 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+             wishTagGlow 2.8s 0.65s ease-in-out infinite;
+}
+
+#wish.wish-intro-visible .section-header > #wish-title {
+  animation: wishTextReveal 0.7s 0.14s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+#wish .wish-flourish {
+  display: block;
+  width: 5.5rem;
+  height: 1.15rem;
+  margin: 0.15rem auto 0.32rem;
+  fill: none;
+  stroke: #e9a5a4;
+  stroke-linecap: round;
+  stroke-width: 1.35;
+}
+
+#wish.wish-intro-visible .wish-flourish {
+  animation: wishTextReveal 0.55s 0.24s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+#wish .section-header > p {
+  letter-spacing: 0.045em;
+}
+
+#wish.wish-intro-visible .section-header > p {
+  animation: wishTextReveal 0.7s 0.29s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes wishTextReveal {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes wishTagGlow {
+  0%, 100% { box-shadow: 0 2px 8px rgba(255, 105, 180, 0.16), 0 0 0 rgba(255, 209, 102, 0); }
+  50% { box-shadow: 0 3px 13px rgba(255, 135, 166, 0.3), 0 0 18px rgba(255, 209, 102, 0.26); }
+}
+
 .section-container {
   width: 100%;
   min-height: 100vh;
@@ -538,9 +593,174 @@ main {
 /* --------------------------------------------------------------------------
    6. Landing Section (Handcrafted Gift Entrance)
    -------------------------------------------------------------------------- */
+
+/* --- Cross-Stitch Pixel-Art Floral Frame (Four Corners) --- */
+.landing-blossom-decorations {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Base corner artwork style */
+.xstitch-corner {
+  position: absolute;
+  pointer-events: none;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  shape-rendering: crispEdges;
+  /* Match the low-contrast pink pixel landscape instead of reading as a
+     foreground sticker. Multiply lets the scene's light and color show through. */
+  opacity: 0.56;
+  mix-blend-mode: multiply;
+  filter: sepia(0.16) saturate(0.62) hue-rotate(288deg) brightness(1.16) contrast(0.8);
+}
+
+/* Landing scenery uses an explicit, self-contained layer stack. */
+#landing .background-effects {
+  z-index: 0;
+}
+
+/* The source artwork is supplied as transparent PNG slices.  Keep the legacy
+   inline SVGs out of the visual stack; the PNGs preserve the original stitch
+   detail and grid texture exactly. */
+.landing-blossom-decorations > svg.xstitch-corner {
+  display: none;
+}
+
+/* Complete vine scenery: above the sky (0), beneath the greeting card (2). */
+#landing::before,
+#landing::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  height: 100vh;
+  width: min(
+    clamp(200px, 20vw, 320px),
+    calc((100vw - 660px) / 2 - 16px)
+  );
+  /* Repeat the intact, proportionate vine down to the ground instead of
+     stretching a single copy to fill the full-height scene layer. */
+  background-image: url('../assets/images/xstitch_flower_vine.png');
+  background-position: center top;
+  background-size: 100% auto;
+  background-repeat: repeat-y;
+  z-index: 1;
+  opacity: 0.90;
+  pointer-events: none;
+  transform-origin: center;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 6%, black 72%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 6%, black 72%, transparent 100%);
+}
+
+#landing::after {
+  right: 0;
+}
+
+#landing::before {
+  left: 0;
+  transform: scaleX(-1);
+}
+
+/* BOTTOM-RIGHT: Primary large flower + vine */
+.xstitch-br {
+  bottom: 0;
+  right: 0;
+  width: clamp(145px, 16vw, 240px);
+  height: auto;
+  transform-origin: bottom right;
+}
+
+/* TOP-RIGHT: Medium flower + bud */
+.xstitch-tr {
+  top: 0;
+  right: 0;
+  width: clamp(105px, 12vw, 175px);
+  height: auto;
+  transform-origin: top right;
+}
+
+/* BOTTOM-LEFT: Smaller vine + flower */
+.xstitch-bl {
+  bottom: 0;
+  left: 0;
+  width: clamp(90px, 10vw, 155px);
+  height: auto;
+  transform-origin: bottom left;
+}
+
+/* TOP-LEFT: Subtle bud + leaves */
+.xstitch-tl {
+  top: 0;
+  left: 0;
+  width: clamp(70px, 9vw, 135px);
+  height: auto;
+  transform-origin: top left;
+}
+
+/* Gentle float animations — each corner moves independently */
+@keyframes xstitchFloatBR {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  100% { transform: translate(3px, 4px) rotate(0.6deg); }
+}
+@keyframes xstitchFloatTR {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  100% { transform: translate(2px, -3px) rotate(-0.5deg); }
+}
+@keyframes xstitchFloatBL {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  100% { transform: translate(-3px, 3px) rotate(0.4deg); }
+}
+@keyframes xstitchFloatTL {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  100% { transform: translate(-2px, -2px) rotate(-0.4deg); }
+}
+
+/* Tablets: preserve a clear gutter around the smaller card. */
+@media (min-width: 640px) and (max-width: 1023px) {
+  #landing::before,
+  #landing::after {
+    width: min(
+      clamp(150px, 16vw, 220px),
+      max(64px, calc((100vw - 660px) / 2 - 16px))
+    );
+  }
+
+  #landing::after { right: 0; }
+  #landing::before { left: 0; }
+
+  #landing .landing-content {
+    width: min(660px, calc(100% - 10rem));
+  }
+
+  .xstitch-br { width: clamp(120px, 19vw, 190px); }
+  .xstitch-tr { width: clamp(85px, 13vw, 145px); }
+  .xstitch-bl { width: clamp(75px, 12vw, 125px); }
+  .xstitch-tl { width: clamp(60px, 10vw, 105px); }
+}
+
+/* Mobile: make room for the greeting card by removing both decorative vines. */
+@media (max-width: 639px) {
+  #landing::before,
+  #landing::after {
+    display: none;
+  }
+
+  .xstitch-br { width: clamp(90px, 24vw, 130px); opacity: 0.52; }
+  .xstitch-tr { width: clamp(64px, 18vw, 95px); opacity: 0.48; }
+  .xstitch-bl { width: clamp(56px, 17vw, 85px); opacity: 0.52; }
+  .xstitch-tl { width: clamp(48px, 15vw, 72px); opacity: 0.48; }
+}
+
+
+
 .landing-content {
   position: relative;
-  z-index: 10;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -3752,7 +3972,7 @@ main {
 .cin-sticker-dancing {
   width: 110px;
   bottom: -14px;
-  right: -10px;
+  right: 15px;
   animation: dancingSway 2.8s ease-in-out infinite alternate;
 }
 
@@ -3976,7 +4196,7 @@ main {
   /* Sticker sizes on tablet */
   .cin-sticker-airplane { width: 115px; top: -32px; right: -12px; }
   .cin-sticker-dessert  { width: 100px; bottom: -15px; right: -15px; }
-  .cin-sticker-dancing  { width: 95px; bottom: -12px; right: -8px; }
+  .cin-sticker-dancing  { width: 95px; bottom: -12px; right: 15px; }
   .cin-sticker-wand     { width: 105px; bottom: 0; right: -10px; }
   .cin-sticker-bday-cake{ width: 110px; bottom: -4px; left: -25px; z-index: 6; }
   .cin-sticker-yay      { width: 110px; bottom: 8px; right: 0; }
@@ -7338,7 +7558,9 @@ body.cafe-golden-hour .pixel-room-backdrop {
   position: fixed;
   bottom: 24px;
   right: 24px;
-  z-index: 1000;
+  /* main has z-index: 10, so the fixed control must sit above that stacking
+     context to remain interactive on the landing screen. */
+  z-index: 1001;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -9552,6 +9774,103 @@ body.time-finale .day-night-environment {
 @media (prefers-reduced-motion: reduce) {
   .vine-bud-bloom {
     animation: none !important;
+  }
+}
+
+/* ======================================================================
+   FINALE MEMORY COMPILATION: five polaroids held together with tape
+   ====================================================================== */
+#letter-finale .finale-photo-compilation {
+  width: min(350px, 100%);
+  margin: 0.35rem auto 1.75rem;
+  display: grid;
+  grid-template-columns: repeat(2, 126px);
+  grid-auto-rows: 172px;
+  justify-content: center;
+  gap: 22px 38px;
+}
+
+.finale-compilation-label {
+  position: absolute;
+  z-index: 8;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-3deg);
+  width: max-content;
+  max-width: 70%;
+  padding: 0.32rem 0.65rem;
+  color: #7a1a40;
+  background: rgba(255, 249, 253, 0.92);
+  border: 1px dashed #e78aaa;
+  border-radius: 3px;
+  box-shadow: 0 3px 10px rgba(76, 16, 49, 0.15);
+  font: 700 0.9rem/1.2 'Caveat', cursive;
+  letter-spacing: 0.04em;
+}
+
+#letter-finale .finale-photo-card {
+  position: relative;
+  display: block;
+  width: 126px;
+  height: 172px;
+  margin: 0;
+  padding: 6px 6px 19px;
+  overflow: visible;
+  background: #fff;
+  border: 1px solid #ffe2ec;
+  border-radius: 3px;
+  box-shadow: 0 9px 20px rgba(56, 12, 38, 0.25);
+  box-sizing: border-box;
+  transition: transform 240ms ease, box-shadow 240ms ease;
+}
+
+#letter-finale .finale-photo-card:hover {
+  z-index: 10;
+  box-shadow: 0 14px 28px rgba(56, 12, 38, 0.32);
+}
+
+#letter-finale .finale-photo-card .finale-photo-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 1px;
+}
+
+#letter-finale .finale-photo-card .finale-photo-tape {
+  z-index: 2;
+  top: -9px;
+  width: 46px;
+  height: 15px;
+  background: rgba(255, 186, 211, 0.86);
+}
+
+#letter-finale .finale-photo-card-main {
+  z-index: 3;
+  transform: rotate(-1deg);
+}
+#letter-finale .finale-photo-card-one { z-index: 2; transform: rotate(-8deg); }
+#letter-finale .finale-photo-card-two { z-index: 3; transform: rotate(7deg); }
+#letter-finale .finale-photo-card-three { z-index: 1; transform: rotate(5deg); }
+#letter-finale .finale-photo-card-four { z-index: 2; grid-column: 1 / -1; justify-self: center; transform: rotate(-6deg); }
+
+#letter-finale .finale-photo-card-main:hover { transform: rotate(-1deg) translateY(-6px) scale(1.03); }
+#letter-finale .finale-photo-card-one:hover { transform: rotate(-8deg) translateY(-6px) scale(1.03); }
+#letter-finale .finale-photo-card-two:hover { transform: rotate(7deg) translateY(-6px) scale(1.03); }
+#letter-finale .finale-photo-card-three:hover { transform: rotate(5deg) translateY(-6px) scale(1.03); }
+#letter-finale .finale-photo-card-four:hover { transform: rotate(-6deg) translateY(-6px) scale(1.03); }
+
+@media (max-width: 480px) {
+  #letter-finale .finale-photo-compilation {
+    width: min(290px, 100%);
+    grid-template-columns: repeat(2, 104px);
+    grid-auto-rows: 143px;
+    gap: 18px 27px;
+  }
+  #letter-finale .finale-photo-card {
+    width: 104px;
+    height: 143px;
+    padding: 5px 5px 16px;
   }
 }
 
