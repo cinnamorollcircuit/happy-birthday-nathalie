@@ -896,13 +896,13 @@ main {
   background: var(--bg-card);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  padding: 2.6rem 3rem 2.8rem;
+  padding: 2.6rem clamp(1.2rem, 3.5vw, 2.8rem) 2.8rem;
   border-radius: var(--radius-lg);
   border: 3px solid var(--border-pixel);
   box-shadow: var(--shadow-card), var(--shadow-glow);
   position: relative;
   z-index: 1;
-  max-width: 520px;
+  max-width: 560px;
   width: 100%;
 }
 
@@ -1009,7 +1009,8 @@ main {
 
 .opening-container h2 {
   font-family: var(--font-display);
-  font-size: 2.2rem;
+  font-size: clamp(1.2rem, 4vw, 1.85rem);
+  white-space: nowrap;
   font-weight: 700;
   color: var(--color-primary);
   text-shadow: 1px 1px 0px #FFF;
@@ -1292,10 +1293,10 @@ main {
   margin-left: -16px;
 }
 
-/* Developing & Placement Animation State (Slower, Dramatic & Gentle) */
+/* Developing & Placement Animation State */
 .photo-card.polaroid-card.card-revealed {
   opacity: 1;
-  animation: polaroidDevelopPlacement 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: polaroidDevelopPlacement 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 @keyframes polaroidDevelopPlacement {
@@ -1473,6 +1474,15 @@ main {
   margin: 0.6rem auto 1.2rem;
   box-shadow: 0 3px 10px rgba(255, 105, 180, 0.12);
   z-index: 11;
+  opacity: 0;
+  transform: translateY(10px) scale(0.96);
+  pointer-events: none;
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.scrapbook-date-badge.badge-revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 .sdb-text {
@@ -7304,8 +7314,8 @@ main {
 
 .cafe-continue-wrap {
   position: absolute;
-  bottom: 12px;
-  left: 50%;
+  bottom: 30px;
+  left: calc(50% + 252px);
   z-index: 25;
   display: flex;
   align-items: center;
@@ -8507,6 +8517,21 @@ body.cafe-golden-hour .pixel-room-backdrop {
   isolation: isolate;
 }
 
+/* The finale has the heaviest visual layer stack. A long, opacity-only
+   entrance lets the browser settle that work while the scene comes into view,
+   avoiding the abrupt hitch caused by the regular transform entrances. */
+#finale.section-container.finale-fade-in {
+  animation: finaleSoftFadeIn 5.5s ease-out both;
+  transform: none;
+  transition: opacity 5.5s ease-out;
+  will-change: opacity;
+}
+
+@keyframes finaleSoftFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 body.time-finale::before {
   opacity: 0;
 }
@@ -9106,6 +9131,8 @@ body.time-finale .day-night-environment {
 .virgo-star-node {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
   outline: none;
   pointer-events: auto;
 }
@@ -9777,6 +9804,10 @@ body.time-finale .day-night-environment {
 
 /* Prefers-reduced-motion: freeze sway */
 @media (prefers-reduced-motion: reduce) {
+  #finale.section-container.finale-fade-in {
+    animation: none;
+  }
+
   .vine-bud-bloom {
     animation: none !important;
   }
