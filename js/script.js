@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         photoCard1: document.getElementById('photoCard1'),
         photoCard2: document.getElementById('photoCard2'),
         photoCard3: document.getElementById('photoCard3'),
+        scrapbookDateBadge: document.querySelector('.scrapbook-date-badge'),
         photo3NextBtn: document.getElementById('photo3NextBtn'),
 
         // Handmade Pink Scrapbook Collage Elements
@@ -417,6 +418,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --------------------------------------------------------------------------
     const exitAnimations = ['exit-pop-left', 'exit-pop-right', 'exit-drop-tilt', 'exit-zoom-spin'];
     const enterAnimations = ['enter-wobble', 'enter-spring-up', 'enter-twist-in'];
+    // The finale is visually denser than the other sections. Give its layers a
+    // dedicated opacity-only entrance instead of a transform-heavy random one.
+    const finaleEnterAnimation = 'finale-fade-in';
 
     let isSectionTransitioning = false;
 
@@ -468,10 +472,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Randomly pick unique exit and entry styles
         const randomExit = exitAnimations[Math.floor(Math.random() * exitAnimations.length)];
         const randomEnter = enterAnimations[Math.floor(Math.random() * enterAnimations.length)];
+        const enterAnimation = targetSectionId === 'finale' ? finaleEnterAnimation : randomEnter;
 
         if (currentEl && currentEl !== targetEl && currentEl.style.display !== 'none') {
             if (currentId === 'wish') currentEl.classList.remove('wish-intro-visible');
-            currentEl.classList.remove('active-section', ...enterAnimations);
+            currentEl.classList.remove('active-section', ...enterAnimations, finaleEnterAnimation);
             currentEl.classList.add(randomExit);
 
             setTimeout(() => {
@@ -480,9 +485,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (targetEl) {
                     targetEl.style.display = 'flex';
-                    targetEl.classList.remove(...exitAnimations, ...enterAnimations);
+                    targetEl.classList.remove(...exitAnimations, ...enterAnimations, finaleEnterAnimation);
                     void targetEl.offsetWidth;
-                    targetEl.classList.add('active-section', randomEnter);
+                    targetEl.classList.add('active-section', enterAnimation);
                 }
 
                 state.currentSection = targetSectionId;
@@ -497,11 +502,11 @@ document.addEventListener('DOMContentLoaded', () => {
             Object.keys(DOM.sections).forEach(id => {
                 const el = DOM.sections[id];
                 if (!el) return;
-                el.classList.remove(...exitAnimations, ...enterAnimations);
+                el.classList.remove(...exitAnimations, ...enterAnimations, finaleEnterAnimation);
                 if (id === targetSectionId) {
                     el.style.display = 'flex';
                     void el.offsetWidth;
-                    el.classList.add('active-section', randomEnter);
+                    el.classList.add('active-section', enterAnimation);
                 } else {
                     if (id === 'wish') el.classList.remove('wish-intro-visible');
                     el.classList.remove('active-section');
@@ -641,7 +646,7 @@ document.addEventListener('DOMContentLoaded', () => {
             switchSection('opening', () => {
                 const t1 = setTimeout(() => {
                     const title = document.getElementById('opening-title');
-                    if (title) title.textContent = "Getting everything ready…";
+                    if (title) title.textContent = "Cinnamoroll is wrapping the gifts…";
                 }, 800);
                 state.openingTimerIds.push(t1);
 
@@ -718,41 +723,52 @@ document.addEventListener('DOMContentLoaded', () => {
         if (actions) {
             actions.classList.remove('show-action');
         }
+        if (DOM.scrapbookDateBadge) {
+            DOM.scrapbookDateBadge.classList.remove('badge-revealed');
+        }
 
-        // Step 1: Photo 1 begins reveal (0.8s) -> settles & develops (~2.8s)
+        // Step 1: Photo 1 begins reveal (0.6s) -> settles & develops (~2.0s)
         scrapbookStepTimers.push(setTimeout(() => {
             if (DOM.photoCard1) {
                 DOM.photoCard1.classList.add('card-revealed');
                 createScrapbookPetalBurst(DOM.photoCard1);
                 createSparkleBurst(window.innerWidth * 0.35, window.innerHeight * 0.45);
             }
-        }, 800));
+        }, 600));
 
-        // Step 2: Photo 2 begins reveal (3.8s) -> settles & develops (~5.8s)
+        // Step 2: Photo 2 begins reveal (2.8s) -> settles & develops (~4.2s)
         scrapbookStepTimers.push(setTimeout(() => {
             if (DOM.photoCard2) {
                 DOM.photoCard2.classList.add('card-revealed');
                 createScrapbookPetalBurst(DOM.photoCard2);
                 createSparkleBurst(window.innerWidth * 0.5, window.innerHeight * 0.42);
             }
-        }, 3800));
+        }, 2800));
 
-        // Step 3: Photo 3 begins reveal (6.8s) -> settles & develops (~8.8s)
+        // Step 3: Photo 3 begins reveal (5.0s) -> settles & develops (~6.4s)
         scrapbookStepTimers.push(setTimeout(() => {
             if (DOM.photoCard3) {
                 DOM.photoCard3.classList.add('card-revealed');
                 createScrapbookPetalBurst(DOM.photoCard3);
                 createSparkleBurst(window.innerWidth * 0.65, window.innerHeight * 0.45);
             }
-        }, 6800));
+        }, 5000));
 
-        // Step 4: All 3 Polaroids settled -> reveal Continue button with breathing room (10.2s)
+        // Step 4: Reveal the date badge once the third Polaroid has settled.
+        scrapbookStepTimers.push(setTimeout(() => {
+            if (DOM.scrapbookDateBadge) {
+                DOM.scrapbookDateBadge.classList.add('badge-revealed');
+            }
+            createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.62);
+        }, 6500));
+
+        // Step 5: Reveal Continue button after the date badge.
         scrapbookStepTimers.push(setTimeout(() => {
             if (actions) {
                 actions.classList.add('show-action');
             }
             createSparkleBurst(window.innerWidth / 2, window.innerHeight * 0.65);
-        }, 10200));
+        }, 7000));
     }
 
     // Flow 3: Photos -> Handmade Scrapbook Collage
@@ -870,7 +886,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --------------------------------------------------------------------------
-    // 5c. ☕ "A Little Birthday Café" — Dessert Section Engine
+    // 5c. ☕ "A Birthday Café" — Dessert Section Engine
     // --------------------------------------------------------------------------
 
     // ── Data: per-treat content and note style ──
@@ -878,7 +894,7 @@ document.addEventListener('DOMContentLoaded', () => {
         chocolate: {
             noteStyle:  'sticky-note',
             noteHeader: 'Chocolate 🍫',
-            noteBody:   '<strong>Moment of comfort.</strong><br>Whatever’s going on, you’ve got this. Take it one thing at a time.',
+            noteBody:   'A chocolate for the days when you need a little push. You’ve handled things before that you probably thought you couldn’t.',
             doodle:     '🍫',
             cinnaImg:   'assets/images/cin_xie_xie.png',
             cinnaAlt:   'Cinnamoroll sending a cozy hug'
@@ -886,23 +902,23 @@ document.addEventListener('DOMContentLoaded', () => {
         cookie: {
             noteStyle:  'folded-note',
             noteHeader: 'Cookie 🍪',
-            noteBody:   '<strong>Gentle reminder.</strong><br>You’re doing better than you think.',
+            noteBody:   'A cookie to remind you that you don’t always have to keep doing more to be enough. You’re already someone worth being proud of, even on the days when you feel like you haven’t done much.',
             doodle:     '🍪',
             cinnaImg:   'assets/images/cin_cookie.png',
-            cinnaAlt:   'Cinnamoroll holding a heart cookie'
+            cinnaAlt:   'Cinnamoroll holding a cookie'
         },
         shortcake: {
             noteStyle:  'torn-paper',
             noteHeader: 'Strawberry Shortcake 🍓',
-            noteBody:   '<strong>Touch of sweetness.</strong><br>Life gets messy sometimes. You’ll figure it out.',
+            noteBody:   'A Strawberry Shortcake because there’s still so much you haven’t seen, tried, or experienced yet. Keep being curious. Maybe some of the best parts of life haven’t happened yet.',
             doodle:     '🍓',
-            cinnaImg:   'assets/images/cin_dessert.png',
+            cinnaImg:   'assets/images/cin_wand.png',
             cinnaAlt:   'Cinnamoroll with strawberries'
         },
         cake: {
             noteStyle:  'washi-card',
             noteHeader: 'Birthday Cake 🍰',
-            noteBody:   '<strong>Time for celebration.</strong><br>Today is your day. Enjoy it, make a wish, and celebrate how far you’ve come.',
+            noteBody:   'A birthday cake because it’s your birthday. I wish this year gives you plenty more to discover. And don’t forget to look back sometimes at everything you’ve been through and how you managed to overcome it.',
             doodle:     '🍰',
             cinnaImg:   'assets/images/cin_bday_cake.png',
             cinnaAlt:   'Cinnamoroll celebrating Nathalie’s birthday'
@@ -910,15 +926,15 @@ document.addEventListener('DOMContentLoaded', () => {
         cupcake: {
             noteStyle:  'heart-tag',
             noteHeader: 'Cupcake 🧁',
-            noteBody:   '<strong>Moment of happiness.</strong><br>You’re allowed to have a good day, even when everything isn’t perfect.',
+            noteBody:   'A cupcake for you to do something just because you like it. Eat the food you love, listen to the songs you enjoy, laugh at something stupid. Because not everything needs a reason.',
             doodle:     '🧁',
             cinnaImg:   'assets/images/cin_wand.png',
             cinnaAlt:   'Cinnamoroll cheering with a star wand'
         },
         drink: {
             noteStyle:  'paper-strip',
-            noteHeader: 'Birthday Drink 🧋',
-            noteBody:   '<strong>Moment to pause.</strong><br>Take a breath and slow down a little. You don’t have to figure everything out today.',
+            noteHeader: 'Comfort Drink 🧋',
+            noteBody:   'You spend a lot of time looking ahead, so here’s your drink as an excuse to slow down for a while. No plans, no figuring things out. Just enjoy your drink and let the day be the day. Goodluck future chemist! (i put cinnamoroll as an ingredients btw)',
             doodle:     '🧋',
             cinnaImg:   'assets/images/cin_dancing.png',
             cinnaAlt:   'Cinnamoroll relaxing with floating hearts'
@@ -2373,6 +2389,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Keep non-essential DOM work out of the input event. The star itself is
+    // painted immediately; its decorative particles are added on the next
+    // frame so rapid taps never have to wait for six extra DOM nodes.
+    function queueConstellationStarSparkle(starNode) {
+        requestAnimationFrame(() => {
+            if (!starNode || !starNode.isConnected) return;
+            const rect = starNode.getBoundingClientRect();
+            createConstellationStarSparkle(
+                rect.left + rect.width / 2,
+                rect.top + rect.height / 2
+            );
+        });
+    }
+
     // ── Star Activation ───────────────────────────────────────────────────────
     // No guide order. No penalties. All 12 stars are equally valid at any time.
 
@@ -2402,9 +2432,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 850);
         state.starFinaleTimers.push(burstTimer);
 
-        // 3. Delicate celestial sparkle burst at star position (lightweight, zero lag)
-        const rect = starNode.getBoundingClientRect();
-        createConstellationStarSparkle(rect.left + rect.width / 2, rect.top + rect.height / 2);
+        // 3. Add decorative particles after the responsive visual update has
+        // painted. This avoids a forced layout during a click/tap.
+        queueConstellationStarSparkle(starNode);
 
         // 4. Crystalline chime — Spica gets the brilliant shimmer chord
         playStarChime(starId, starId === 'spica');
@@ -2668,11 +2698,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ── Event Listeners ───────────────────────────────────────────────────────
-    // Unified click (handles both mouse + touch). Single listener per star,
-    // registered once at parse time — no duplicate attachment risk.
+    // Activate on pointer-down so both mouse clicks and taps respond immediately.
+    // The click listener remains as a fallback for browsers without PointerEvent
+    // support and for assistive technologies that dispatch click directly.
 
     document.querySelectorAll('.virgo-star-node').forEach(starNode => {
-        // click fires for both mouse and synthesized touch-tap events
+        if (window.PointerEvent) {
+            starNode.addEventListener('pointerdown', (e) => {
+                if (!e.isPrimary || e.button !== 0) return;
+                e.preventDefault();
+                handleStarClick(starNode);
+            }, { passive: false });
+        }
+
         starNode.addEventListener('click', (e) => {
             e.preventDefault();
             handleStarClick(starNode);
@@ -2799,6 +2837,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (scrapbookActions) {
             scrapbookActions.classList.remove('show-action');
         }
+        if (DOM.scrapbookDateBadge) {
+            DOM.scrapbookDateBadge.classList.remove('badge-revealed');
+        }
         const scrapbookPetals = document.getElementById('scrapbookPetals');
         if (scrapbookPetals) {
             scrapbookPetals.innerHTML = '';
@@ -2813,7 +2854,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Reset opening title
         const openingTitle = document.getElementById('opening-title');
         if (openingTitle) {
-            openingTitle.textContent = "Setting up a cozy birthday for Nathalie…";
+            openingTitle.textContent = "Cinnamoroll is wrapping the gifts…";
         }
 
         // 5. Reset body styling and back button navigation
@@ -2828,7 +2869,7 @@ document.addEventListener('DOMContentLoaded', () => {
         Object.keys(DOM.sections).forEach(id => {
             const el = DOM.sections[id];
             if (!el) return;
-            el.classList.remove(...exitAnimations, ...enterAnimations, 'active-section');
+            el.classList.remove(...exitAnimations, ...enterAnimations, finaleEnterAnimation, 'active-section');
             if (id === 'landing') {
                 el.style.display = 'flex';
                 void el.offsetWidth;
